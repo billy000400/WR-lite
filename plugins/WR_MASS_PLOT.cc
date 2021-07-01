@@ -110,6 +110,10 @@ class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 		std::string m_dataSaveFile;
 		bool m_isSignal;
 		bool m_genTrainData;
+
+    edm::Service<TFileService> fs;
+    TFileDirectory subDir;
+    TNtuple* WR_N_Mass;
 };
 
 //
@@ -137,9 +141,6 @@ WR_MASS_PLOT::WR_MASS_PLOT(const edm::ParameterSet& iConfig)
 	m_genTrainData (iConfig.getUntrackedParameter<bool>("genTrainData"))
 {
    //now do what ever initialization is needed
-   edm::Service<TFileService> fs;
-   TFileDirectory subDir;
-   TNtuple* WR_N_Mass;
 }
 
 
