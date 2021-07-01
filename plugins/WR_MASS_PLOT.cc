@@ -263,7 +263,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
 
-    WR_N_Mass->Fill(myRECOevent.WRMass, myRECOevent.NMass)
+    WR_N_Mass->Fill(myRECOevent.WRMass, myRECOevent.NMass);
 
 	//Extract gen information for background events to determine distribution
 	} else {
