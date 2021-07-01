@@ -53,6 +53,7 @@
 #include <cmath>
 
 #include "TH1.h"
+#include "TNtuple.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
@@ -90,8 +91,8 @@ class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 		double transverseSphericity(math::XYZTLorentzVector p1, math::XYZTLorentzVector p2, math::XYZTLorentzVector p3);
 		void saveElectronData(eventBits * myRECOevent, double matched1Mass, double matched2Mass);
 		void saveMuonData(eventBits * myRECOevent, double matched1Mass, double matched2Mass);
-		
-		
+
+
 		eventHistos m_allEvents;
 		neuralNet networkResolved = neuralNet("/home/kronh006/Version3/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/data/Resolved");
 		neuralNet networkSuperResolved = neuralNet("/home/kronh006/Version3/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/data/SuperResolved");
@@ -105,7 +106,7 @@ class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 		edm::EDGetToken m_AK4recoCHSJetsToken;
 		edm::EDGetToken m_genEventInfoToken;
 		edm::EDGetToken m_offlineVerticesToken;
-		
+
 		std::string m_dataSaveFile;
 		bool m_isSignal;
 		bool m_genTrainData;
@@ -136,6 +137,9 @@ WR_MASS_PLOT::WR_MASS_PLOT(const edm::ParameterSet& iConfig)
 	m_genTrainData (iConfig.getUntrackedParameter<bool>("genTrainData"))
 {
    //now do what ever initialization is needed
+   edm::Service<TFileService> fs;
+   TFileDirectory subDir;
+   TNtuple* WR_N_Mass;
 }
 
 
@@ -158,24 +162,24 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	std::cout << "background: " << background << std::endl;
 	eventBits myRECOevent;
 	eventInfo myEvent;
-	
+
 	edm::Handle<GenEventInfoProduct> eventInfo;
 	iEvent.getByToken(m_genEventInfoToken, eventInfo);
-  
+
 	myRECOevent.count = eventInfo->weight()/fabs(eventInfo->weight());
 	myRECOevent.eventWeight = eventInfo->weight();
-	
-	
+
+
 	edm::Handle<std::vector<reco::Vertex>> vertices;
 	iEvent.getByToken(m_offlineVerticesToken, vertices);
 	if(!vertices.isValid()) {
 		throw cms::Exception("Vertex collection not valid!");
 	}
-	
+
 	myRECOevent.hasPVertex = myEvent.PVselection(vertices);
-	
+
 	//Extract Gen information for later matching in signal region
-	if(!background){		
+	if(!background){
 		edm::Handle<std::vector<reco::GenParticle>> genParticles;
 		iEvent.getByToken(m_genParticleToken, genParticles);
 
@@ -184,8 +188,8 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		const reco::GenParticle* neutrino = 0;
 		const reco::GenParticle* lepton1   = 0;
 		const reco::GenParticle* lepton2      = 0;
-		std::vector<const reco::GenParticle*> decayQuarks; 
-    
+		std::vector<const reco::GenParticle*> decayQuarks;
+
 		for (std::vector<reco::GenParticle>::const_iterator iParticle = genParticles->begin(); iParticle != genParticles->end(); iParticle++) {
 			if( ! iParticle->isHardProcess() ) continue;  //ONLY HARD PROCESS AND NOT INCOMING
 			if( iParticle->status() == 21 ) continue;
@@ -196,7 +200,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				if( abs( iParticle->pdgId() ) == 9900014 || abs( iParticle->pdgId() ) == 9900012) //HERE'S A RIGHT-HANDED NEUTRINO
 					neutrino = &(*iParticle);
 			}
-			if( (abs( iParticle->mother()->pdgId() ) == 9900014) 
+			if( (abs( iParticle->mother()->pdgId() ) == 9900014)
 			 || (abs( iParticle->mother()->pdgId() ) == 9900012)
 			  ) {//CAME FROM A RIGHT-HANDED NEUTRINO
 				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ) {
@@ -205,7 +209,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					lepton2 = &(*iParticle);
 				}
 			}
-			if( (abs( iParticle->mother()->pdgId() ) == 9900014) 
+			if( (abs( iParticle->mother()->pdgId() ) == 9900014)
 			 || (abs( iParticle->mother()->pdgId() ) == 9900012)
 			 || (abs( iParticle->mother()->pdgId() ) == 34)
 			 || (abs( iParticle->mother()->pdgId() ) == 9900024)
@@ -217,21 +221,21 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				}
 			}
 		}
-	
+
 		if ((neutrino == 0) || (lepton1 == 0) || (lepton2 == 0) || (decayQuarks.size() != 2)) {
 			std::cout << "WARNING: EVENT NOT UNDERSTOOD" << std::endl;
 			for (std::vector<reco::GenParticle>::const_iterator iParticle = genParticles->begin(); iParticle != genParticles->end(); iParticle++) {
 				if( ! iParticle->isHardProcess() ) continue;  //ONLY HARD PROCESS AND NOT INCOMING
 				std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
 			}
-			return;  
+			return;
 		}
-		
+
 		std::cout << "Gen lepton1: " << lepton1->p4() << ", "<< lepton1->pt() << std::endl;
 		std::cout << "Gen lepton2: " << lepton2->p4() << ", "<< lepton2->pt() << std::endl;
 		std::cout << "Gen quark1: " << decayQuarks[0]->p4() << ", "<< decayQuarks[0]->pt() << std::endl;
 		std::cout << "Gen quark2: " << decayQuarks[1]->p4() << ", "<< decayQuarks[1]->pt() << std::endl;
-		
+
 		//Save gen information to the event object
 		myRECOevent.quark1Eta = decayQuarks[0]->eta();
 		myRECOevent.quark1Phi = decayQuarks[0]->phi();
@@ -248,17 +252,19 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		myRECOevent.lepton1Mass = lepton1->p4().mass();
 		myRECOevent.lepton1Pt = lepton1->pt();
 		myRECOevent.lepton1Id = lepton1->pdgId();
-		
+
 		myRECOevent.lepton2Eta = lepton2->eta();
 		myRECOevent.lepton2Phi = lepton2->phi();
 		myRECOevent.lepton2Mass = lepton2->p4().mass();
 		myRECOevent.lepton2Pt = lepton2->pt();
 		myRECOevent.lepton2Id = lepton2->pdgId();
-		
+
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
-		
-	//Extract gen information for background events to determine distribution	
+
+    WR_N_Mass->Fill(myRECOevent.WRMass, myRECOevent.NMass)
+
+	//Extract gen information for background events to determine distribution
 	} else {
 		edm::Handle<std::vector<reco::GenParticle>> genParticles;
 		iEvent.getByToken(m_genParticleToken, genParticles);
@@ -293,9 +299,9 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				}
 			}
 		}
-	
+
 		if ((lepton1 == 0) || (lepton2 == 0)) {
-			myRECOevent.failedGenPtEta = true; 
+			myRECOevent.failedGenPtEta = true;
 		} else if(lepton1ID != lepton2ID) {
 			myRECOevent.mixedGen = true;
 		} else if(lepton1ID == 11){
@@ -304,41 +310,41 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 			myRECOevent.muonGen = true;
 		} else {
 			myRECOevent.tauGen = true;
-		}	
+		}
 	}
-	
+
 	if(!background && abs(myRECOevent.lepton1Id)!=abs(myRECOevent.lepton2Id)){ //Two different leptons
-		myRECOevent.mixedLeptons = true;    
+		myRECOevent.mixedLeptons = true;
 	} else { //start doing reco
-	
+
 		//NOW THAT WE HAVE THE REAL PARTICLES, WE'LL GET THE RECO PARTICLES AND MATCH THEM
-		
-		edm::Handle<std::vector<pat::Jet>> recoJetsAK4;  
-		iEvent.getByToken(m_AK4recoCHSJetsToken, recoJetsAK4);  
+
+		edm::Handle<std::vector<pat::Jet>> recoJetsAK4;
+		iEvent.getByToken(m_AK4recoCHSJetsToken, recoJetsAK4);
 		const pat::Jet* leadJet = 0;
 		const pat::Jet* subleadJet = 0;
 		int jetCount = 0;
 		int q1Match = 0;
 		int q2Match = 0;
-		
+
 		const pat::Electron* matchedElectron = 0;
 		const pat::Electron* matchedElectronL1 = 0;
 		const pat::Electron* subleadElectron = 0;
 		const pat::Electron* leadElectron = 0;
-		
+
 		int elCount = 0;
 		int el1Match = 0;
 		int el2Match = 0;
-		
+
 		const pat::Muon* matchedMuon = 0;
 		const pat::Muon* matchedMuonL1 = 0;
 		const pat::Muon* leadMuon = 0;
 		const pat::Muon* subleadMuon = 0;
-		
+
 		int muCount = 0;
 		int mu1Match = 0;
 		int mu2Match = 0;
-		
+
 		math::XYZTLorentzVector combinedJetsP4;
 		math::XYZTLorentzVector lepton1P4;
 		math::XYZTLorentzVector lepton2P4;
@@ -350,7 +356,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		math::XYZTLorentzVector jetsPlusLepton2P4Boost;
 		math::XYZTLorentzVector jetsPlusLeadLeptonP4Boost;
 		math::XYZTLorentzVector jetsPlusSubLeptonP4Boost;
-		
+
 		//Get jets with maximum pt, match with gen if not background
 		for(std::vector<pat::Jet>::const_iterator iJet = recoJetsAK4->begin(); iJet != recoJetsAK4->end(); iJet++) {
 			//Make sure jets are not around leptons
@@ -362,7 +368,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 			double NumConst =            iJet->chargedMultiplicity()+iJet->neutralMultiplicity();
 			double MUF      =            iJet->muonEnergyFraction();
 			double EUF      =            iJet->electronEnergyFraction();
-			double CHM      =            iJet->chargedMultiplicity(); 
+			double CHM      =            iJet->chargedMultiplicity();
 			//APPLYING TIGHT QUALITY CUTS
 			if (NHF > .9) continue;
 			if (NEMF > .9) continue;
@@ -373,8 +379,8 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 			if (CHF == 0) continue;
 			if (CHM == 0) continue;
 			//if (CEMF > .99) continue;
-			if (CEMF > .90)  continue; 
-			
+			if (CEMF > .90)  continue;
+
 			if (jetCount == 0) {
 				leadJet = &(*(iJet));
 			} else if (jetCount == 1) {
@@ -386,22 +392,22 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				double match2DR = sqrt(dR2(iJet->eta(), myRECOevent.quark2Eta, iJet->phi(), myRECOevent.quark2Phi));
 				if(match1DR < 0.4 && q1Match == 0)  {
 					q1Match++;
-				} 
+				}
 				else if(match2DR < 0.4 && q2Match == 0)  {
 					q2Match++;
 				}
 			}
 			jetCount++;
 		}
-	 
-		//Electron Reco		
+
+		//Electron Reco
 		if(background || (abs(myRECOevent.lepton1Id) == 11 && abs(myRECOevent.lepton2Id) == 11)) {
-			
+
 			myRECOevent.twoElectrons = true;
-			
+
 			edm::Handle<std::vector<pat::Electron>> highElectrons;
 			iEvent.getByToken(m_highElectronToken, highElectrons);
-			
+
 			for(std::vector<pat::Electron>::const_iterator iElectron = highElectrons->begin(); iElectron != highElectrons->end(); iElectron++) {
 				if(fabs(iElectron->eta()) > 2.4) continue;
 				if(iElectron->pt() < 53 ) continue;
@@ -423,22 +429,22 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.extraLeptons = true;
 				}
 				// If not background, do gen matching
-				if(!background){ 
+				if(!background){
 					double match1DR = sqrt(dR2(iElectron->eta(), myRECOevent.lepton1Eta, iElectron->phi(), myRECOevent.lepton1Phi));
 					double match2DR = sqrt(dR2(iElectron->eta(), myRECOevent.lepton2Eta, iElectron->phi(), myRECOevent.lepton2Phi));
-					
+
 					if(el1Match == 0 && match1DR < 0.1) {
 						el1Match++;
 						matchedElectronL1 = &(*(iElectron));
 					}
 					else if(el2Match == 0 && match2DR < 0.1)  {
 						matchedElectron = &(*(iElectron));
-						el2Match++; 
+						el2Match++;
 					}
 				}
 				elCount++;
 			}
-	  
+
 	  	    //If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
 			if((leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0 && el1Match != 0 && el2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0)){
@@ -456,16 +462,16 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				if(!background){
 					lepton1P4 = matchedElectronL1->p4();
 					lepton2P4 = matchedElectron->p4();
-					
+
 					jetsPlusLepton1P4Boost = -(combinedJetsP4 + lepton1P4);
 					jetsPlusLepton2P4Boost = -(combinedJetsP4 + lepton2P4);
 					lepton1P4Boost = -(lepton1P4);
 					lepton2P4Boost = -(lepton2P4);
 				}
-				
-				
+
+
 				myRECOevent.passedElectronReco = true;
-				
+
 				//Collect information on reconstructed particles
 				myRECOevent.leadJetRecoEta = leadJet->eta();
 				myRECOevent.leaJetRecoPhi = leadJet->phi();
@@ -487,7 +493,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				myRECOevent.leadRecoElectronMass = leadElectron->p4().mass();
 				myRECOevent.leadRecoElectronPt = leadElectron->pt();
 
-				
+
 				myRECOevent.subElectronleadElectronRecodr2 = dR2(subleadElectron->eta(), leadElectron->eta(), subleadElectron->phi(), leadElectron->phi());
 				myRECOevent.subElectronleadJRecodr2 = dR2(subleadElectron->eta(), leadJet->eta(), subleadElectron->phi(), leadJet->phi());
 				myRECOevent.subElectronsubJRecodr2 = dR2(subleadElectron->eta(), subleadJet->eta(), subleadElectron->phi(), subleadJet->phi());
@@ -500,38 +506,38 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				myRECOevent.leadElectronsubElectronRecoMass = (subleadElectron->p4() + leadElectron->p4()).mass();
 				myRECOevent.subElectronleadJsubJRecoMass = (subleadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
 				myRECOevent.leadElectronleadJsubJRecoMass = (leadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
-				
+
 				myRECOevent.subRecoElectronDR = sqrt(dR2(subleadElectron->eta(), combinedJetsP4.eta(), subleadElectron->phi(), combinedJetsP4.phi()));
 				myRECOevent.subRecoElectronEtaWR = (subleadElectron->p4()+allParticlesP4Boost).eta();
-				
+
 				myRECOevent.leadRecoElectronDR = sqrt(dR2(leadElectron->eta(), combinedJetsP4.eta(), leadElectron->phi(), combinedJetsP4.phi()));
 				myRECOevent.leadRecoElectronEtaWR = (leadElectron->p4()+allParticlesP4Boost).eta();
-				
+
 				myRECOevent.fullRecoMassElectron = (leadElectron->p4() + subleadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
-				
+
 				//Neural network input
 				double predictIn[1][8] = {{myRECOevent.subRecoElectronEta,
 				myRECOevent.subRecoElectronEtaWR,
 				myRECOevent.subRecoElectronDR,
-				myRECOevent.subRecoElectronPt/myRECOevent.fullRecoMassElectron, 
+				myRECOevent.subRecoElectronPt/myRECOevent.fullRecoMassElectron,
 				myRECOevent.leadRecoElectronEta,
 				myRECOevent.leadRecoElectronEtaWR,
 				myRECOevent.leadRecoElectronDR,
 				myRECOevent.leadRecoElectronPt/myRECOevent.fullRecoMassElectron}};
-				
+
 				//Neural network output
 				double predictOut[1][1] = {{0.0}};
-				
+
 				//Collect prediction for resolved region
 				std::cout << "resolved" << std::endl;
 				networkResolved.predict(&predictIn[0][0], &predictOut[0][0], 1);
-				
+
 				if(predictOut[0][0]==1.0){
 					myRECOevent.nnResolvedPickedLeadElectron = true;
 				} else {
 					myRECOevent.nnResolvedPickedSubLeadElectron = true;
 				}
-				
+
 				std::cout << "super resolved" << std::endl;
 				//Collect prediction for super resolved region
 				networkSuperResolved.predict(&predictIn[0][0], &predictOut[0][0], 1);
@@ -541,30 +547,30 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				} else {
 					myRECOevent.nnSuperResolvedPickedSubLeadElectron = true;
 				}
-				
+
 				//Check whether the event passes the reco cuts which filter background
 				myRECOevent.checkCutsElectron();
-				
+
 				//Collect information on matced leptons if background
 				if(!background){
 					myRECOevent.matchedElectronleadJsubJRecoMass = (matchedElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.electron1RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectronL1->p4()).mass();
 					myRECOevent.electron2RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectron->p4()).mass();
-					
-					
+
+
 					myRECOevent.match1ElectronEta = matchedElectronL1->eta();
 					myRECOevent.match1ElectronPhi = matchedElectronL1->phi();
 					myRECOevent.match1ElectronDPhi = dPhi(matchedElectronL1->phi(), combinedJetsP4.phi());
 					myRECOevent.match1ElectronDR = sqrt(dR2(matchedElectronL1->eta(), combinedJetsP4.eta(), matchedElectronL1->phi(), combinedJetsP4.phi()));
 					myRECOevent.match1ElectronPt = matchedElectronL1->pt();
-					
+
 					myRECOevent.match2ElectronEta = matchedElectron->eta();
 					myRECOevent.match2ElectronPhi = matchedElectron->phi();
 					myRECOevent.match2ElectronDPhi = dPhi(matchedElectron->phi(), combinedJetsP4.phi());
 					myRECOevent.match2ElectronDR = sqrt(dR2(matchedElectron->eta(), combinedJetsP4.eta(), matchedElectron->phi(), combinedJetsP4.phi()));
 					myRECOevent.match2ElectronPt = matchedElectron->pt();
-					
-					
+
+
 					myRECOevent.match1ElectronEtaL1 = (matchedElectronL1->p4()+lepton1P4Boost).eta();
 					myRECOevent.match1ElectronPhiL1 = (matchedElectronL1->p4()+lepton1P4Boost).phi();
 					myRECOevent.match1ElectronDPhiL1 = dPhi(matchedElectronL1->phi(), combinedJetsP4.phi());
@@ -576,19 +582,19 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.match2ElectronDPhiL2 = dPhi(matchedElectron->phi(), combinedJetsP4.phi());
 					myRECOevent.match2ElectronDRL2 = sqrt(dR2((matchedElectron->p4()+lepton2P4Boost).eta(), (combinedJetsP4+lepton2P4Boost).eta(), (matchedElectron->p4()+lepton2P4Boost).phi(), (combinedJetsP4+lepton2P4Boost).phi()));
 					myRECOevent.match2ElectronPtL2 = (matchedElectron->p4()+lepton2P4Boost).pt();
-					
+
 					myRECOevent.match1ElectronEtaJJL1 = (matchedElectronL1->p4()+jetsPlusLepton1P4Boost).eta();
 					myRECOevent.match1ElectronPhiJJL1 = (matchedElectronL1->p4()+jetsPlusLepton1P4Boost).phi();
 					myRECOevent.match1ElectronDPhiJJL1 = dPhi(matchedElectronL1->phi(), combinedJetsP4.phi());
 					myRECOevent.match1ElectronDRJJL1 = sqrt(dR2((matchedElectronL1->p4()+jetsPlusLepton1P4Boost).eta(), (combinedJetsP4+jetsPlusLepton1P4Boost).eta(), (matchedElectronL1->p4()+jetsPlusLepton1P4Boost).phi(), (combinedJetsP4+jetsPlusLepton1P4Boost).phi()));
 					myRECOevent.match1ElectronPtJJL1 = (matchedElectronL1->p4()+jetsPlusLepton1P4Boost).pt();
-					
+
 					myRECOevent.match2ElectronEtaJJL2 = (matchedElectron->p4()+jetsPlusLepton2P4Boost).eta();
 					myRECOevent.match2ElectronPhiJJL2 = (matchedElectron->p4()+jetsPlusLepton2P4Boost).phi();
 					myRECOevent.match2ElectronDPhiJJL2 = dPhi(matchedElectron->phi(), combinedJetsP4.phi());
 					myRECOevent.match2ElectronDRJJL2 = sqrt(dR2((matchedElectron->p4()+jetsPlusLepton2P4Boost).eta(), (combinedJetsP4+jetsPlusLepton2P4Boost).eta(), (matchedElectron->p4()+jetsPlusLepton2P4Boost).phi(), (combinedJetsP4+jetsPlusLepton2P4Boost).phi()));
 					myRECOevent.match2ElectronPtJJL2 = (matchedElectron->p4()+jetsPlusLepton2P4Boost).pt();
-					
+
 					myRECOevent.match1ElectronEtaWR = (matchedElectronL1->p4()+allParticlesP4Boost).eta();
 					myRECOevent.match1ElectronPhiWR = (matchedElectronL1->p4()+allParticlesP4Boost).phi();
 					myRECOevent.match1ElectronDPhiWR = dPhi(matchedElectronL1->phi(), combinedJetsP4.phi());
@@ -600,27 +606,27 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.match2ElectronDPhiWR = dPhi(matchedElectron->phi(), combinedJetsP4.phi());
 					myRECOevent.match2ElectronDRWR = sqrt(dR2((matchedElectron->p4()+allParticlesP4Boost).eta(), (combinedJetsP4+allParticlesP4Boost).eta(), (matchedElectron->p4()+allParticlesP4Boost).phi(), (combinedJetsP4+allParticlesP4Boost).phi()));
 					myRECOevent.match2ElectronPtWR = (matchedElectron->p4()+allParticlesP4Boost).pt();
-					
-					myRECOevent.leadJsubJRecoMass = (leadJet->p4() + subleadJet->p4()).mass();				
-					
+
+					myRECOevent.leadJsubJRecoMass = (leadJet->p4() + subleadJet->p4()).mass();
+
 					myRECOevent.sphericityElectron1 = transverseSphericity(matchedElectronL1->p4(), leadJet->p4(), subleadJet->p4());
-					myRECOevent.sphericityElectron2 = transverseSphericity(matchedElectron->p4(), leadJet->p4(), subleadJet->p4());	 
-					
+					myRECOevent.sphericityElectron2 = transverseSphericity(matchedElectron->p4(), leadJet->p4(), subleadJet->p4());
+
 					//Save electron data to a text file
 					if(myRECOevent.nMinusOneFailElectron.size()==0 && m_genTrainData){
 						saveElectronData(&myRECOevent, (matchedElectronL1->p4() + leadJet->p4() + subleadJet->p4()).mass(),(matchedElectron->p4() + leadJet->p4() + subleadJet->p4()).mass());
-					}	
+					}
 				}
-			}	
+			}
      	}
-			
+
 		//Perform reco on muons
 		if(background || (abs(myRECOevent.lepton1Id) == 13 && (abs(myRECOevent.lepton2Id) == 13))) {
 			myRECOevent.twoMuons = true;
-			
+
 			edm::Handle<std::vector<pat::Muon>> highMuons;
 			iEvent.getByToken(m_highMuonToken, highMuons);
-			
+
 			for(std::vector<pat::Muon>::const_iterator iMuon = highMuons->begin(); iMuon != highMuons->end(); iMuon++) {
 				if( background && (iMuon->tunePMuonBestTrack()->pt() < 53 || fabs(iMuon->eta()) > 2.4) ) continue; //preliminary pt cut to speed the loop, and the eta cut
 				if(!background || (( iMuon->isHighPtMuon(*myEvent.PVertex)) && (iMuon->isolationR03().sumPt/iMuon->pt() < .1))) {
@@ -635,28 +641,28 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					}
 					double match1DR = sqrt(dR2(iMuon->eta(), myRECOevent.lepton1Eta, iMuon->phi(), myRECOevent.lepton1Phi));
 					double match2DR = sqrt(dR2(iMuon->eta(), myRECOevent.lepton2Eta, iMuon->phi(), myRECOevent.lepton2Phi));
-					
+
 					if(mu1Match == 0 && match1DR < 0.1) {
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
 					}
 					else if(mu2Match == 0 && match2DR < 0.1)  {
 						matchedMuon = &(*(iMuon));
-						mu2Match++; 
+						mu2Match++;
 					}
 					muCount++;
 				}
 			}
-		  
+
 		    //Check whether we have a viable muon event
 			if((leadJet != 0 && subleadJet != 0 && leadMuon != 0 && subleadMuon != 0 && mu1Match != 0 && mu2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadMuon != 0 && subleadMuon != 0)) {
-				
+
 				std::cout << "lead jet" << leadJet->p4() << ", "<< leadJet->pt() << std::endl;
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadMuon->p4() << ", "<< leadMuon->pt() << std::endl;
 				std::cout << "sublead lepton" << subleadMuon->p4() << ", "<< subleadMuon->pt() << std::endl;
-				
+
 				//Boosting information
 				combinedJetsP4 = subleadJet->p4() + leadJet->p4();
 				allParticlesP4Boost = -(combinedJetsP4 + leadMuon->p4() + subleadMuon->p4());
@@ -671,10 +677,10 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					lepton1P4Boost = -(lepton1P4);
 					lepton2P4Boost = -(lepton2P4);
 				}
-				
+
 				//Collect reco muon information
 				myRECOevent.passedMuonReco = true;
-				
+
 				myRECOevent.leadJetRecoEta = leadJet->eta();
 				myRECOevent.leaJetRecoPhi = leadJet->phi();
 				myRECOevent.leadJetRecoMass = leadJet->p4().mass();
@@ -711,57 +717,57 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 				myRECOevent.leadJsubJRecoMass = (leadJet->p4() + subleadJet->p4()).mass();
 
 				myRECOevent.fullRecoMassMuon = (leadMuon->p4() + subleadMuon->p4() + leadJet->p4() + subleadJet->p4()).mass();
-				
+
 				myRECOevent.subRecoMuonDR = sqrt(dR2(subleadMuon->eta(), combinedJetsP4.eta(), subleadMuon->phi(), combinedJetsP4.phi()));
 				myRECOevent.subRecoMuonEtaWR = (subleadMuon->p4()+allParticlesP4Boost).eta();
-				
+
 				myRECOevent.leadRecoMuonDR = sqrt(dR2(leadMuon->eta(), combinedJetsP4.eta(), leadMuon->phi(), combinedJetsP4.phi()));
 				myRECOevent.leadRecoMuonEtaWR = (leadMuon->p4()+allParticlesP4Boost).eta();
-				
+
 				//Neural network input
 				double predictIn[1][8] = {{myRECOevent.subRecoMuonEta,
 				myRECOevent.subRecoMuonEtaWR,
 				myRECOevent.subRecoMuonDR,
-				myRECOevent.subRecoMuonPt/myRECOevent.fullRecoMassMuon, 
+				myRECOevent.subRecoMuonPt/myRECOevent.fullRecoMassMuon,
 				myRECOevent.leadRecoMuonEta,
 				myRECOevent.leadRecoMuonEtaWR,
 				myRECOevent.leadRecoMuonDR,
 				myRECOevent.leadRecoMuonPt/myRECOevent.fullRecoMassMuon}};
-				
+
 				//Neural network output
 				double predictOut[1][1] = {{0.0}};
-				
+
 				//Resolved network prediction
 				std::cout << "resolved" << std::endl;
 				networkResolved.predict(&predictIn[0][0], &predictOut[0][0], 1);
-				
-				
+
+
 				if(predictOut[0][0]==1.0){
 					myRECOevent.nnResolvedPickedLeadMuon = true;
 				} else {
 					myRECOevent.nnResolvedPickedSubLeadMuon = true;
 				}
-				
+
 				//Super Resolved network prediction
 				std::cout << "super resolved" << std::endl;
 				networkSuperResolved.predict(&predictIn[0][0], &predictOut[0][0], 1);
 
-				
+
 				if(predictOut[0][0]==1.0){
 					myRECOevent.nnSuperResolvedPickedLeadMuon = true;
 				} else {
 					myRECOevent.nnSuperResolvedPickedSubLeadMuon = true;
 				}
-				
+
 				//Check whether the muons passed reco
 				myRECOevent.checkCutsMuon();
-				
+
 				//Extract information on matched muons if not background
 				if(!background){
 					myRECOevent.matchedMuonleadJsubJRecoMass = (matchedMuon->p4() + leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.muon1RecoMass = (matchedMuonL1->p4()+leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
-					
+
 					myRECOevent.match1MuonEta = matchedMuonL1->eta();
 					myRECOevent.match1MuonPhi = matchedMuonL1->phi();
 					myRECOevent.match1MuonDPhi = dPhi(matchedMuonL1->phi(), combinedJetsP4.phi());
@@ -773,7 +779,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.match2MuonDPhi = dPhi(matchedMuon->phi(), combinedJetsP4.phi());
 					myRECOevent.match2MuonDR = sqrt(dR2(matchedMuon->eta(), combinedJetsP4.eta(), matchedMuon->phi(), combinedJetsP4.phi()));
 					myRECOevent.match2MuonPt = matchedMuon->pt();
-					
+
 
 					myRECOevent.match1MuonEtaL1 = (matchedMuonL1->p4()+lepton1P4Boost).eta();
 					myRECOevent.match1MuonPhiL1 = (matchedMuonL1->p4()+lepton1P4Boost).phi();
@@ -786,7 +792,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.match2MuonDPhiL2 = dPhi(matchedMuon->phi(), combinedJetsP4.phi());
 					myRECOevent.match2MuonDRL2 = sqrt(dR2((matchedMuon->p4()+lepton2P4Boost).eta(), (combinedJetsP4+lepton2P4Boost).eta(), (matchedMuon->p4()+lepton2P4Boost).phi(), (combinedJetsP4+lepton2P4Boost).phi()));
 					myRECOevent.match2MuonPtL2 = (matchedMuon->p4()+lepton2P4Boost).pt();
-					
+
 					myRECOevent.match1MuonEtaJJL1 = (matchedMuonL1->p4()+jetsPlusLepton1P4Boost).eta();
 					myRECOevent.match1MuonPhiJJL1 = (matchedMuonL1->p4()+jetsPlusLepton1P4Boost).phi();
 					myRECOevent.match1MuonDPhiJJL1 = dPhi(matchedMuonL1->phi(), combinedJetsP4.phi());
@@ -798,7 +804,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.match2MuonDPhiJJL2 = dPhi(matchedMuon->phi(), combinedJetsP4.phi());
 					myRECOevent.match2MuonDRJJL2 = sqrt(dR2((matchedMuon->p4()+jetsPlusLepton2P4Boost).eta(), (combinedJetsP4+jetsPlusLepton2P4Boost).eta(), (matchedMuon->p4()+jetsPlusLepton2P4Boost).phi(), (combinedJetsP4+jetsPlusLepton2P4Boost).phi()));
 					myRECOevent.match2MuonPtJJL2 = (matchedMuon->p4()+jetsPlusLepton2P4Boost).pt();
-					
+
 					myRECOevent.match1MuonEtaWR = (matchedMuonL1->p4()+allParticlesP4Boost).eta();
 					myRECOevent.match1MuonPhiWR = (matchedMuonL1->p4()+allParticlesP4Boost).phi();
 					myRECOevent.match1MuonDPhiWR = dPhi(matchedMuonL1->phi(), combinedJetsP4.phi());
@@ -810,19 +816,19 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 					myRECOevent.match2MuonDPhiWR = dPhi(matchedMuon->phi(), combinedJetsP4.phi());
 					myRECOevent.match2MuonDRWR = sqrt(dR2((matchedMuon->p4()+allParticlesP4Boost).eta(), (combinedJetsP4+allParticlesP4Boost).eta(), (matchedMuon->p4()+allParticlesP4Boost).phi(), (combinedJetsP4+allParticlesP4Boost).phi()));
 					myRECOevent.match2MuonPtWR = (matchedMuon->p4()+allParticlesP4Boost).pt();
-					
+
 					myRECOevent.sphericityMuon1 = transverseSphericity(matchedMuonL1->p4(), leadJet->p4(), subleadJet->p4());//+jetsPlusLepton1P4Boost);
-					myRECOevent.sphericityMuon2 = transverseSphericity(matchedMuon->p4(), leadJet->p4(), subleadJet->p4());//+jetsPlusLepton1P4Boost);					
-					
-					
+					myRECOevent.sphericityMuon2 = transverseSphericity(matchedMuon->p4(), leadJet->p4(), subleadJet->p4());//+jetsPlusLepton1P4Boost);
+
+
 					//Save muon data to a text file
 					if (myRECOevent.nMinusOneFailMuon.size()==0 && m_genTrainData){
 						saveMuonData(&myRECOevent, (matchedMuonL1->p4() + leadJet->p4() + subleadJet->p4()).mass(),(matchedMuon->p4() + leadJet->p4() + subleadJet->p4()).mass());
-					}	
+					}
 				}
-			}		
+			}
 		}
-		
+
 		//Check some other ways in which the event may fail
 		if(subleadJet == 0){
 			myRECOevent.badJets = true;
@@ -831,7 +837,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		} else if(leadElectron != 0 && subleadElectron == 0){
 			myRECOevent.oneLepton = true;
 		}
-		
+
 		if((background && leadJet != 0 && subleadJet != 0 && leadMuon != 0 && leadElectron != 0 && subleadElectron == 0 && subleadMuon == 0)){
 			myRECOevent.mixedLeptons = true;
 		} else if(background && leadJet != 0 && subleadJet != 0 && leadMuon != 0 && leadElectron != 0 && subleadElectron != 0 && subleadMuon == 0){
@@ -870,17 +876,17 @@ double WR_MASS_PLOT::transverseSphericity(math::XYZTLorentzVector p1, math::XYZT
 			sphericity[a+b*3]/=pi2;
 		}
 	}
-	
+
 	TMatrixDSym sphericityTensor(3, sphericity);
 	TMatrixDSymEigen sphericityEigenvalues(sphericityTensor);
 	TVectorD eigenval = sphericityEigenvalues.GetEigenValues();
-	return(2*eigenval[1]/(eigenval[0]+eigenval[1])); 
+	return(2*eigenval[1]/(eigenval[0]+eigenval[1]));
 }
 
 void WR_MASS_PLOT::saveElectronData(eventBits * myRECOevent,double matched1Mass, double matched2Mass){
 		std::ofstream myfile;
 		myfile.open (m_dataSaveFile, std::ios_base::app);
-		myfile << myRECOevent->match1ElectronEta << "\t";					
+		myfile << myRECOevent->match1ElectronEta << "\t";
 		myfile << myRECOevent->match1ElectronEtaWR << "\t";
 		myfile << myRECOevent->match1ElectronDPhi << "\t";
 		myfile << myRECOevent->match1ElectronDR << "\t";
@@ -899,7 +905,7 @@ void WR_MASS_PLOT::saveElectronData(eventBits * myRECOevent,double matched1Mass,
 		myfile << round(myRECOevent->WRMass/100.0)*100.0 << "\t";
 		myfile << round(myRECOevent->NMass/100.0)*100.0 << "\n";
 
-		
+
 		myfile << myRECOevent->match2ElectronEta << "\t";
 		myfile << myRECOevent->match2ElectronEtaWR << "\t";
 		myfile << myRECOevent->match2ElectronDPhi << "\t";
@@ -907,7 +913,7 @@ void WR_MASS_PLOT::saveElectronData(eventBits * myRECOevent,double matched1Mass,
 		myfile << myRECOevent->match2ElectronPt << "\t";
 		myfile << myRECOevent->sphericityElectron2 << "\t";
 		myfile << matched2Mass << "\t";
-		myfile << myRECOevent->match1ElectronEta << "\t";					
+		myfile << myRECOevent->match1ElectronEta << "\t";
 		myfile << myRECOevent->match1ElectronEtaWR << "\t";
 		myfile << myRECOevent->match1ElectronDPhi << "\t";
 		myfile << myRECOevent->match1ElectronDR << "\t";
@@ -926,7 +932,7 @@ void WR_MASS_PLOT::saveElectronData(eventBits * myRECOevent,double matched1Mass,
 void WR_MASS_PLOT::saveMuonData(eventBits * myRECOevent, double matched1Mass, double matched2Mass){
 		std::ofstream myfile;
 		myfile.open (m_dataSaveFile, std::ios_base::app);
-		myfile << myRECOevent->match1MuonEta << "\t";					
+		myfile << myRECOevent->match1MuonEta << "\t";
 		myfile << myRECOevent->match1MuonEtaWR << "\t";
 		myfile << myRECOevent->match1MuonDPhi << "\t";
 		myfile << myRECOevent->match1MuonDR << "\t";
@@ -945,7 +951,7 @@ void WR_MASS_PLOT::saveMuonData(eventBits * myRECOevent, double matched1Mass, do
 		myfile << round(myRECOevent->WRMass/100.0)*100.0 << "\t";
 		myfile << round(myRECOevent->NMass/100.0)*100.0 << "\n";
 
-		
+
 		myfile << myRECOevent->match2MuonEta << "\t";
 		myfile << myRECOevent->match2MuonEtaWR << "\t";
 		myfile << myRECOevent->match2MuonDPhi << "\t";
@@ -953,7 +959,7 @@ void WR_MASS_PLOT::saveMuonData(eventBits * myRECOevent, double matched1Mass, do
 		myfile << myRECOevent->match2MuonPt << "\t";
 		myfile << myRECOevent->sphericityMuon2 << "\t";
 		myfile << matched2Mass << "\t";
-		myfile << myRECOevent->match1MuonEta << "\t";					
+		myfile << myRECOevent->match1MuonEta << "\t";
 		myfile << myRECOevent->match1MuonEtaWR << "\t";
 		myfile << myRECOevent->match1MuonDPhi << "\t";
 		myfile << myRECOevent->match1MuonDR << "\t";
@@ -972,14 +978,15 @@ void WR_MASS_PLOT::saveMuonData(eventBits * myRECOevent, double matched1Mass, do
 // ------------ method called once each job just before starting event loop  ------------
 void
 WR_MASS_PLOT::beginJob() {
-	edm::Service<TFileService> fs; 
-	m_allEvents.book((fs->mkdir("allEvents")));
+  m_allEvents.book((fs->mkdir("allEvents")));
+  subDir = fs->mkdir("WR_N_mass_Ntuples");
+  WR_N_Mass = subDir.make<TNtuple>();
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
 WR_MASS_PLOT::endJob() {
-	
+
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
