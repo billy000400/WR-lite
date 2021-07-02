@@ -113,7 +113,7 @@ class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
     edm::Service<TFileService> fs;
     TFileDirectory subDir;
-    TNtuple* WR_N_Mass;
+    TNtuple* WR_N_Mass(name="WR_N_Mass_1", varlist="float:float");
 };
 
 //
@@ -263,7 +263,8 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
 
-    WR_N_Mass->Fill(myRECOevent.WRMass, myRECOevent.NMass);
+    float row[2] = {myRECOevent.WRMass, myRECOevent.NMass}
+    WR_N_Mass->Fill(row);
 
 	//Extract gen information for background events to determine distribution
 	} else {
