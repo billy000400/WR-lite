@@ -982,7 +982,7 @@ void
 WR_MASS_PLOT::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
   subDir = fs->mkdir("WR_N_mass_Ntuples");
-  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", 'hello', "double:double");
+  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "double:double");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
