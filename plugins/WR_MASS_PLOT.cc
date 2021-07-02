@@ -263,7 +263,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
 
-    double row[2] = {myRECOevent.WRMass, myRECOevent.NMass};
+    float row[2] = {(float)myRECOevent.WRMass, (float)myRECOevent.NMass};
     WR_N_Mass->Fill(row);
 
 	//Extract gen information for background events to determine distribution
@@ -982,7 +982,7 @@ void
 WR_MASS_PLOT::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
   subDir = fs->mkdir("WR_N_mass_Ntuples");
-  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "double:double");
+  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "float:float");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
