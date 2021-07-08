@@ -2,6 +2,8 @@ import FWCore.ParameterSet.Config as cms
 import HLTrigger.HLTfilters.hltHighLevel_cfi
 from FWCore.ParameterSet.VarParsing import VarParsing
 import os
+import sys
+from pathlib import Path
 #INPUT PARSING SECTION
 options = VarParsing ('analysis')
 
@@ -17,8 +19,8 @@ options.register( 'genTrainData',
 				  VarParsing.multiplicity.singleton,
 				  VarParsing.varType.bool,
 				  "True when generating a training set for neural network"
-				   )	   
-		   
+				   )
+
 options.register( 'trainFile',
 				  'nn.txt',
 				  VarParsing.multiplicity.singleton,
@@ -104,9 +106,9 @@ process.options = cms.untracked.PSet(
 )
 process.options.allowUnscheduled = cms.untracked.bool(False)
 
-process.TFileService = cms.Service("TFileService", 
+process.TFileService = cms.Service("TFileService",
                         fileName = cms.string(options.outputFile)
-)  
+)
 
 process.badGlobalMuonTagger = cms.EDFilter("BadGlobalMuonTagger",
     muons = cms.InputTag("slimmedMuons"),
@@ -155,7 +157,7 @@ process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 process.printTree = cms.EDAnalyzer("ParticleTreeDrawer",
-                                   src = cms.InputTag("prunedGenParticles"),    
+                                   src = cms.InputTag("prunedGenParticles"),
                                    printP4 = cms.untracked.bool(False),
                                    printPtEtaPhi = cms.untracked.bool(False),
                                    printVertex = cms.untracked.bool(False),
@@ -201,7 +203,7 @@ process.analysis = cms.EDAnalyzer('WR_MASS_PLOT',
 process.load('FWCore.Modules.printContent_cfi')
 
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
-	
+
 process.selectedElectrons = cms.EDFilter("PATElectronSelector",
     src = cms.InputTag("slimmedElectrons"),
     cut = cms.string("pt>5 && abs(eta)")
@@ -238,5 +240,3 @@ elif options.era == '2018':
 #                           * process.muonSelectionSeq * process.analysis )#* process.printTree)
 process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
                            * process.muonSelectionSeq * process.prefiringweight * process.analysis )#* process.printTree)
-
-
