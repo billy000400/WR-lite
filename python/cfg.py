@@ -96,7 +96,11 @@ if not options.isMC: process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataR
 
 
 process.source = cms.Source ("PoolSource",
-	  fileNames = cms.untracked.vstring (options.inputFiles),
+	  # fileNames = cms.untracked.vstring (options.inputFiles),
+      fileNames = cms.untracked.vstring(
+        '/hdfs/cms/user/krohn045/WR_SignalSamples/WR1000_N900/MINIAOD_1.root',
+        '/hdfs/cms/user/krohn045/WR_SignalSamples/WR1000_N900/MINIAOD_1.root'
+      )
 )
 
 
