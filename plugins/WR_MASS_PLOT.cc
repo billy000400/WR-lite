@@ -989,7 +989,7 @@ void
 WR_MASS_PLOT::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
   subDir = fs->mkdir("WR_N_mass_Ntuples");
-  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "float:float");
+  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "WR_mass:N_mass");
   massHist2d = fs->make<TH2D>("massHist2d",
                               "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
                               7, 800., 2000., 16, 200., 1900.);
