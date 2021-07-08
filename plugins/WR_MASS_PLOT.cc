@@ -53,6 +53,7 @@
 #include <cmath>
 
 #include "TH1.h"
+#include "TH2.h"
 #include "TNtuple.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
@@ -113,6 +114,8 @@ class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
     edm::Service<TFileService> fs;
     TFileDirectory subDir;
+
+    TH2D* massHist2d;
     TNtuple* WR_N_Mass;
 };
 
@@ -263,8 +266,12 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
 
-    std::cout << "Calling Fill" << std::endl;
+    // Filling TNtuple
     WR_N_Mass->Fill((float)myRECOevent.WRMass, (float)myRECOevent.NMass);
+
+    // Filling the 2D Mass Histogram
+    massHist2d->Fill(myRECOevent.WRMass, myRECOevent.NMass);
+
 
 	//Extract gen information for background events to determine distribution
 	} else {
@@ -983,6 +990,9 @@ WR_MASS_PLOT::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
   subDir = fs->mkdir("WR_N_mass_Ntuples");
   WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "float:float");
+  massHist2d = fs->make<TH2D>("massHist2d",
+                              "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
+                              7, 800., 2000., 16, 200., 1900.,);
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
