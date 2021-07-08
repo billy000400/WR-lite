@@ -992,7 +992,7 @@ WR_MASS_PLOT::beginJob() {
   WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "WR_mass:N_mass");
   massHist2d = fs->make<TH2D>("massHist2d",
                               "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
-                              7, 800., 2000., 16, 200., 1900.);
+                              240, 800., 2000., 340, 200., 1900.);
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
