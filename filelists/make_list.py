@@ -29,8 +29,8 @@ else:
 
 
 with open(f_name+'.txt', 'w') as f:
-    writer = csv.writer(f, delimiter='')
+    writer = csv.writer(f)
     for f in fs:
-        writer.writerow(f)
+        writer.writerow([f])
 
 print("Done!")
