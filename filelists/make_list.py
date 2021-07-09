@@ -1,5 +1,5 @@
 ### This py3 script is to list all files in a directory and put them in a txt files
-# files in subdirectories are not listed
+# files in subdirectories are also listed
 #
 # Author: Billy Li li000400@umn.edu
 
@@ -15,7 +15,7 @@ else:
     print(f"{dir_str} is not a valid directory.")
     sys.exit()
 
-fs = dir.glob("*")
+fs = dir.glob("**/*")
 fs = [str(f) for f in fs if f.is_file()]
 print("I find these files:")
 for f in fs:
@@ -29,7 +29,7 @@ else:
 
 
 with open(f_name+'.txt', 'w') as f:
-    writer = csv.writer(f)
+    writer = csv.writer(f, delimiter='')
     for f in fs:
         writer.writerow(f)
 
