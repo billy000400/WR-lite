@@ -4,7 +4,7 @@ use Getopt::Long;
 
 #------------------------
 #$prodSpace=$ENV{"HOME"}."/work";
-$prodSpace="/data/cmszfs1/user/".$ENV{"USER"};
+$prodSpace="/local/cms/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/condorOut";
 $batch=10;
 $startPoint=0;
 $nosubmit='';
@@ -48,14 +48,17 @@ if ($#ARGV!=3 && $#ARGV!=6) {
 $basecfg=shift @ARGV;
 $filelist=shift @ARGV;
 $cmsRunArguments=shift @ARGV;
-$cmsRunArguments2nd=shift @ARGV;
+#$cmsRunArguments2nd=shift @ARGV;
 if($nargs==6) {
   $cmsRunArguments4th=shift @ARGV;
   $cmsRunArguments5th=shift @ARGV;
   print "cmsRun Arguments: $cmsRunArguments, $cmsRunArguments2nd, $cmsRunArguments3rd, $cmsRunArguments4th, and $cmsRunArguments5th\n";
 }
-if($nargs==3) {
-  print "cmsRun Arguments: $cmsRunArguments and $cmsRunArguments2nd\n";
+# if($nargs==3) {
+#   print "cmsRun Arguments: $cmsRunArguments and $cmsRunArguments2nd\n";
+# }
+if($nargs==3){
+  print "cmsRun Arguments: $cmsRunArguments"
 }
 
 if ($jobBase eq "default") {
@@ -234,7 +237,7 @@ sub specializeCfg($$@) {
             unlink($fname);
             print OUTP "       fileName = cms.untracked.string(\"$fname\"),\n";
             # *Source Block (PoolSource, etc.)
-        } elsif ($sector==4 && /^[^\#]*rivetAnalyzer[.]OutputFile\s*=/) {          
+        } elsif ($sector==4 && /^[^\#]*rivetAnalyzer[.]OutputFile\s*=/) {
                 $fname="$prodSpace/$jobBase/".$stub2.".yoda";
             unlink($fname);
             print OUTP "process.rivetAnalyzer.OutputFile = cms.string(\"$fname\")\n";
