@@ -22,7 +22,7 @@ git cms-merge-topic lathomas:L1Prefiring_M
 
 mkdir ExoAnalysis
 cd ExoAnalysis
-git clone https://github.com/UMN-CMS/WR-lite.git WR_lite
+git clone https://github.com/billy000400/WR-lite.git WR_lits
 cd ..
 cd ..
 scram b -j32
@@ -49,7 +49,7 @@ cd ExoAnalysis/WR-lite
 cmsRun python/cfg.py inputFiles=file:signalFile.root outputFile=out.root genTrainData=True  trainFile=trainFile.txt isSignal=True
 ```
 
-To run the analysis on background: 
+To run the analysis on background:
 ```
 source /local/grid/cmssoft/cms/cmsset_default.sh
 cd /path_to_working_area/CMSSW_10_4_0_patch1/src/
@@ -92,5 +92,3 @@ The most important thing this environment is used for is the training of the neu
 Next, to acutally do the machine learning, run nnByMass.py. First though make sure mlData.npy is in the same folder and that there are two folders named Resolved and SuperResolved in this folder. Running the python script will train a Resolved network using the data with N/WR <0.75, and a Super Resolved network. To generate some perforamcne graphs, run mlPredict.py.
 
 To generate signal/background graphs, use signalPlusBack.py
-
-
