@@ -22,7 +22,7 @@ git cms-merge-topic lathomas:L1Prefiring_M
 
 mkdir ExoAnalysis
 cd ExoAnalysis
-git clone https://github.com/billy000400/WR-lite.git WR_lits
+git clone https://github.com/billy000400/WR-lite.git WR_lite
 cd ..
 cd ..
 scram b -j32
