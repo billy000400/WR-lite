@@ -4,7 +4,7 @@ use Getopt::Long;
 
 #------------------------
 #$prodSpace=$ENV{"HOME"}."/work";
-$prodSpace="/local/cms/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/condorOut";
+$prodSpace="/data/cmszfs1/user/".$ENV{"USER"};
 $batch=10;
 $startPoint=0;
 $nosubmit='';
