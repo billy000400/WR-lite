@@ -17,7 +17,6 @@ $rt=$ENV{"LOCALRT"};
 $arch=$ENV{"SCRAM_ARCH"};
 
 $jobBase="default";
-
 print "$executable\n";
 
 GetOptions(
@@ -30,10 +29,18 @@ GetOptions(
     "nice" => \$nice_user
 );
 
+print @ARGV;
+print "\n";
+print @ARGV[0];
+print "\n";
+print @ARGV[1];
+print "\n";
+print @ARGV[2];
+print "\n";
 print "$#ARGV\n";
 $nargs = $#ARGV;
 
-if ($#ARGV!=3 && $#ARGV!=6) {
+if ($#ARGV!=2 && $#ARGV!=6) {
     print "Usage: [BASE CONFIG] [NAME OF FILE CONTAINING LIST OF FILENAMES] [isMC=True/False] [runRandomTrack=True/False] [runLocally=True/False] [isSig=True/False] [hasDpho=True/False]\n\n";
     print "    --batch (number of files per jobs) (default $batch)\n";
     print "    --start (output file number for first job) (default $startPoint)\n";
