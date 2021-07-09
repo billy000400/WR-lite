@@ -29,7 +29,7 @@ else:
 
 
 with open(f_name+'.txt', 'w') as f:
-    writer = csv.writer(f)
+    writer = csv.writer(f, lineterminator="\n")
     for f in fs:
         writer.writerow([f])
 
