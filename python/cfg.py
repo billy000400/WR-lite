@@ -93,14 +93,9 @@ from Configuration.AlCa.autoCond import autoCond
 process.GlobalTag = GlobalTag(process.GlobalTag, '94X_mcRun2_asymptotic_v3') #
 if not options.isMC: process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_v10')
 
-inputDir = Path('/hdfs/cms/user/krohn045/WR_SignalSamples/')
-f_gen = inputDir.glob("**/*.root")
-fs = ('file:'+str(f) for f in f_gen)
-
 
 process.source = cms.Source ("PoolSource",
-	  # fileNames = cms.untracked.vstring (options.inputFiles),
-      fileNames = cms.untracked.vstring(*fs)
+	  fileNames = cms.untracked.vstring (options.inputFiles),
 )
 
 
