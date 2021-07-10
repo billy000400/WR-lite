@@ -146,7 +146,26 @@ process.tuneIDMuons = cms.EDFilter("PATMuonSelector",
 
 #from HEEP.VID.tools import addHEEPV70ElesMiniAOD
 
-from python.tools import addHEEPV70ElesMiniAOD
+def addHEEPV70ElesMiniAOD(process,useStdName=True):
+
+    setupVIDForHEEPV70(process,useMiniAOD=True)
+
+    #if we are making a new slimmedElectrons collection, now we need to customise the input
+    #to the VID and HEEP producers to ignore it and take the old one
+    if useStdName:
+        process.heepIDVarValueMaps.elesMiniAOD = \
+            cms.InputTag("slimmedElectrons",processName=cms.InputTag.skipCurrentProcess())
+        process.egmGsfElectronIDs.physicsObjectSrc = \
+            cms.InputTag("slimmedElectrons",processName=cms.InputTag.skipCurrentProcess())
+
+
+    process.load("ExoAnalysis.WR_lite.addHEEPV70ToEles_cfi")
+    process.heepSequence = cms.Sequence(process.egmGsfElectronIDSequence)
+    if useStdName:
+        process.heepSequence.insert(1,process.addHEEPToSlimmedElectrons)
+    else:
+        process.heepSequence.insert(1,process.addHEEPToHEEPElectrons)
+        
 addHEEPV70ElesMiniAOD(process,useStdName=False)
 
 
