@@ -3,7 +3,6 @@ import HLTrigger.HLTfilters.hltHighLevel_cfi
 from FWCore.ParameterSet.VarParsing import VarParsing
 import os
 import sys
-from pathlib import Path
 #INPUT PARSING SECTION
 options = VarParsing ('analysis')
 
