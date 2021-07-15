@@ -136,6 +136,13 @@ print(SUBMIT " && (Machine != \"scorpion45.spa.umn.edu\")");
 print(SUBMIT " && (Machine != \"scorpion46.spa.umn.edu\")");
 #print(SUBMIT " && (Machine != \"scorpion24.spa.umn.edu\" && Machine != \"scorpion20.spa.umn.edu\" && Machine != \"scorpion44.spa.umn.edu\")");
 #print(SUBMIT " && (Machine != \"scorpion42.spa.umn.edu\" && Machine != \"scorpion43.spa.umn.edu\" && Machine != \"scorpion45.spa.umn.edu\" && Machine != \"scorpion46.spa.umn.edu\" && Machine != \"scorpion5.spa.umn.edu\")");
+### Scorpions that don't have cmsRun ###
+print(SUBMIT " && (Machine != \"scorpion1.spa.umn.edu\")");
+print(SUBMIT " && (Machine != \"scorpion17.spa.umn.edu\")");
+#### Scorpions that don't have cmsset_default ###
+print(SUBMIT " && (Machine != \"scorpion16.spa.umn.edu\")");
+print(SUBMIT " && (Machine != \"scorpion18.spa.umn.edu\")");
+print(SUBMIT " && (Machine != \"scorpion6.spa.umn.edu\")");
 
 # These machines are VMs that run the grid interface
 print(SUBMIT " && (Machine != \"gc1-ce.spa.umn.edu\" && Machine != \"gc1-hn.spa.umn.edu\" && Machine != \"gc1-se.spa.umn.edu\" && Machine != \"red.spa.umn.edu\" && Machine != \"hadoop-test.spa.umn.edu\")");
