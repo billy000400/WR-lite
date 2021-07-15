@@ -64,7 +64,7 @@ if($nargs==6) {
 # if($nargs==3) {
 #   print "cmsRun Arguments: $cmsRunArguments and $cmsRunArguments2nd\n";
 # }
-if($nargs==3){
+if($nargs==2){
   print "cmsRun Arguments: $cmsRunArguments"
 }
 
@@ -116,7 +116,7 @@ if ($nosubmit) {
     open(SUBMIT,"|condor_submit");
 }
 print(SUBMIT "Executable = $executable\n");
-if($nargs==3) {
+if($nargs==2) {
   print(SUBMIT "Arguments = \"$cmsRunArguments $cmsRunArguments2nd\"\n");
 }
 if($nargs==6) {
