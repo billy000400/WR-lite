@@ -68,10 +68,10 @@
 
 using reco::TrackCollection;
 
-class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	public:
-		explicit WR_MASS_PLOT(const edm::ParameterSet&);
-		~WR_MASS_PLOT();
+		explicit ExtractRecoMass_WR_N(const edm::ParameterSet&);
+		~ExtractRecoMass_WR_N();
 
 		static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -123,7 +123,7 @@ class WR_MASS_PLOT : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 //
 // constructors and destructor
 //
-WR_MASS_PLOT::WR_MASS_PLOT(const edm::ParameterSet& iConfig)
+ExtractRecoMass_WR_N::ExtractRecoMass_WR_N(const edm::ParameterSet& iConfig)
 	:
 	tracksToken_(consumes<TrackCollection>(iConfig.getUntrackedParameter<edm::InputTag>("tracks"))),
 	m_genParticleToken(consumes<std::vector<reco::GenParticle>> (iConfig.getParameter<edm::InputTag>("genParticles"))),
@@ -140,7 +140,7 @@ WR_MASS_PLOT::WR_MASS_PLOT(const edm::ParameterSet& iConfig)
 }
 
 
-WR_MASS_PLOT::~WR_MASS_PLOT()
+ExtractRecoMass_WR_N::~ExtractRecoMass_WR_N()
 {
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
@@ -153,7 +153,7 @@ WR_MASS_PLOT::~WR_MASS_PLOT()
 
 // ------------ method called for each event  ------------
 void
-WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 	bool background = !m_isSignal;
 	std::cout << "background: " << background << std::endl;
@@ -853,19 +853,19 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 }
 //HELPERS
-double WR_MASS_PLOT::dR2(double eta1, double eta2, double phi1, double phi2) {
+double ExtractRecoMass_WR_N::dR2(double eta1, double eta2, double phi1, double phi2) {
     double deta = eta1 - eta2;
     double dphi = dPhi(phi1, phi2);
     return deta*deta + dphi*dphi;
 }
-double WR_MASS_PLOT::dPhi(double phi1, double phi2) {
+double ExtractRecoMass_WR_N::dPhi(double phi1, double phi2) {
     double raw_dphi = phi1 - phi2;
     if (fabs(raw_dphi) < ROOT::Math::Pi()) return raw_dphi;
     double region = std::round(raw_dphi / (2.*ROOT::Math::Pi()));
     return raw_dphi - 2.*ROOT::Math::Pi()*region;
 }
 
-double WR_MASS_PLOT::transverseSphericity(math::XYZTLorentzVector p1, math::XYZTLorentzVector p2, math::XYZTLorentzVector p3){
+double ExtractRecoMass_WR_N::transverseSphericity(math::XYZTLorentzVector p1, math::XYZTLorentzVector p2, math::XYZTLorentzVector p3){
 	double sphericity [3*3] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 	double momentumArray [3*3] = {p1.Px(), p1.Py(), p1.Pz(), p2.Px(), p2.Py(), p2.Pz(), p3.Px(), p3.Py(), p3.Pz()};
 	double pi2 = pow(p1.Px(),2) + pow(p1.Py(),2) + pow(p1.Pz(),2) + pow(p2.Px(),2) + pow(p2.Py(),2) + pow(p2.Pz(),2) + pow(p3.Px(),2) + pow(p3.Py(),2) + pow(p3.Pz(),2);
@@ -885,7 +885,7 @@ double WR_MASS_PLOT::transverseSphericity(math::XYZTLorentzVector p1, math::XYZT
 	return(2*eigenval[1]/(eigenval[0]+eigenval[1]));
 }
 
-void WR_MASS_PLOT::saveElectronData(eventBits * myRECOevent,double matched1Mass, double matched2Mass){
+void ExtractRecoMass_WR_N::saveElectronData(eventBits * myRECOevent,double matched1Mass, double matched2Mass){
 		std::ofstream myfile;
 		myfile.open (m_dataSaveFile, std::ios_base::app);
 		myfile << myRECOevent->match1ElectronEta << "\t";
@@ -931,7 +931,7 @@ void WR_MASS_PLOT::saveElectronData(eventBits * myRECOevent,double matched1Mass,
 }
 
 
-void WR_MASS_PLOT::saveMuonData(eventBits * myRECOevent, double matched1Mass, double matched2Mass){
+void ExtractRecoMass_WR_N::saveMuonData(eventBits * myRECOevent, double matched1Mass, double matched2Mass){
 		std::ofstream myfile;
 		myfile.open (m_dataSaveFile, std::ios_base::app);
 		myfile << myRECOevent->match1MuonEta << "\t";
@@ -979,7 +979,7 @@ void WR_MASS_PLOT::saveMuonData(eventBits * myRECOevent, double matched1Mass, do
 
 // ------------ method called once each job just before starting event loop  ------------
 void
-WR_MASS_PLOT::beginJob() {
+ExtractRecoMass_WR_N::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
   subDir = fs->mkdir("WR_N_mass_Ntuples");
   WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "WR_mass:N_mass");
@@ -990,13 +990,13 @@ WR_MASS_PLOT::beginJob() {
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
-WR_MASS_PLOT::endJob() {
+ExtractRecoMass_WR_N::endJob() {
 
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-WR_MASS_PLOT::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+ExtractRecoMass_WR_N::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -1011,4 +1011,4 @@ WR_MASS_PLOT::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(WR_MASS_PLOT);
+DEFINE_FWK_MODULE(ExtractRecoMass_WR_N);
