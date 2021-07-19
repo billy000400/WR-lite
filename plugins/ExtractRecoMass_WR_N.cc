@@ -2,7 +2,7 @@
  * @Author: Billy Li <billy000400>
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
- * @Last modified by:   billy000400
+ * @Last modified by:   billyli
  * @Last modified time: 07-19-2021
  */
 
@@ -308,6 +308,13 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		}
 	}
 
+	int q1Match = 0;
+	int q2Match = 0;
+	int el1Match = 0;
+	int el2Match = 0;
+	int mu1Match = 0;
+	int mu2Match = 0;
+
 	if(!background && abs(myRECOevent.lepton1Id)!=abs(myRECOevent.lepton2Id)){ //Two different leptons
 		myRECOevent.mixedLeptons = true;
 	} else { //start doing reco
@@ -319,8 +326,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		const pat::Jet* leadJet = 0;
 		const pat::Jet* subleadJet = 0;
 		int jetCount = 0;
-		int q1Match = 0;
-		int q2Match = 0;
+
 
 		const pat::Electron* matchedElectron = 0;
 		const pat::Electron* matchedElectronL1 = 0;
@@ -328,8 +334,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		const pat::Electron* leadElectron = 0;
 
 		int elCount = 0;
-		int el1Match = 0;
-		int el2Match = 0;
+
 
 		const pat::Muon* matchedMuon = 0;
 		const pat::Muon* matchedMuonL1 = 0;
@@ -337,8 +342,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		const pat::Muon* subleadMuon = 0;
 
 		int muCount = 0;
-		int mu1Match = 0;
-		int mu2Match = 0;
+
 
 		math::XYZTLorentzVector combinedJetsP4;
 		math::XYZTLorentzVector lepton1P4;
@@ -842,36 +846,34 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			myRECOevent.extraLeptons = true;
 		}
 	}
-	  //Fill the histograms
-    m_allEvents.fill(myRECOevent);
+  //Fill the histograms
+  m_allEvents.fill(myRECOevent);
 
-    // Check if the event is well reconstructed
-    bool quarksMatched = ( (q1Match==1) && (q2Match==1) );
-    bool electronsMatched = ( (el1Match==1)&&(el2Match==1) );
-    bool muonsMatched = ( (mu1Match==1)&&(mu2Match==1) );
-    bool leptonsMatched = ( electronsMatched || muonsMatched );
+  // Check if the event is well reconstructed
+  bool quarksMatched = ( (q1Match==1) && (q2Match==1) );
+  bool electronsMatched = ( (el1Match==1)&&(el2Match==1) );
+  bool muonsMatched = ( (mu1Match==1)&&(mu2Match==1) );
+  bool leptonsMatched = ( electronsMatched || muonsMatched );
 
-    bool goodReco = false;
+  bool goodReco = false;
 
-    double WR_RecoMass;
-    double N_RecoMass;
+  double WR_RecoMass;
+  double N_RecoMass;
 
-    if (quarksMatched && electronsMatched){
-      goodReco = true;
-      WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass+myRECOevent.leadRecoElectronMass;
-      N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass;
-    } else if (quarksMatched && muonsMatched){
-      goodReco = true;
-      WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass+myRECOevent.leadRecoMuonMass;
-      N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass;
-    } else {
-      std::cerr << "Bad reconstruction event" << std::endl;
-    }
+  if (quarksMatched && electronsMatched){
+    goodReco = true;
+    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass+myRECOevent.leadRecoElectronMass;
+    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass;
+  } else if (quarksMatched && muonsMatched){
+    goodReco = true;
+    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass+myRECOevent.leadRecoMuonMass;
+    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass;
+  }
 
-    if (goodReco){
-      WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
-      massHist2d->Fill(WR_RecoMass, N_RecoMass);
-    }
+  if (goodReco){
+    WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
+    massHist2d->Fill(WR_RecoMass, N_RecoMass);
+  }
 
 }
 //HELPERS
