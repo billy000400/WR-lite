@@ -327,7 +327,6 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		const pat::Jet* subleadJet = 0;
 		int jetCount = 0;
 
-
 		const pat::Electron* matchedElectron = 0;
 		const pat::Electron* matchedElectronL1 = 0;
 		const pat::Electron* subleadElectron = 0;
@@ -619,7 +618,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			}
      	}
 
-		//Perform reco on muons
+		//Muon Reco
 		if(background || (abs(myRECOevent.lepton1Id) == 13 && (abs(myRECOevent.lepton2Id) == 13))) {
 			myRECOevent.twoMuons = true;
 
@@ -853,7 +852,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   bool quarksMatched = ( (q1Match==1) && (q2Match==1) );
   bool electronsMatched = ( (el1Match==1)&&(el2Match==1) );
   bool muonsMatched = ( (mu1Match==1)&&(mu2Match==1) );
-  bool leptonsMatched = ( electronsMatched || muonsMatched );
+  // bool leptonsMatched = ( electronsMatched || muonsMatched );
 
   bool goodReco = false;
 
@@ -870,7 +869,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
     N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass;
   }
 
-  if (goodReco){
+  if (!background && goodReco){
     WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
     massHist2d->Fill(WR_RecoMass, N_RecoMass);
   }
