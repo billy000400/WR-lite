@@ -23,9 +23,9 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
- #include "FWCore/Utilities/interface/InputTag.h"
- #include "DataFormats/TrackReco/interface/Track.h"
- #include "DataFormats/TrackReco/interface/TrackFwd.h"
+#include "FWCore/Utilities/interface/InputTag.h"
+#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/TrackReco/interface/TrackFwd.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
@@ -152,8 +152,7 @@ ExtractRecoMass_WR_N::~ExtractRecoMass_WR_N()
 //
 
 // ------------ method called for each event  ------------
-void
-ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 	bool background = !m_isSignal;
 	std::cout << "background: " << background << std::endl;
@@ -258,12 +257,6 @@ ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& i
 
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
-
-    // Filling TNtuple
-    WR_N_Mass->Fill((float)myRECOevent.WRMass, (float)myRECOevent.NMass);
-
-    // Filling the 2D Mass Histogram
-    massHist2d->Fill(myRECOevent.WRMass, myRECOevent.NMass);
 
 
 	//Extract gen information for background events to determine distribution
@@ -670,6 +663,7 @@ ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& i
 				allParticlesP4Boost = -(combinedJetsP4 + leadMuon->p4() + subleadMuon->p4());
 				jetsPlusLeadLeptonP4Boost = -(combinedJetsP4 + leadMuon->p4());
 				jetsPlusSubLeptonP4Boost = -(combinedJetsP4 + subleadMuon->p4());
+
 				//Boosting information for matched muons
 				if(!background){
 					lepton1P4 = matchedMuonL1->p4();
@@ -848,8 +842,36 @@ ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& i
 			myRECOevent.extraLeptons = true;
 		}
 	}
-	//Fill the histograms
+	  //Fill the histograms
     m_allEvents.fill(myRECOevent);
+
+    // Check if the event is well reconstructed
+    bool quarksMatched = ( (q1Match==1) && (q2Match==1) );
+    bool electronsMatched = ( (el1Match==1)&&(el2Match==1) );
+    bool muonsMatched = ( (mu1Match==1)&&(mu2Match==1) );
+    bool leptonsMatched = ( electronsMatched || muonsMatched );
+
+    bool goodReco = false;
+
+    double WR_RecoMass;
+    double N_RecoMass;
+
+    if (quarksMatched && electronsMatched){
+      goodReco = true;
+      WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass+myRECOevent.leadRecoElectronMass;
+      N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass;
+    } else if (quarksMatched && muonsMatched){
+      goodReco = true;
+      WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass+myRECOevent.leadRecoMuonMass;
+      N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass;
+    } else {
+      std::cerr << "Bad reconstruction event" << std::endl;
+    }
+
+    if (goodReco){
+      WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
+      massHist2d->Fill(WR_RecoMass, N_RecoMass);
+    }
 
 }
 //HELPERS
