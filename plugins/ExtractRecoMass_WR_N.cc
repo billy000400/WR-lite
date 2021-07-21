@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 07-19-2021
+ * @Last modified time: 07-21-2021
  */
 
 
@@ -155,7 +155,6 @@ ExtractRecoMass_WR_N::~ExtractRecoMass_WR_N()
 void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 	bool background = !m_isSignal;
-	std::cout << "background: " << background << std::endl;
 	eventBits myRECOevent;
 	eventInfo myEvent;
 
@@ -859,14 +858,14 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   double WR_RecoMass;
   double N_RecoMass;
 
-  if (quarksMatched && electronsMatched){
+  if (myRECOevent.twoElectrons){
     goodReco = true;
-    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass+myRECOevent.leadRecoElectronMass;
-    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoElectronMass;
-  } else if (quarksMatched && muonsMatched){
+    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.electron1RecoMass+myRECOevent.electron2RecoMass;
+    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.electron2RecoMass;
+  } else if (myRECOevent.twoMuons){
     goodReco = true;
-    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass+myRECOevent.leadRecoMuonMass;
-    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.subRecoMuonMass;
+    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.muon1RecoMass+myRECOevent.muon2RecoMass;
+    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.muon2RecoMass;
   }
 
   if (!background && goodReco){
