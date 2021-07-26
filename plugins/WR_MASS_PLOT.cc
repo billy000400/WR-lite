@@ -278,7 +278,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		edm::Handle<std::vector<reco::GenParticle>> genParticles;
 		iEvent.getByToken(m_genParticleToken, genParticles);
 
-        int lepton1 = 0;
+    int lepton1 = 0;
 		int lepton2 = 0;
 		int lepton1Cuts = 0;
 		int lepton2Cuts = 0;
@@ -856,7 +856,7 @@ WR_MASS_PLOT::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		}
 	}
 	//Fill the histograms
-    m_allEvents.fill(myRECOevent);
+  m_allEvents.fill(myRECOevent);
 
 }
 //HELPERS
