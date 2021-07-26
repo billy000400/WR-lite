@@ -189,7 +189,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			if( ! iParticle->isHardProcess() ) continue;  //ONLY HARD PROCESS AND NOT INCOMING
 			if( iParticle->status() == 21 ) continue;
 				    std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
-			if( abs( iParticle->mother()->pdgId() ) <= 6 || abs( iParticle->mother()->pdgId() ) == 9900024 || abs( iParticle->mother()->pdgId()) == 34) {//CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
+			if( abs( iParticle->mother()->pdgId() ) <= 6 || abs( iParticle->mother()->pdgId() ) == 9900024 || abs( iParticle->mother()->pdgId()) == 34)
+			{//CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
 				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ) //HERE'S A LEPtON
 					lepton1 = &(*iParticle);
 				if( abs( iParticle->pdgId() ) == 9900014 || abs( iParticle->pdgId() ) == 9900012) //HERE'S A RIGHT-HANDED NEUTRINO
@@ -442,7 +443,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				elCount++;
 			}
 
-	  	    //If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
+	  	//If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
 			if((leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0 && el1Match != 0 && el2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0)){
 				std::cout << "lead jet" << leadJet->p4() << ", "<< leadJet->pt() << std::endl;
@@ -861,11 +862,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   if (myRECOevent.twoElectrons){
     goodReco = true;
     WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.electron1RecoMass+myRECOevent.electron2RecoMass;
-    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.electron2RecoMass;
+    N_RecoMass = myRECOevent.electron1RecoMass;
   } else if (myRECOevent.twoMuons){
     goodReco = true;
     WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.muon1RecoMass+myRECOevent.muon2RecoMass;
-    N_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.muon2RecoMass;
+    N_RecoMass = myRECOevent.muon1RecoMass;
   }
 
   if (!background && goodReco){
