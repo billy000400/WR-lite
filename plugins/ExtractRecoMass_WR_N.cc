@@ -108,6 +108,11 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
     edm::Service<TFileService> fs;
     TFileDirectory subDir;
 
+		// Billy's global variable
+		double WR_RecoMass(-100.0);
+		double N_RecoMass(-100.0);
+
+		// Billy's root objects
     TH2D* massHist2d;
     TNtuple* WR_N_Mass;
 };
@@ -555,6 +560,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.electron1RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectronL1->p4()).mass();
 					myRECOevent.electron2RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectron->p4()).mass();
 
+					WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
+					N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
 
 					myRECOevent.match1ElectronEta = matchedElectronL1->eta();
 					myRECOevent.match1ElectronPhi = matchedElectronL1->phi();
@@ -767,6 +774,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon1RecoMass = (matchedMuonL1->p4()+leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
+					WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
+					N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+
 					myRECOevent.match1MuonEta = matchedMuonL1->eta();
 					myRECOevent.match1MuonPhi = matchedMuonL1->phi();
 					myRECOevent.match1MuonDPhi = dPhi(matchedMuonL1->phi(), combinedJetsP4.phi());
@@ -848,18 +858,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   //Fill the histograms
   m_allEvents.fill(myRECOevent);
 
+	// Check if good reco
 	bool goodReco = (myRECOevent.passedElectronReco || myRECOevent.passedMuonReco);
 
+	// if good reco, fill the ntuple and the 2d mass histogram
   if (!background && goodReco){
-		double WR_RecoMass(-100.0);
-		double N_RecoMass(-100.0);
-		if (myRECOevent.passedElectronReco){
-			WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
-			N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
-		} else if (myRECOevent.passedMuonReco){
-			WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
-			N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
-		}
     WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
     massHist2d->Fill(WR_RecoMass, N_RecoMass);
   }
