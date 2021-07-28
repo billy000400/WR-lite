@@ -109,8 +109,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
     TFileDirectory subDir;
 
 		// Billy's global variable
-		double WR_RecoMass(-100.0);
-		double N_RecoMass(-100.0);
+		double WR_RecoMass;
+		double N_RecoMass;
 
 		// Billy's root objects
     TH2D* massHist2d;
@@ -162,6 +162,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	bool background = !m_isSignal;
 	eventBits myRECOevent;
 	eventInfo myEvent;
+
+	// negatively initialization for debugging
+	double WR_RecoMass=-1e3;
+	double N_RecoMass=-1e3;
 
 	edm::Handle<GenEventInfoProduct> eventInfo;
 	iEvent.getByToken(m_genEventInfoToken, eventInfo);
