@@ -862,11 +862,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   if (myRECOevent.twoElectrons){
     goodReco = true;
     WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.electron1RecoMass+myRECOevent.electron2RecoMass;
-    N_RecoMass = myRECOevent.electron1RecoMass;
+    N_RecoMass = myRECOevent.electron2RecoMass;
   } else if (myRECOevent.twoMuons){
     goodReco = true;
     WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.muon1RecoMass+myRECOevent.muon2RecoMass;
-    N_RecoMass = myRECOevent.muon1RecoMass;
+    N_RecoMass = myRECOevent.muon2RecoMass;
   }
 
   if (!background && goodReco){
