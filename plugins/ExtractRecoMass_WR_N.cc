@@ -264,7 +264,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		edm::Handle<std::vector<reco::GenParticle>> genParticles;
 		iEvent.getByToken(m_genParticleToken, genParticles);
 
-        int lepton1 = 0;
+    int lepton1 = 0;
 		int lepton2 = 0;
 		int lepton1Cuts = 0;
 		int lepton2Cuts = 0;
@@ -848,28 +848,18 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   //Fill the histograms
   m_allEvents.fill(myRECOevent);
 
-  // Check if the event is well reconstructed
-  bool quarksMatched = ( (q1Match==1) && (q2Match==1) );
-  bool electronsMatched = ( (el1Match==1)&&(el2Match==1) );
-  bool muonsMatched = ( (mu1Match==1)&&(mu2Match==1) );
-  // bool leptonsMatched = ( electronsMatched || muonsMatched );
-
-  bool goodReco = false;
-
-  double WR_RecoMass;
-  double N_RecoMass;
-
-  if (myRECOevent.twoElectrons){
-    goodReco = true;
-    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.electron1RecoMass+myRECOevent.electron2RecoMass;
-    N_RecoMass = myRECOevent.electron2RecoMass;
-  } else if (myRECOevent.twoMuons){
-    goodReco = true;
-    WR_RecoMass = myRECOevent.leadJetRecoMass+myRECOevent.subJetRecoMass+myRECOevent.muon1RecoMass+myRECOevent.muon2RecoMass;
-    N_RecoMass = myRECOevent.muon2RecoMass;
-  }
+	bool goodReco = (myRECOevent.passedElectronReco || myRECOevent.passedMuonReco);
 
   if (!background && goodReco){
+		double WR_RecoMass(-100.0);
+		double N_RecoMass(-100.0);
+		if (myRECOevent.passedElectronReco){
+			WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
+			N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
+		} else if (myRECOevent.passedMuonReco){
+			WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
+			N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+		}
     WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
     massHist2d->Fill(WR_RecoMass, N_RecoMass);
   }
