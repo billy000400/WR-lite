@@ -17,7 +17,7 @@ void testFit()
   RooDataSet ds("ds", "ds",
                 RooArgSet(WR_RecoMass, N_RecoMass),
                 ImportFromFile("test.root","analysis/WR_N_Mass_1"));
-  ds.get(20)->Print();
+  ds.get(20)->Print("V");
 
   // Draw ntuples
   RooPlot *frame1 = WR_RecoMass.frame(Title("WR Reco Mass:Number:Reco Mass (GeV)"));
