@@ -13,5 +13,5 @@ void testFit()
 {
   // importing ntuples
   RooRealVar WR_RecoMass("WR_RecoMass", "WR_RecoMass", 0, 3000);
-  RooDataSet ds("ds", "ds", RooArgSet(WR_RecoMass), ImportFromFile("test.root","WR_mass"));
+  RooDataSet ds("ds", "ds", RooArgSet(WR_RecoMass), ImportFromFile("test.root","WR_N_Mass"));
 }
