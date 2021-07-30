@@ -17,7 +17,12 @@ void testFit()
   RooDataSet ds("ds", "ds",
                 RooArgSet(WR_RecoMass, N_RecoMass),
                 ImportFromFile("/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/roofit/test.root","analysis/WR_N_Mass_1"));
-  ds.get(20)->Print("V");
+
+  for (int i(0); i<20; i++)
+  {
+    ds.get(20)->Print("V");
+  }
+
 
   // Draw ntuples
   RooPlot *frame1 = WR_RecoMass.frame(Title("WR Reco Mass:Number:Reco Mass (GeV)"));
