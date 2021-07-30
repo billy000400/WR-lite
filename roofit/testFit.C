@@ -16,5 +16,5 @@ void testFit()
   RooRealVar N_RecoMass("N_RecoMass", "N_RecoMass", 0, 2000);
   RooDataSet ds("ds", "ds",
                 RooArgSet(WR_RecoMass, N_RecoMass),
-                ImportFromFile("test.root","WR_N_Mass_1"));
+                ImportFromFile("test.root","analysis/WR_N_Mass_1"));
 }
