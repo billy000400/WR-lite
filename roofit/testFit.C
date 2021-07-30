@@ -16,7 +16,7 @@ void testFit()
   RooRealVar N_RecoMass("N_RecoMass", "N_RecoMass", 0, 1200);
   RooDataSet ds("ds", "ds",
                 RooArgSet(WR_RecoMass, N_RecoMass),
-                ImportFromFile("test.root","analysis/WR_N_Mass_1"));
+                ImportFromFile("/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/roofit/test.root","analysis/WR_N_Mass_1"));
   ds.get(20)->Print("V");
 
   // Draw ntuples
