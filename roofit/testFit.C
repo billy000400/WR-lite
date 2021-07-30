@@ -18,7 +18,7 @@ void testFit()
                 RooArgSet(WR_RecoMass, N_RecoMass),
                 ImportFromFile("/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/roofit/test.root","analysis/WR_N_Mass_1"));
 
-  for (int i(0); i<20; i++)
+  for (int i(0); i<60; i++)
   {
     ds.get(20)->Print("V");
   }
