@@ -106,7 +106,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		bool m_genTrainData;
 
     edm::Service<TFileService> fs;
-    TFileDirectory subDir;
+    // TFileDirectory subDir;
 
 		// Billy's global variable
 		double WR_RecoMass_i;
@@ -1005,8 +1005,8 @@ void ExtractRecoMass_WR_N::saveMuonData(eventBits * myRECOevent, double matched1
 void
 ExtractRecoMass_WR_N::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
-  subDir = fs->mkdir("WR_N_mass_Ntuples");
-  WR_N_Mass = subDir.make<TNtuple>("WR_N_Mass_1", "hello", "WR_mass:N_mass");
+  // subDir = fs->mkdir("WR_N_mass_Ntuples");
+  WR_N_Mass = fs->make<TNtuple>("WR_N_Mass_1", "hello", "WR_mass:N_mass");
   massHist2d = fs->make<TH2D>("massHist2d",
                               "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
                               240, 800., 2000., 340, 200., 1900.);
