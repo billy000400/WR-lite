@@ -109,12 +109,14 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
     TFileDirectory subDir;
 
 		// Billy's global variable
-		double WR_RecoMass;
-		double N_RecoMass;
+		double WR_RecoMass_i;
+		double N_RecoMass_i;
 
 		// Billy's root objects
     TH2D* massHist2d;
     TNtuple* WR_N_Mass;
+		TH1D* WR_RecoMass;
+		TH1D* N_RecoMass;
 };
 
 //
@@ -564,8 +566,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.electron1RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectronL1->p4()).mass();
 					myRECOevent.electron2RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectron->p4()).mass();
 
-					WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
-					N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
+					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
+					N_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
 
 					myRECOevent.match1ElectronEta = matchedElectronL1->eta();
 					myRECOevent.match1ElectronPhi = matchedElectronL1->phi();
@@ -778,8 +780,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon1RecoMass = (matchedMuonL1->p4()+leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
-					WR_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
-					N_RecoMass = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
+					N_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
 
 					myRECOevent.match1MuonEta = matchedMuonL1->eta();
 					myRECOevent.match1MuonPhi = matchedMuonL1->phi();
@@ -869,6 +871,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   if (!background && goodReco){
     WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
     massHist2d->Fill(WR_RecoMass, N_RecoMass);
+		WR_RecoMass->Fill(WR_RecoMass_i);
+		N_RecoMass->Fill(N_RecoMass_i);
   }
 
 }
@@ -1006,6 +1010,8 @@ ExtractRecoMass_WR_N::beginJob() {
   massHist2d = fs->make<TH2D>("massHist2d",
                               "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
                               240, 800., 2000., 340, 200., 1900.);
+	WR_RecoMass = fs->make<TH1D>("WR_RecoMass", "WR Reco Mass;Number of Event;WR Mass(GeV)");
+	N_RecoMass = fs->make<TH1D>("N_RecoMass", "N Reco Mass;Number of Event;N Mass(GeV)");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
