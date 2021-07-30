@@ -1010,8 +1010,12 @@ ExtractRecoMass_WR_N::beginJob() {
   massHist2d = fs->make<TH2D>("massHist2d",
                               "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
                               240, 800., 2000., 340, 200., 1900.);
-	WR_RecoMass = fs->make<TH1D>("WR_RecoMass", "WR Reco Mass;Number of Event;WR Mass(GeV)");
-	N_RecoMass = fs->make<TH1D>("N_RecoMass", "N Reco Mass;Number of Event;N Mass(GeV)");
+	WR_RecoMass = fs->make<TH1D>("WR_RecoMass",
+															"WR Reco Mass;Number of Event;WR Mass(GeV)",
+																240, 800., 2000.);
+	N_RecoMass = fs->make<TH1D>("N_RecoMass",
+															"N Reco Mass;Number of Event;N Mass(GeV)",
+															340, 200., 1900.);
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
