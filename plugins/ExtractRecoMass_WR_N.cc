@@ -166,8 +166,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	eventInfo myEvent;
 
 	// negatively initialization for debugging
-	double WR_RecoMass=-1e3;
-	double N_RecoMass=-1e3;
+	WR_RecoMass_i=-1e3;
+	N_RecoMass_i=-1e3;
 
 	edm::Handle<GenEventInfoProduct> eventInfo;
 	iEvent.getByToken(m_genEventInfoToken, eventInfo);
@@ -869,8 +869,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	// if good reco, fill the ntuple and the 2d mass histogram
   if (!background && goodReco){
-    WR_N_Mass->Fill((float)WR_RecoMass, (float)N_RecoMass);
-    massHist2d->Fill(WR_RecoMass, N_RecoMass);
+    WR_N_Mass->Fill((float)WR_RecoMass_i, (float)N_RecoMass_i);
+    massHist2d->Fill(WR_RecoMass_i, N_RecoMass_i);
 		WR_RecoMass->Fill(WR_RecoMass_i);
 		N_RecoMass->Fill(N_RecoMass_i);
   }
