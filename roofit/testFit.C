@@ -20,7 +20,7 @@ void testFit()
 
   for (int i(0); i<60; i++)
   {
-    ds.get(20)->Print("V");
+    ds.get(i)->Print("V");
   }
 
 
