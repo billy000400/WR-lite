@@ -25,10 +25,10 @@ void testFit()
 
 
   // Draw ntuples
-  RooPlot *frame1 = WR_RecoMass.frame(Title("WR Reco Mass"), AxisLabel("Number:Reco Mass (GeV)"));
+  RooPlot *frame1 = WR_RecoMass.frame(Title("WR Reco Mass"));
   ds.plotOn(frame1, Binning(32));
 
-  RooPlot *frame2 = N_RecoMass.frame(Title("N Reco Mass"), AxisLabel("Number:Reco Mass (GeV)"));
+  RooPlot *frame2 = N_RecoMass.frame(Title("N Reco Mass"));
   ds.plotOn(frame2, Binning(32));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
