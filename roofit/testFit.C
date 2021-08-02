@@ -22,7 +22,7 @@ void testFit()
   ds.plotOn(frame1, Binning(32));
 
   // preparing the signal distribution
-  RooRealVar m0("m0","m0",1050, 900, 1200);
+  RooRealVar m0("m0","m0",1000, 900, 1200);
   RooRealVar sigma("sigma","sigma", 100, -500, 500);
   RooRealVar alpha("alpha", "alpha", 0.1, -0.25, 0.25);
   RooRealVar n("n","n", 1, -200, 200);
