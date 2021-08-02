@@ -24,7 +24,7 @@ void testFit()
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1000, 900, 1100);
   RooRealVar sigma("sigma","sigma", -200, -500, 500);
-  RooRealVar alpha("alpha", "alpha", -1, -2000, 0);
+  RooRealVar alpha("alpha", "alpha", -1, -20, 10);
   RooRealVar n("n","n", 1, -2000, 2000);
   RooCBShape cb("signal", "cb signal",
                 WR_RecoMass,
