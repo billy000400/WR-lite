@@ -31,7 +31,7 @@ void testFit()
   RooRealVar alpha("alpha", "alpha", 0.1, -0.25, 0.25);
   RooRealVar n("n","n", 0.1, -10, 10);
 
-  RooGaussian gauss("gauss". "gaussian pdf",
+  RooGaussian gauss("gauss", "gaussian pdf",
                   WR_RecoMass,
                   m0, sigma);
   RooCBShape cb("signal", "cb signal",
