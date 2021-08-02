@@ -32,7 +32,7 @@ void testFit()
   cb.plotOn(frame1);
 
   // fit distribution to data
-  cb.fitTo(ds);
+  cb.chi2FitTo(ds);
   cb.plotOn(frame1, LineColor(kRed));
 
   // Draw ntuples
