@@ -12,7 +12,7 @@ using namespace RooFit;
 void testFit()
 {
   // importing ntuples into RooDataSet
-  RooRealVar WR_RecoMass("WR_mass", "WR_RecoMass", 0, 1700);
+  RooRealVar WR_RecoMass("WR_mass", "WR_RecoMass", 0, 3000);
   RooRealVar N_RecoMass("N_mass", "N_RecoMass", 0, 1500);
   RooDataSet ds("ds", "ds",
                 RooArgSet(WR_RecoMass, N_RecoMass),
@@ -23,7 +23,7 @@ void testFit()
 
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1000, 900, 1200);
-  RooRealVar sigma("sigma","sigma", 80, 30, 130);
+  RooRealVar sigma("sigma","sigma", 80, 30, 230);
   RooRealVar alpha("alpha", "alpha", 0.1, -0.25, 0.25);
   RooRealVar n("n","n", 0.1, -10, 10);
   RooCBShape cb("signal", "cb signal",
@@ -32,10 +32,7 @@ void testFit()
   cb.plotOn(frame1);
 
   // fit distribution to data
-  for (int i(0); i<3; i++)
-  {
-    cb.fitTo(ds);
-  }
+  cb.fitTo(ds, Range(1000,3000));
   cb.plotOn(frame1, LineColor(kRed));
 
   // Draw ntuples
