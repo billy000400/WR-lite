@@ -9,7 +9,7 @@
 #include "TRandom.h"
 using namespace RooFit;
 
-void testFit()
+void testFit_Novosibirsk()
 {
   // importing ntuples into RooDataSet
   RooRealVar WR_RecoMass("WR_mass", "WR_RecoMass", 0, 3000);
