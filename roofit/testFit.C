@@ -22,7 +22,7 @@ void testFit()
   ds.plotOn(frame1, Binning(32));
 
   // preparing the signal distribution
-  RooRealVar m0("m0","m0",1000, 900, 1200);
+  RooRealVar m0("m0","m0",1050, 900, 1200);
   RooRealVar sigma("sigma","sigma", 80, 30, 230);
   RooRealVar alpha("alpha", "alpha", 0.1, -0.25, 0.25);
   RooRealVar n("n","n", 0.1, -10, 10);
@@ -37,7 +37,7 @@ void testFit()
 
 
   sigma.setConstant(kTRUE);
-  cb.fitTo(ds);
+  cb.fitTo(ds, Range(0,1000));
 
 
   cb.plotOn(frame1, LineColor(kRed));
