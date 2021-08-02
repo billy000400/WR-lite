@@ -22,7 +22,7 @@ void testFit_Novosibirsk()
   ds1.plotOn(frame1, Binning(128));
 
   // preparing the signal distribution
-  RooRealVar m0("m0","m0",1000, 1000, 1200);
+  RooRealVar m0("m0","m0",1100, 1000, 1200);
   RooRealVar sigma("sigma","sigma", 80, -230, 230);
   RooRealVar tail("tail", "tail", 0.3, -300, 300);
 
