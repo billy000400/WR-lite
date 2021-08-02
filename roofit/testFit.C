@@ -34,6 +34,12 @@ void testFit()
   // fit distribution to data
   m0.setConstant(kTRUE);
   cb.fitTo(ds, Range(1000,3000));
+
+
+  sigma.setConstant(kTRUE);
+  cb.fitTo(ds);
+
+
   cb.plotOn(frame1, LineColor(kRed));
 
   // Draw ntuples
