@@ -40,7 +40,10 @@ void testFit()
   cb.plotOn(frame1);
 
   // fit distribution to data
-  gauss.fitTo(ds1, Range(1050,3000));
+  for (int i(0); i<5; i++)
+  {
+    gauss.fitTo(ds1, Range(1050,3000));
+  }
   gauss.plotOn(frame1, LineColor(kYellow));
 
   m0.setConstant(kTRUE);
