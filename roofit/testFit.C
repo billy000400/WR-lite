@@ -14,12 +14,14 @@ void testFit()
   // importing ntuples into RooDataSet
   RooRealVar WR_RecoMass("WR_mass", "WR_RecoMass", 0, 3000);
   RooRealVar N_RecoMass("N_mass", "N_RecoMass", 0, 1500);
-  RooDataSet ds("ds", "ds",
+  RooDataSet ds1("ds1", "ds1",
                 RooArgSet(WR_RecoMass, N_RecoMass),
                 ImportFromFile("/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/roofit/test.root","analysis/WR_N_Mass_1"));
 
+  RooDataSet ds2 = ds1.Clone("ds2")
+
   RooPlot *frame1 = WR_RecoMass.frame(Title("WR Reco Mass"));
-  ds.plotOn(frame1, Binning(32));
+  ds1.plotOn(frame1, Binning(32));
 
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1050, 900, 1200);
@@ -33,13 +35,12 @@ void testFit()
 
   // fit distribution to data
   m0.setConstant(kTRUE);
-  cb.fitTo(ds, Range(1000,3000));
+  cb.fitTo(ds1, Range(1000,3000));
+  cb.plotOn(frame1, LineColor(kYellow));
 
 
   sigma.setConstant(kTRUE);
-  cb.fitTo(ds, Range(0,1000));
-
-
+  cb.fitTo(ds2, Range(0,1000));
   cb.plotOn(frame1, LineColor(kRed));
 
   // Draw ntuples
