@@ -30,8 +30,11 @@ void testFit_Novosibirsk()
   novo.plotOn(frame1);
 
   // fit distribution to data
-  novo.fitTo(ds1);
-  novo.plotOn(frame1, LineColor(kRed));
+  for (int i(0); i < 10; i++)
+  {
+    novo.fitTo(ds1);
+    novo.plotOn(frame1, LineColor(kRed));
+  }
   // Draw ntuples
 
 
