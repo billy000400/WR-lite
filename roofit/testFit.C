@@ -12,8 +12,8 @@ using namespace RooFit;
 void testFit()
 {
   // importing ntuples into RooDataSet
-  RooRealVar WR_RecoMass("WR_mass", "WR_RecoMass", 0, 1500);
-  RooRealVar N_RecoMass("N_mass", "N_RecoMass", 0, 1200);
+  RooRealVar WR_RecoMass("WR_mass", "WR_RecoMass", 0, 1700);
+  RooRealVar N_RecoMass("N_mass", "N_RecoMass", 0, 1500);
   RooDataSet ds("ds", "ds",
                 RooArgSet(WR_RecoMass, N_RecoMass),
                 ImportFromFile("/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/roofit/test.root","analysis/WR_N_Mass_1"));
@@ -21,8 +21,8 @@ void testFit()
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1000, 900, 1100);
   RooRealVar sigma("sigma","sigma", 200, 0, 500);
-  RooRealVar alpha("alpha", "alpha", 1, 0, 500);
-  RooRealVar n("n","n", 1, 0, 500);
+  RooRealVar alpha("alpha", "alpha", 100, 0, 500);
+  RooRealVar n("n","n", 100, 0, 500);
   RooCBShape cb("signal", "cb signal",
                 WR_RecoMass,
                 m0, sigma, alpha, n);
