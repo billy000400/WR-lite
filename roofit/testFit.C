@@ -24,7 +24,7 @@ void testFit()
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1050, 900, 1200);
   RooRealVar sigma("sigma","sigma", 130, -500, 500);
-  RooRealVar alpha("alpha", "alpha", 0.1, -0.75, 0.75);
+  RooRealVar alpha("alpha", "alpha", 0.1, -0.1, 1);
   RooRealVar n("n","n", 1, -200, 200);
   RooCBShape cb("signal", "cb signal",
                 WR_RecoMass,
@@ -32,7 +32,7 @@ void testFit()
   cb.plotOn(frame1);
 
   // fit distribution to data
-  for (int i(0); i<5; i++)
+  for (int i(0); i<10; i++)
   {
     cb.fitTo(ds);
   }
