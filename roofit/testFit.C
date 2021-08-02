@@ -36,11 +36,10 @@ void testFit()
   cb.plotOn(frame1);
 
   // fit distribution to data
-  m0.setConstant(kTRUE);
   cb.fitTo(ds1, Range(1000,3000));
   cb.plotOn(frame1, LineColor(kYellow));
 
-
+  m0.setConstant(kTRUE);
   sigma.setConstant(kTRUE);
   cb.fitTo(ds2, Range(0.0, 1000.0));
   cb.plotOn(frame1, LineColor(kRed));
