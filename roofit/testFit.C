@@ -30,14 +30,18 @@ void testFit()
   RooRealVar sigma("sigma","sigma", 80, 30, 230);
   RooRealVar alpha("alpha", "alpha", 0.1, -0.25, 0.25);
   RooRealVar n("n","n", 0.1, -10, 10);
+
+  RooGaussian gauss("gauss". "gaussian pdf",
+                  WR_RecoMass,
+                  m0, sigma);
   RooCBShape cb("signal", "cb signal",
                 WR_RecoMass,
                 m0, sigma, alpha, n);
   cb.plotOn(frame1);
 
   // fit distribution to data
-  cb.fitTo(ds1, Range(1000,3000));
-  cb.plotOn(frame1, LineColor(kYellow));
+  gauss.fitTo(ds1, Range(1000,3000));
+  gauss.plotOn(frame1, LineColor(kYellow));
 
   m0.setConstant(kTRUE);
   sigma.setConstant(kTRUE);
