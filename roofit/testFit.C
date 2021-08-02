@@ -33,7 +33,7 @@ void testFit()
 
   // fit distribution to data
   cb.fitTo(ds);
-  cb.plotOn(frame1);
+  cb.plotOn(frame1, LineColor(kRed));
 
   // Draw ntuples
 
