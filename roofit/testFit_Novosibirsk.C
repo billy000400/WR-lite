@@ -19,7 +19,7 @@ void testFit_Novosibirsk()
                 ImportFromFile("/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/roofit/test.root","analysis/WR_N_Mass_1"));
 
   RooPlot *frame1 = WR_RecoMass.frame(Title("WR Reco Mass"));
-  ds1.plotOn(frame1, Binning(32));
+  ds1.plotOn(frame1, Binning(128));
 
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1000, 1000, 1200);
