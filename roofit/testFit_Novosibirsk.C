@@ -24,7 +24,7 @@ void testFit_Novosibirsk()
   // preparing the signal distribution
   RooRealVar m0("m0","m0",1000, 1000, 1200);
   RooRealVar sigma("sigma","sigma", 80, -230, 230);
-  RooRealVar tail("tail", "tail", 0.1, -300, 300);
+  RooRealVar tail("tail", "tail", 0.5, -300, 300);
 
   RooNovosibirsk novo("novo", "novo pdf", WR_RecoMass, m0, sigma, tail);
   novo.plotOn(frame1);
