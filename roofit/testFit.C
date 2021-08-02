@@ -45,7 +45,7 @@ void testFit()
 
   m0.setConstant(kTRUE);
   sigma.setConstant(kTRUE);
-  cb.fitTo(ds2, Range(0.0, 1000.0));
+  cb.fitTo(ds2);
   cb.plotOn(frame1, LineColor(kRed));
 
   // Draw ntuples
