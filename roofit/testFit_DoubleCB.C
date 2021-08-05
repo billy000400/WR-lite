@@ -17,14 +17,14 @@ void testFit_DoubleCB()
   RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 3000);
   RooRealVar* N_RecoMass = new RooRealVar("N_RecoMass", "N_RecoMass", 0, 1500);
   RooDataSet ds1("ds1", "ds1",
-                RooArgSet(WR_RecoMass, N_RecoMass),
+                RooArgSet(*WR_RecoMass, *N_RecoMass),
                 ImportFromFile("test.root","analysis/WR_N_RecoMass"));
 
   RooPlot *frame1 = WR_RecoMass->frame(Title("WR Reco Mass"));
   ds1->plotOn(frame1, Binning(128));
 
   // preparing the signal distribution
-  RooAddPdf* DoubleCB(RooRealVar);
+  RooAddPdf* DoubleCB(WR_RecoMass);
 
   // fit distribution to data
   DoubleCB->fitTo(ds1);
