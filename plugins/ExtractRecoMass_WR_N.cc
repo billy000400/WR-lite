@@ -848,7 +848,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 						saveMuonData(&myRECOevent, (matchedMuonL1->p4() + leadJet->p4() + subleadJet->p4()).mass(),(matchedMuon->p4() + leadJet->p4() + subleadJet->p4()).mass());
 					}
 				}else{
-					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()+subLeadMuon->p4()).mass();
+					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()+subleadMuon->p4()).mass();
 				}
 			}
 		}
