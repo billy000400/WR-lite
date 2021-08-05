@@ -21,16 +21,16 @@ void testFit_DoubleCB()
                 ImportFromFile("test.root","analysis/WR_N_RecoMass"));
 
   RooPlot *frame1 = WR_RecoMass->frame(Title("WR Reco Mass"));
-  ds1->plotOn(frame1, Binning(128));
+  ds1.plotOn(frame1, Binning(128));
 
   // preparing the signal distribution
-  RooAddPdf* DoubleCB(WR_RecoMass);
+  RooAddPdf* WR_pdf = DoubleCB(WR_RecoMass);
 
   // fit distribution to data
-  DoubleCB->fitTo(ds1);
+  WR_pdf->fitTo(ds1);
 
   // Draw ntuples
-  DoubleCB->plotOn(frame1);
+  WR_pdf->plotOn(frame1);
 
 
   RooPlot *frame2 = N_RecoMass->frame(Title("N Reco Mass"));
