@@ -633,8 +633,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 						saveElectronData(&myRECOevent, (matchedElectronL1->p4() + leadJet->p4() + subleadJet->p4()).mass(),(matchedElectron->p4() + leadJet->p4() + subleadJet->p4()).mass());
 					}
 				}else{
-					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
-					ljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()+subleadElectron->p4()).mass();
 				}
 			}
      	}
@@ -849,8 +848,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 						saveMuonData(&myRECOevent, (matchedMuonL1->p4() + leadJet->p4() + subleadJet->p4()).mass(),(matchedMuon->p4() + leadJet->p4() + subleadJet->p4()).mass());
 					}
 				}else{
-					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
-					ljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()+subLeadMuon->p4()).mass();
 				}
 			}
 		}
