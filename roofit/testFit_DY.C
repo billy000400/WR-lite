@@ -11,7 +11,7 @@ using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 
-void testFit_DoubleCB()
+void testFit_DY()
 {
   // importing ntuples into RooDataSet
   RooRealVar* lljjRecoMass = new RooRealVar("lljjRecoMass", "lljjRecoMass", 0, 3000);
