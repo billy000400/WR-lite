@@ -22,11 +22,11 @@ void testFit_DoubleCB()
                 RooArgSet(*lljjRecoMass, *ljjRecoMass_Res, *ljjRecoMass_SpRes),
                 ImportFromFile("ttTest.root","analysis/bgRecoMass"));
 
-  RooPlot *frame1 = WR_RecoMass->frame(Title("ttbar lljj Reco Mass (top 2 pT lepton)"));
+  RooPlot *frame1 = lljjRecoMass->frame(Title("ttbar lljj Reco Mass (top 2 pT lepton)"));
   ds1.plotOn(frame1, Binning(128));
-  RooPlot *frame2 = N_RecoMass_Match->frame(Title("ttbar ljj Mass, Reco by Resolved NN"));
+  RooPlot *frame2 = ljjRecoMass_Res->frame(Title("ttbar ljj Mass, Reco by Resolved NN"));
   ds1.plotOn(frame2, Binning(128));
-  RooPlot *frame3 = N_RecoMass_NN->frame(Title("ttbar ljj Mass, Reco by SuperResolved NN"));
+  RooPlot *frame3 = ljjRecoMass_SpRes->frame(Title("ttbar ljj Mass, Reco by SuperResolved NN"));
   ds1.plotOn(frame3, Binning(128));
 
   // preparing the signal distribution
