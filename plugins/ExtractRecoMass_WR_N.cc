@@ -109,6 +109,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
     // TFileDirectory subDir;
 
 		// Billy's global variable
+		bool resolved;
 		double WR_RecoMass_i;
 		double N_RecoMass_Match_i;
 		double N_RecoMass_NN_i;
@@ -272,6 +273,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
+
+		if (myRECOevent.NMass/myRECOevent.WRMass < 0.75){
+			resolved=true;
+		}
 
 
 	//Extract gen information for background events to determine distribution
@@ -572,10 +577,19 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
 					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
-					if (myRECOevent.nnResolvedPickedLeadElectron||myRECOevent.nnSuperResolvedPickedLeadElectron){
-						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
-					}else if (myRECOevent.nnResolvedPickedSubLeadElectron||myRECOevent.nnSuperResolvedPickedSubLeadElectron) {
-						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+
+					if (resolved){
+						if (myRECOevent.nnResolvedPickedLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectorn->p4()).mass();
+						}else if (myRECOevent.nnResolvedPickedSubLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subElectron->p4()).mass();
+						}
+					}else{
+						if (myRECOevent.nnSuperResolvedPickedLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+						}else if (myRECOevent.nnSuperResolvedPickedSubLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+						}
 					}
 
 					myRECOevent.match1ElectronEta = matchedElectronL1->eta();
@@ -798,10 +812,19 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
 					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
-					if (myRECOevent.nnResolvedPickedLeadMuon||myRECOevent.nnSuperResolvedPickedLeadMuon){
-						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
-					}else if (myRECOevent.nnResolvedPickedSubLeadMuon||myRECOevent.nnSuperResolvedPickedSubLeadMuon) {
-						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+
+					if (resolved){
+						if (myRECOevent.nnResolvedPickedLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+						}else if (myRECOevent.nnResolvedPickedSubLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+						}
+					}else{
+						if (myRECOevent.nnSuperResolvedPickedLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+						}else if (myRECOevent.nnSuperResolvedPickedSubLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+						}
 					}
 
 					myRECOevent.match1MuonEta = matchedMuonL1->eta();
