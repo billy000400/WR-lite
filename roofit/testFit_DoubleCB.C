@@ -15,13 +15,19 @@ void testFit_DoubleCB()
 {
   // importing ntuples into RooDataSet
   RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 3000);
-  RooRealVar* N_RecoMass = new RooRealVar("N_RecoMass", "N_RecoMass", 0, 1500);
-  RooDataSet ds1("ds1", "ds1",
-                RooArgSet(*WR_RecoMass, *N_RecoMass),
-                ImportFromFile("test.root","analysis/WR_N_RecoMass"));
+  RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 1500);
+  RooRealVar* N_RecoMass_NN = new RooRealVar("N_RecoMass_NN", "N_RecoMass_NN", 0, 1500);
 
-  RooPlot *frame1 = WR_RecoMass->frame(Title("WR Reco Mass"));
+  RooDataSet ds1("ds1", "ds1",
+                RooArgSet(*WR_RecoMass, *N_RecoMass_Match, *N_RecoMass_NN),
+                ImportFromFile("signalTest.root","analysis/WR_N_RecoMass"));
+
+  RooPlot *frame1 = WR_RecoMass->frame(Title("1000 GeV WR Mass, Reco by Matching"));
   ds1.plotOn(frame1, Binning(128));
+  RooPlot *frame2 = N_RecoMass_Match->frame(Title("400 GeV N Mass, Reco by Matching"));
+  ds1.plotOn(frame2, Binning(128));
+  RooPlot *frame3 = N_RecoMass_NN->frame(Title("400 GeV N Mass, Reco by NN"));
+  ds1.plotOn(frame2, Binning(128));
 
   // preparing the signal distribution
   RooAddPdf* WR_pdf = DoubleCB(WR_RecoMass);
@@ -33,15 +39,16 @@ void testFit_DoubleCB()
   WR_pdf->plotOn(frame1);
 
 
-  RooPlot *frame2 = N_RecoMass->frame(Title("N Reco Mass"));
-  ds1.plotOn(frame2, Binning(128));
+
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  c->Divide(1,2);
-  c->cd(1);
+  c->Divide(2,2);
+  c->cd(1,1);
   frame1->Draw();
-  c->cd(2);
+  c->cd(2,1);
   frame2->Draw();
+  c->cd(2,2);
+  frame3->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x)
