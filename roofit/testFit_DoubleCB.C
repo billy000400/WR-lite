@@ -27,7 +27,7 @@ void testFit_DoubleCB()
   RooPlot *frame2 = N_RecoMass_Match->frame(Title("400 GeV N Mass, Reco by Matching"));
   ds1.plotOn(frame2, Binning(128));
   RooPlot *frame3 = N_RecoMass_NN->frame(Title("400 GeV N Mass, Reco by NN"));
-  ds1.plotOn(frame2, Binning(128));
+  ds1.plotOn(frame3, Binning(128));
 
   // preparing the signal distribution
   RooAddPdf* WR_pdf = DoubleCB(WR_RecoMass);
