@@ -580,9 +580,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 					if (resolved){
 						if (myRECOevent.nnResolvedPickedLeadElectron){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectorn->p4()).mass();
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
 						}else if (myRECOevent.nnResolvedPickedSubLeadElectron){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subElectron->p4()).mass();
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
 						}
 					}else{
 						if (myRECOevent.nnSuperResolvedPickedLeadElectron){
