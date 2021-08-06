@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 07-21-2021
+ * @Last modified time: 08-05-2021
  */
 
 
@@ -572,6 +572,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
 					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
+					if (myRECOevent.nnResolvedPickedLeadElectron||myRECOevent.nnSuperResolvedPickedLeadElectron){
+						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+					}else if (myRECOevent.nnResolvedPickedSubLeadElectron||myRECOevent.nnSuperResolvedPickedSubLeadElectron) {
+						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+					}
 
 					myRECOevent.match1ElectronEta = matchedElectronL1->eta();
 					myRECOevent.match1ElectronPhi = matchedElectronL1->phi();
@@ -633,6 +638,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					}
 				}else{
 					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()+subleadElectron->p4()).mass();
+					if (myRECOevent.nnResolvedPickedLeadElectron||myRECOevent.nnSuperResolvedPickedLeadElectron){
+						ljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+					}else if (myRECOevent.nnResolvedPickedSubLeadElectron||myRECOevent.nnSuperResolvedPickedSubLeadElectron) {
+						ljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+					}
 				}
 			}
      	}
@@ -788,6 +798,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
 					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+					if (myRECOevent.nnResolvedPickedLeadMuon||myRECOevent.nnSuperResolvedPickedLeadMuon){
+						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+					}else if (myRECOevent.nnResolvedPickedSubLeadMuon||myRECOevent.nnSuperResolvedPickedSubLeadMuon) {
+						N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+					}
 
 					myRECOevent.match1MuonEta = matchedMuonL1->eta();
 					myRECOevent.match1MuonPhi = matchedMuonL1->phi();
@@ -848,6 +863,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					}
 				}else{
 					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()+subleadMuon->p4()).mass();
+					if (myRECOevent.nnResolvedPickedLeadMuon||myRECOevent.nnSuperResolvedPickedLeadMuon){
+						ljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+					}else if (myRECOevent.nnResolvedPickedSubLeadMuon||myRECOevent.nnSuperResolvedPickedSubLeadMuon) {
+						ljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+					}
 				}
 			}
 		}
@@ -877,7 +897,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	// if good reco, fill the ntuple and the 2d mass histogram
   if (!background && goodReco){
-    WR_N_RecoMass->Fill((float)WR_RecoMass_i, (float)N_RecoMass_i);
+    WR_N_RecoMass->Fill((float)WR_RecoMass_i, (float)N_RecoMass_Match_i, (float)N_RecoMass_NN_i);
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_i);
 	}
