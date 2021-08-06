@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 07-21-2021
+ * @Last modified time: 08-05-2021
  */
 
 
@@ -109,17 +109,17 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
     // TFileDirectory subDir;
 
 		// Billy's global variable
+		bool resolved;
 		double WR_RecoMass_i;
-		double N_RecoMass_i;
+		double N_RecoMass_Match_i;
+		double N_RecoMass_NN_i;
 		double lljjRecoMass_i;
-		double ljjRecoMass_i;
+		double ljjRecoMass_Res_i; // ljj invMass Reconstructed by leptons selected by the Resolved NN
+		double ljjRecoMass_SpRes_i; // ljj inMass Reconstructed by leptons selected by the SuperResolved NN
 
 		// Billy's root objects
-    TH2D* massHist2d;
     TNtuple* WR_N_RecoMass;
 		TNtuple* bgRecoMass;
-		TH1D* WR_RecoMass;
-		TH1D* N_RecoMass;
 };
 
 //
@@ -170,9 +170,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	// negatively initialization for debugging
 	WR_RecoMass_i=-1e3;
-	N_RecoMass_i=-1e3;
+	N_RecoMass_Match_i=-1e3;
+	N_RecoMass_NN_i=-1e3;
 	lljjRecoMass_i=-1e4;
-	ljjRecoMass_i=-1e4;
+	ljjRecoMass_Res_i=-1e4;
+	ljjRecoMass_SpRes_i=-1e4;
 
 	edm::Handle<GenEventInfoProduct> eventInfo;
 	iEvent.getByToken(m_genEventInfoToken, eventInfo);
@@ -273,6 +275,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
+
+		if (myRECOevent.NMass/myRECOevent.WRMass < 0.75){
+			resolved=true;
+		}
 
 
 	//Extract gen information for background events to determine distribution
@@ -572,7 +578,21 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.electron2RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectron->p4()).mass();
 
 					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
-					N_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
+					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
+
+					if (resolved){
+						if (myRECOevent.nnResolvedPickedLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+						}else if (myRECOevent.nnResolvedPickedSubLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+						}
+					}else{
+						if (myRECOevent.nnSuperResolvedPickedLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+						}else if (myRECOevent.nnSuperResolvedPickedSubLeadElectron){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+						}
+					}
 
 					myRECOevent.match1ElectronEta = matchedElectronL1->eta();
 					myRECOevent.match1ElectronPhi = matchedElectronL1->phi();
@@ -634,6 +654,16 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					}
 				}else{
 					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()+subleadElectron->p4()).mass();
+					if (myRECOevent.nnResolvedPickedLeadElectron){
+						ljjRecoMass_Res_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+					}else{
+						ljjRecoMass_Res_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+					}
+					if (myRECOevent.nnSuperResolvedPickedLeadElectron){
+						ljjRecoMass_SpRes_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+					}else{
+						ljjRecoMass_SpRes_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+					}
 				}
 			}
      	}
@@ -788,7 +818,21 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
 					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
-					N_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+
+					if (resolved){
+						if (myRECOevent.nnResolvedPickedLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+						}else if (myRECOevent.nnResolvedPickedSubLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+						}
+					}else{
+						if (myRECOevent.nnSuperResolvedPickedLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+						}else if (myRECOevent.nnSuperResolvedPickedSubLeadMuon){
+							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+						}
+					}
 
 					myRECOevent.match1MuonEta = matchedMuonL1->eta();
 					myRECOevent.match1MuonPhi = matchedMuonL1->phi();
@@ -849,6 +893,16 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					}
 				}else{
 					lljjRecoMass_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()+subleadMuon->p4()).mass();
+					if (myRECOevent.nnResolvedPickedLeadMuon){
+						ljjRecoMass_Res_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+					}else{
+						ljjRecoMass_Res_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+					}
+					if (myRECOevent.nnSuperResolvedPickedLeadMuon){
+						ljjRecoMass_SpRes_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+					}else{
+						ljjRecoMass_SpRes_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+					}
 				}
 			}
 		}
@@ -878,12 +932,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	// if good reco, fill the ntuple and the 2d mass histogram
   if (!background && goodReco){
-    WR_N_RecoMass->Fill((float)WR_RecoMass_i, (float)N_RecoMass_i);
-    massHist2d->Fill(WR_RecoMass_i, N_RecoMass_i);
-		WR_RecoMass->Fill(WR_RecoMass_i);
-		N_RecoMass->Fill(N_RecoMass_i);
+    WR_N_RecoMass->Fill((float)WR_RecoMass_i, (float)N_RecoMass_Match_i, (float)N_RecoMass_NN_i);
   } else if (background && goodReco){
-		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_i);
+		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
 	}
 
 }
@@ -1018,19 +1069,10 @@ ExtractRecoMass_WR_N::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
   WR_N_RecoMass = fs->make<TNtuple>("WR_N_RecoMass",
 	 																	"Reconstructed invm for WR and N signal",
-																		"WR_RecoMass:N_RecoMass");
+																		"WR_RecoMass:N_RecoMass_Match:N_RecoMass_NN");
 	bgRecoMass = fs->make<TNtuple>("bgRecoMass",
 																	"Reconstructed invm for bkg",
-																	"lljjRecoMass:ljjRecoMass");
-  massHist2d = fs->make<TH2D>("massHist2d",
-                              "N vs WR Histogram;WR Mass (GeV);N Mass (GeV)",
-                              240, 800., 2000., 340, 200., 1900.);
-	WR_RecoMass = fs->make<TH1D>("WR_RecoMass",
-															"WR Reco Mass;Number of Event;WR Mass(GeV)",
-																240, 800., 2000.);
-	N_RecoMass = fs->make<TH1D>("N_RecoMass",
-															"N Reco Mass;Number of Event;N Mass(GeV)",
-															340, 200., 1900.);
+																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
