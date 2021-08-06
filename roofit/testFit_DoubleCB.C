@@ -43,11 +43,11 @@ void testFit_DoubleCB()
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
   c->Divide(2,2);
-  c->cd(1,1);
+  c->cd(1);
   frame1->Draw();
-  c->cd(2,1);
+  c->cd(2);
   frame2->Draw();
-  c->cd(2,2);
+  c->cd(3);
   frame3->Draw();
 }
 
