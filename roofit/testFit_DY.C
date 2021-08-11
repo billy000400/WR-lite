@@ -11,26 +11,26 @@ using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 
-void testFit_DoubleCB()
+void testFit_DY()
 {
   // importing ntuples into RooDataSet
-  RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 3000);
-  RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 1500);
-  RooRealVar* N_RecoMass_NN = new RooRealVar("N_RecoMass_NN", "N_RecoMass_NN", 0, 1500);
+  RooRealVar* lljjRecoMass = new RooRealVar("lljjRecoMass", "lljjRecoMass", 0, 3000);
+  RooRealVar* ljjRecoMass_Res = new RooRealVar("ljjRecoMass_Res", "ljjRecoMass_Res", 0, 2500);
+  RooRealVar* ljjRecoMass_SpRes = new RooRealVar("ljjRecoMass_SpRes", "ljjRecoMass_SpRes", 0, 2500);
 
   RooDataSet ds1("ds1", "ds1",
-                RooArgSet(*WR_RecoMass, *N_RecoMass_Match, *N_RecoMass_NN),
-                ImportFromFile("signalTest.root","analysis/WR_N_RecoMass"));
+                RooArgSet(*lljjRecoMass, *ljjRecoMass_Res, *ljjRecoMass_SpRes),
+                ImportFromFile("dyTest.root","analysis/bgRecoMass"));
 
-  RooPlot *frame1 = WR_RecoMass->frame(Title("1000 GeV WR Mass, Reco by Matching"));
+  RooPlot *frame1 = lljjRecoMass->frame(Title("DY lljj Reco Mass (top 2 pT lepton)"));
   ds1.plotOn(frame1, Binning(128));
-  RooPlot *frame2 = N_RecoMass_Match->frame(Title("400 GeV N Mass, Reco by Matching"));
+  RooPlot *frame2 = ljjRecoMass_Res->frame(Title("DY ljj Mass, Reco by Resolved NN"));
   ds1.plotOn(frame2, Binning(128));
-  RooPlot *frame3 = N_RecoMass_NN->frame(Title("400 GeV N Mass, Reco by NN"));
+  RooPlot *frame3 = ljjRecoMass_SpRes->frame(Title("DY ljj Mass, Reco by SuperResolved NN"));
   ds1.plotOn(frame3, Binning(128));
 
   // preparing the signal distribution
-  RooAddPdf* WR_pdf = DoubleCB(WR_RecoMass);
+  RooAddPdf* WR_pdf = DoubleCB(lljjRecoMass);
 
   // fit distribution to data
   WR_pdf->fitTo(ds1);
@@ -53,8 +53,8 @@ void testFit_DoubleCB()
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x)
 {
-  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 1000, 900, 1200);
-  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 100, 50, 300);
+  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 400, 200, 600);
+  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 200, 100, 300);
   RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
   RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
 
