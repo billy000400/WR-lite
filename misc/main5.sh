@@ -2,11 +2,11 @@
 # @Date:   08-05-2021
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 08-11-2021
+# @Last modified time: 08-12-2021
 
 
 
-addressTwo="/local/cms/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/WR_N_mass/"
+addressTwo="/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite"
 
 #Start WR 2000
 
