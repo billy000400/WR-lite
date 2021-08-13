@@ -2,7 +2,7 @@
 # @Date:   08-05-2021
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 08-12-2021
+# @Last modified time: 08-13-2021
 
 
 
@@ -81,7 +81,7 @@ done
 address="/hdfs/cms/user/krohn045/WR_SignalSamples/WR1400_N600/"
 for i in {1..28}
 do
-	cmsRun python/cfg.py inputFiles=file:${address}MINIAOD_${i}.root  outputFile=${addressTwo}WR1400_N600/out_WR1400N600_${i}.root isSignal=Truet genTrainData=True  trainFile=ml2.txt > /dev/null &
+	cmsRun python/cfg.py inputFiles=file:${address}MINIAOD_${i}.root  outputFile=${addressTwo}WR1400_N600/out_WR1400N600_${i}.root isSignal=True genTrainData=True  trainFile=ml2.txt > /dev/null &
 	if (( $i%7==0 )); then
 		wait
 	fi
