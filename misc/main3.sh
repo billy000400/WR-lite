@@ -6,7 +6,7 @@
 
 
 
-addressTwo="/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite"
+addressTwo="/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/"
 
 address="/hdfs/cms/user/krohn045/WR_SignalSamples/WR1400_N1000/"
 for i in {1..28}
