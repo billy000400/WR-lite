@@ -48,7 +48,7 @@ void testFit_DoubleCB()
   RooArgList coefList = WR_pdf->coefList();
   RooAbsArg* coef = coefList.at(0);
 
-  coef->defaultPrintContents();
+  std::cout << coef->attributes() << std::endl; 
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
