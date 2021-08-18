@@ -48,7 +48,7 @@ void testFit_DoubleCB()
   RooArgList coefList = WR_pdf->coefList();
   RooAbsArg* coef = coefList.at(0);
 
-  std::cout << "The value of rrv_frac_CB is " << coef << "\n";
+  std::cout << "The value of rrv_frac_CB is " << *coef << "\n";
 
   std::cout << "The value of rrv_frac_CB is " << coefList << "\n";
 
