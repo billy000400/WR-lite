@@ -65,7 +65,7 @@ void testFit_DoubleCB()
   RooFitResult *r = WR_pdf->fitTo(ds1, Save());
   r->Print();
 
-  std::cout << "The value of rrv_frac_CB is " << rrv_frac_CB << std::endl;
+  std::cout << "The value of rrv_frac_CB is " << rrv_frac_CB.evaluate() << std::endl;
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
