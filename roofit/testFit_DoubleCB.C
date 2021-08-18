@@ -49,7 +49,13 @@ void testFit_DoubleCB()
   RooAbsArg* coef = coefList.at(0);
 
   std::set<std::string> attributes =coef->attributes();
-  std::cout << attributes[0] << std::endl; 
+  std::set<int >::iterator it ;
+  std::cout << "The element of set s are : \n";
+  for (it = s.begin() ; it != s.end() ; it++ )
+  {
+      std::cout << *it<<" ";
+  }
+  std::cout << std::endl;
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
