@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-17-2021
+ * @Last modified time: 08-18-2021
  */
 
 
@@ -48,7 +48,7 @@ void testFit_DoubleCB()
   RooArgList coefList = WR_pdf->coefList();
   RooAbsArg* coef = coefList.at(0);
 
-  std::cout << "The value of rrv_frac_CB is " << coef << "\n";
+  std::cout << "The value of rrv_frac_CB is " << std::dec << coef << "\n";
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
