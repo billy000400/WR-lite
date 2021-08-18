@@ -54,10 +54,10 @@ void testFit_DoubleCB()
                                               *rrv_mean_CB,*rrv_sigma_CB,*rrv_tail_CB_I,*rrv_normalization_CB_I);
 
   RooCBShape* Crystal_Ball_II = new RooCBShape("CrystalBall_II", "CrystalBall_II",
-                                              *rrv_x,
+                                              *WR_RecoMass,
                                               *rrv_mean_CB,*rrv_sigma_CB,*rrv_tail_CB_II,*rrv_normalization_CB_I);
 
-  RooAddPdf* model_pdf = new RooAddPdf("model_pdf", "model_pdf",
+  RooAddPdf* WR_pdf = new RooAddPdf("model_pdf", "model_pdf",
                                       RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
                                       RooArgList(*rrv_frac_CB));
 
