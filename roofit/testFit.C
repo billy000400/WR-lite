@@ -63,7 +63,7 @@ void testFit()
   // Draw ntuples
 
 
-  RooPlot *frame2 = N_RecoMass_Match.frame(Title("N Reco Mass"));
+  RooPlot *frame2 = N_RecoMass_Match->frame(Title("N Reco Mass"));
   ds1.plotOn(frame2, Binning(32));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
