@@ -56,7 +56,7 @@ void testFit_DoubleCB()
       std::cout << *it<<" ";
   }
   std::cout << std::endl;
-  std::count << coef->Constant << std::endl;
+  std::count << coef["Constant"] << std::endl;
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
