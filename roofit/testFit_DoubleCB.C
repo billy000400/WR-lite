@@ -1,3 +1,13 @@
+/**
+ * @Author: Billy Li <billyli>
+ * @Date:   08-10-2021
+ * @Email:  li000400@umn.edu
+ * @Last modified by:   billyli
+ * @Last modified time: 08-17-2021
+ */
+
+
+
 #include "RooRealVar.h"
 #include "RooDataSet.h"
 #include "RooDataHist.h"
@@ -14,13 +24,13 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 void testFit_DoubleCB()
 {
   // importing ntuples into RooDataSet
-  RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 3000);
-  RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 1500);
-  RooRealVar* N_RecoMass_NN = new RooRealVar("N_RecoMass_NN", "N_RecoMass_NN", 0, 1500);
+  RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);
+  RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 3000);
+  RooRealVar* N_RecoMass_NN = new RooRealVar("N_RecoMass_NN", "N_RecoMass_NN", 0, 3000);
 
   RooDataSet ds1("ds1", "ds1",
                 RooArgSet(*WR_RecoMass, *N_RecoMass_Match, *N_RecoMass_NN),
-                ImportFromFile("signalTest.root","analysis/WR_N_RecoMass"));
+                ImportFromFile("../WR2000_N1900/out_WR2000N1900_4.root","analysis/WR_N_RecoMass"));
 
   RooPlot *frame1 = WR_RecoMass->frame(Title("1000 GeV WR Mass, Reco by Matching"));
   ds1.plotOn(frame1, Binning(128));
@@ -53,7 +63,7 @@ void testFit_DoubleCB()
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x)
 {
-  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 1000, 900, 1200);
+  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 2000, 1000, 3000);
   RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 100, 50, 300);
   RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
   RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
