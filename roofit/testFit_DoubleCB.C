@@ -28,37 +28,45 @@ void testFit_DoubleCB()
   RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 3000);
   RooRealVar* N_RecoMass_NN = new RooRealVar("N_RecoMass_NN", "N_RecoMass_NN", 0, 3000);
 
-  RooDataSet ds1("ds1", "ds1",
-                RooArgSet(*WR_RecoMass, *N_RecoMass_Match, *N_RecoMass_NN),
+  RooDataSet WR_RecoMass_DS("WR_RecoMass_DS", "WR Reco Mass DataSet",
+                RooArgSet(*WR_RecoMass, NULL, NULL),
                 ImportFromFile("../WR2000_N1900/out_WR2000N1900_4.root","analysis/WR_N_RecoMass"));
 
-  RooPlot *frame1 = WR_RecoMass->frame(Title("1000 GeV WR Mass, Reco by Matching"));
-  ds1.plotOn(frame1, Binning(128));
-  RooPlot *frame2 = N_RecoMass_Match->frame(Title("400 GeV N Mass, Reco by Matching"));
-  ds1.plotOn(frame2, Binning(128));
-  RooPlot *frame3 = N_RecoMass_NN->frame(Title("400 GeV N Mass, Reco by NN"));
-  ds1.plotOn(frame3, Binning(128));
+  RooDataSet N_RecoMass_Match_DS("N_RecoMass_Match_DS", "N Reco Mass DataSet (lepton selection by Matching)",
+                RooArgSet(NULL, *N_RecoMass_Match, NULL),
+                ImportFromFile("../WR2000_N1900/out_WR2000N1900_4.root","analysis/WR_N_RecoMass"));
 
-  // preparing the signal distribution
-  RooAddPdf* WR_pdf = DoubleCB(WR_RecoMass);
+  RooDataSet N_RecoMass_NN_DS("N_RecoMass_NN_DS", "WR Reco Mass DataSet (lepton selection by NN)",
+                RooArgSet(NULL, NULL, *N_RecoMass_NN_DS),
+                ImportFromFile("../WR2000_N1900/out_WR2000N1900_4.root","analysis/WR_N_RecoMass"));
 
-  // fit distribution to data
-  WR_pdf->fitTo(ds1);
-
-  // Draw ntuples
-  WR_pdf->plotOn(frame1);
-
-
-
-
-  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  c->Divide(2,2);
-  c->cd(1);
-  frame1->Draw();
-  c->cd(2);
-  frame2->Draw();
-  c->cd(3);
-  frame3->Draw();
+  // RooPlot *frame1 = WR_RecoMass->frame(Title("1000 GeV WR Mass, Reco by Matching"));
+  // ds1.plotOn(frame1, Binning(128));
+  // RooPlot *frame2 = N_RecoMass_Match->frame(Title("400 GeV N Mass, Reco by Matching"));
+  // ds1.plotOn(frame2, Binning(128));
+  // RooPlot *frame3 = N_RecoMass_NN->frame(Title("400 GeV N Mass, Reco by NN"));
+  // ds1.plotOn(frame3, Binning(128));
+  //
+  // // preparing the signal distribution
+  // RooAddPdf* WR_pdf = DoubleCB(WR_RecoMass);
+  //
+  // // fit distribution to data
+  // WR_pdf->fitTo(ds1);
+  //
+  // // Draw ntuples
+  // WR_pdf->plotOn(frame1);
+  //
+  //
+  //
+  //
+  // TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
+  // c->Divide(2,2);
+  // c->cd(1);
+  // frame1->Draw();
+  // c->cd(2);
+  // frame2->Draw();
+  // c->cd(3);
+  // frame3->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x)
