@@ -49,7 +49,7 @@ void testFit_DoubleCB()
   RooAbsArg* coef = coefList.at(0);
 
   std::set<std::string> attributes =coef->attributes();
-  std::set<int >::iterator it ;
+  std::set<std::string >::iterator it ;
   std::cout << "The element of set s are : \n";
   for (it = attributes.begin() ; it != attributes.end() ; it++ )
   {
