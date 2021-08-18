@@ -51,7 +51,7 @@ void testFit_DoubleCB()
   std::set<std::string> attributes =coef->attributes();
   std::set<int >::iterator it ;
   std::cout << "The element of set s are : \n";
-  for (it = s.begin() ; it != s.end() ; it++ )
+  for (it = attributes.begin() ; it != attributes.end() ; it++ )
   {
       std::cout << *it<<" ";
   }
