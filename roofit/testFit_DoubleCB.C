@@ -46,9 +46,9 @@ void testFit_DoubleCB()
   WR_pdf->fitTo(ds1);
 
   RooArgList coefList = WR_pdf->coefList();
-  RooRealVar* coef = coefList.at(0);
+  RooAbsArg* coef = coefList.at(0);
 
-  std::count << "The value of rrv_frac_CB is " << coef << "\n";
+  std::cout << "The value of rrv_frac_CB is " << coef << "\n";
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
