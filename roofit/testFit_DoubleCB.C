@@ -62,9 +62,10 @@ void testFit_DoubleCB()
                                       RooArgList(*rrv_frac_CB));
 
   // fit distribution to data
-  WR_pdf->fitTo(ds1);
+  RooFitResult *r = WR_pdf->fitTo(ds1);
+  r->Print();
 
-  std::cout << "The value of rrv_frac_CB is" << rrv_frac_CB << std::endl;
+  std::cout << "The value of rrv_frac_CB is " << rrv_frac_CB << std::endl;
 
   // Draw ntuples
   WR_pdf->plotOn(frame1);
