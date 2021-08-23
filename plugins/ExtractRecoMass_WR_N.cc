@@ -301,7 +301,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
 
 		WR_GenMass_i = myRECOevent.WRMass;
-		WR_GenMass->fill((float)WR_GenMass_i);
+		WR_GenMass->Fill((float)WR_GenMass_i);
 
 		if (myRECOevent.NMass/myRECOevent.WRMass < 0.75){
 			resolved=true;
@@ -977,13 +977,13 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	// if good reco, fill the ntuple and the 2d mass histogram
   if (!background && !hasLargeDR2 && goodReco){
 		if (myRECOevent.passedElectronReco){
-			WR_RecoMass_ee->fill((float)WR_RecoMass_ee_i);
-			N_RecoMass_Match_e->fill((float)N_RecoMass_Match_e_i);
-			N_RecoMass_NN_e->fill((float)N_recoMass_NN_e_i);
+			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i);
+			N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
+			N_RecoMass_NN_e->Fill((float)N_RecoMass_NN_e_i);
 		}else{
-			WR_RecoMass_mumu->fill((float)WR_RecoMass_mumu_i);
-			N_RecoMass_Match_mu->fill((float)N_RecoMass_Match_mu_i);
-			N_RecoMass_NN_mu->fill((float)N_recoMass_NN_mu_i);
+			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i);
+			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
+			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
 		}
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
