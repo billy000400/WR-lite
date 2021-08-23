@@ -110,15 +110,32 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 
 		// Billy's global variable
 		bool resolved;
-		double WR_RecoMass_i;
-		double N_RecoMass_Match_i;
-		double N_RecoMass_NN_i;
+		double WR_GenMass_i;
+		double WR_RecoMass_ee_i;
+		double WR_RecoMass_mumu_i;
+
+		double N_RecoMass_Match_e_i;
+		double N_RecoMass_NN_e_i;
+		double N_RecoMass_Match_mu_i;
+		double N_RecoMass_NN_mu_i;
+
+		double dR2Max;
+		bool hasLargeDR2;
+
 		double lljjRecoMass_i;
 		double ljjRecoMass_Res_i; // ljj invMass Reconstructed by leptons selected by the Resolved NN
 		double ljjRecoMass_SpRes_i; // ljj inMass Reconstructed by leptons selected by the SuperResolved NN
 
 		// Billy's root objects
-    TNtuple* WR_N_RecoMass;
+    TNtuple* WR_GenMass;
+		TNtuple* WR_RecoMass_ee;
+		TNtuple* WR_RecoMass_mumu;
+
+		TNtuple* N_RecoMass_Match_e;
+		TNtuple* N_RecoMass_NN_e;
+		TNtuple* N_RecoMass_Match_mu;
+		TNtuple* N_RecoMass_NN_mu;
+
 		TNtuple* bgRecoMass;
 };
 
@@ -147,6 +164,7 @@ ExtractRecoMass_WR_N::ExtractRecoMass_WR_N(const edm::ParameterSet& iConfig)
 	m_genTrainData (iConfig.getUntrackedParameter<bool>("genTrainData"))
 {
    //now do what ever initialization is needed
+	 dR2Max = 0.16;
 }
 
 
@@ -169,9 +187,15 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	eventInfo myEvent;
 
 	// negatively initialization for debugging
-	WR_RecoMass_i=-1e3;
-	N_RecoMass_Match_i=-1e3;
-	N_RecoMass_NN_i=-1e3;
+	WR_GenMass_i=-1e3;
+	WR_RecoMass_ee_i=-1e3;
+	WR_RecoMass_mumu_i=-1e3;
+
+	N_RecoMass_Match_e_i=-1e3;
+	N_RecoMass_NN_e_i=-1e3;
+	N_RecoMass_Match_mu_i=-1e3;
+	N_RecoMass_NN_mu_i=-1e3;
+
 	lljjRecoMass_i=-1e4;
 	ljjRecoMass_Res_i=-1e4;
 	ljjRecoMass_SpRes_i=-1e4;
@@ -275,6 +299,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
+
+		WR_GenMass_i = myRECOevent.WRMass;
+		WR_GenMass->fill((float)WR_GenMass_i);
 
 		if (myRECOevent.NMass/myRECOevent.WRMass < 0.75){
 			resolved=true;
@@ -523,6 +550,14 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadElectronJJRecodr2 = dR2(leadElectron->eta(), (subleadJet->p4()+leadJet->p4()).eta(), leadElectron->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 
+				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
+				hasLargeDR2 = ( (myRECOevent.subElectronleadElectronRecodr2>dR2Max)||
+															(myRECOevent.subElectronleadJRecodr2>dR2Max)||
+															(myRECOevent.subElectronsubJRecodr2>dR2Max)||
+															(myRECOevent.leadElectronleadJRecodr2>dR2Max)||
+															(myRECOevent.leadElectronsubJRecodr2>dR2Max)||
+															(myRECOevent.leadJsubJdr2>dR2Max));
+
 				myRECOevent.leadElectronsubElectronRecoMass = (subleadElectron->p4() + leadElectron->p4()).mass();
 				myRECOevent.subElectronleadJsubJRecoMass = (subleadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
 				myRECOevent.leadElectronleadJsubJRecoMass = (leadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
@@ -577,20 +612,20 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.electron1RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectronL1->p4()).mass();
 					myRECOevent.electron2RecoMass = (leadJet->p4() + subleadJet->p4() + matchedElectron->p4()).mass();
 
-					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
-					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
+					WR_RecoMass_ee_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()+matchedElectronL1->p4()).mass();
+					N_RecoMass_Match_e_i = (leadJet->p4()+subleadJet->p4()+matchedElectron->p4()).mass();
 
 					if (resolved){
 						if (myRECOevent.nnResolvedPickedLeadElectron){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+							N_RecoMass_NN_e_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
 						}else if (myRECOevent.nnResolvedPickedSubLeadElectron){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+							N_RecoMass_NN_e_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
 						}
 					}else{
 						if (myRECOevent.nnSuperResolvedPickedLeadElectron){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
+							N_RecoMass_NN_e_i = (leadJet->p4()+subleadJet->p4()+subleadElectron->p4()).mass();
 						}else if (myRECOevent.nnSuperResolvedPickedSubLeadElectron){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
+							N_RecoMass_NN_e_i = (leadJet->p4()+subleadJet->p4()+leadElectron->p4()).mass();
 						}
 					}
 
@@ -759,6 +794,15 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 				myRECOevent.leadMuonJJRecodr2 = dR2(leadMuon->eta(), (subleadJet->p4()+leadJet->p4()).eta(),leadMuon->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 
+				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
+				hasLargeDR2 = ( (myRECOevent.subMuonleadMuonRecodr2>dR2Max)||
+															(myRECOevent.subMuonleadJRecodr2>dR2Max)||
+															(myRECOevent.subMuonsubJRecodr2>dR2Max)||
+															(myRECOevent.leadMuonleadJRecodr2>dR2Max)||
+															(myRECOevent.leadMuonsubJRecodr2>dR2Max)||
+															(myRECOevent.leadJsubJdr2>dR2Max));
+
+
 				myRECOevent.leadMuonsubMuonRecoMass = (subleadMuon->p4() + leadMuon->p4()).mass();
 				myRECOevent.subMuonleadJsubJRecoMass = (subleadMuon->p4() + leadJet->p4() + subleadJet->p4()).mass();
 				myRECOevent.leadMuonleadJsubJRecoMass = (leadMuon->p4() + leadJet->p4() + subleadJet->p4()).mass();
@@ -817,20 +861,20 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon1RecoMass = (matchedMuonL1->p4()+leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
-					WR_RecoMass_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
-					N_RecoMass_Match_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
+					WR_RecoMass_mumu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->p4()).mass();
+					N_RecoMass_Match_mu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
 
 					if (resolved){
 						if (myRECOevent.nnResolvedPickedLeadMuon){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+							N_RecoMass_NN_mu_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
 						}else if (myRECOevent.nnResolvedPickedSubLeadMuon){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+							N_RecoMass_NN_mu_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
 						}
 					}else{
 						if (myRECOevent.nnSuperResolvedPickedLeadMuon){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
+							N_RecoMass_NN_mu_i = (leadJet->p4()+subleadJet->p4()+subleadMuon->p4()).mass();
 						}else if (myRECOevent.nnSuperResolvedPickedSubLeadMuon){
-							N_RecoMass_NN_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
+							N_RecoMass_NN_mu_i = (leadJet->p4()+subleadJet->p4()+leadMuon->p4()).mass();
 						}
 					}
 
@@ -931,8 +975,16 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	bool goodReco = (myRECOevent.passedElectronReco || myRECOevent.passedMuonReco);
 
 	// if good reco, fill the ntuple and the 2d mass histogram
-  if (!background && goodReco){
-    WR_N_RecoMass->Fill((float)WR_RecoMass_i, (float)N_RecoMass_Match_i, (float)N_RecoMass_NN_i);
+  if (!background && !hasLargeDR2 && goodReco){
+		if (myRECOevent.passedElectronReco){
+			WR_RecoMass_ee->fill((float)WR_RecoMass_ee_i);
+			N_RecoMass_Match_e->fill((float)N_RecoMass_Match_e_i);
+			N_RecoMass_NN_e->fill((float)N_recoMass_NN_e_i);
+		}else{
+			WR_RecoMass_mumu->fill((float)WR_RecoMass_mumu_i);
+			N_RecoMass_Match_mu->fill((float)N_RecoMass_Match_mu_i);
+			N_RecoMass_NN_mu->fill((float)N_recoMass_NN_mu_i);
+		}
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
 	}
@@ -1067,9 +1119,35 @@ void ExtractRecoMass_WR_N::saveMuonData(eventBits * myRECOevent, double matched1
 void
 ExtractRecoMass_WR_N::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
-  WR_N_RecoMass = fs->make<TNtuple>("WR_N_RecoMass",
-	 																	"Reconstructed invm for WR and N signal",
-																		"WR_RecoMass:N_RecoMass_Match:N_RecoMass_NN");
+
+	WR_GenMass = fs->make<TNtuple>("WR_GenMass",
+	 																	"Generated WR invm",
+																		"WR_GenMass");
+
+  WR_RecoMass_ee = fs->make<TNtuple>("WR_RecoMass_ee",
+	 																	"WR invm reconstructed from 2 jets and 2 electrons",
+																		"WR_RecoMass_ee");
+
+	WR_RecoMass_mumu = fs->make<TNtuple>("WR_RecoMass_mumu",
+																			"WR invm reconstructed from 2 jets and 2 muons",
+																			"WR_RecoMass_mumu");
+
+	N_RecoMass_Match_e = fs->make<TNtuple>("N_RecoMass_Match_e",
+																					"N invm reconstructed from 2 jets and an electron selected by gen matching",\
+																				"N_RecoMass_Match_e");
+
+	N_RecoMass_NN_e = fs->make<TNtuple>("N_RecoMass_NN_e",
+																					"N invm reconstructed from 2 jets and an electron selected by a neural net",\
+																				"N_RecoMass_NN_e");
+
+	N_RecoMass_Match_mu = fs->make<TNtuple>("N_RecoMass_Match_mu",
+																					"N invm reconstructed from 2 jets and an muon selected by gen matching",\
+																				"N_RecoMass_Match_mu");
+
+	N_RecoMass_NN_mu = fs->make<TNtuple>("N_RecoMass_NN_mu",
+																					"N invm reconstructed from 2 jets and an muon selected by a neural net",\
+																				"N_RecoMass_NN_mu");
+
 	bgRecoMass = fs->make<TNtuple>("bgRecoMass",
 																	"Reconstructed invm for bkg",
 																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes");
