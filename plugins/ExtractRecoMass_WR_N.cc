@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-05-2021
+ * @Last modified time: 08-23-2021
  */
 
 
@@ -120,7 +120,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		double N_RecoMass_NN_mu_i;
 
 		double dR2Max;
-		bool hasLargeDR2;
+		bool allLargeDR2;
 
 		double lljjRecoMass_i;
 		double ljjRecoMass_Res_i; // ljj invMass Reconstructed by leptons selected by the Resolved NN
@@ -551,11 +551,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 
 				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
-				hasLargeDR2 = ( (myRECOevent.subElectronleadElectronRecodr2>dR2Max)||
-															(myRECOevent.subElectronleadJRecodr2>dR2Max)||
-															(myRECOevent.subElectronsubJRecodr2>dR2Max)||
-															(myRECOevent.leadElectronleadJRecodr2>dR2Max)||
-															(myRECOevent.leadElectronsubJRecodr2>dR2Max)||
+				allLargeDR2 = ( (myRECOevent.subElectronleadElectronRecodr2>dR2Max)&&
+															(myRECOevent.subElectronleadJRecodr2>dR2Max)&&
+															(myRECOevent.subElectronsubJRecodr2>dR2Max)&&
+															(myRECOevent.leadElectronleadJRecodr2>dR2Max)&&
+															(myRECOevent.leadElectronsubJRecodr2>dR2Max)&&
 															(myRECOevent.leadJsubJdr2>dR2Max));
 
 				myRECOevent.leadElectronsubElectronRecoMass = (subleadElectron->p4() + leadElectron->p4()).mass();
@@ -795,11 +795,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadMuonJJRecodr2 = dR2(leadMuon->eta(), (subleadJet->p4()+leadJet->p4()).eta(),leadMuon->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 
 				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
-				hasLargeDR2 = ( (myRECOevent.subMuonleadMuonRecodr2>dR2Max)||
-															(myRECOevent.subMuonleadJRecodr2>dR2Max)||
-															(myRECOevent.subMuonsubJRecodr2>dR2Max)||
-															(myRECOevent.leadMuonleadJRecodr2>dR2Max)||
-															(myRECOevent.leadMuonsubJRecodr2>dR2Max)||
+				allLargeDR2 = ( (myRECOevent.subMuonleadMuonRecodr2>dR2Max)&&
+															(myRECOevent.subMuonleadJRecodr2>dR2Max)&&
+															(myRECOevent.subMuonsubJRecodr2>dR2Max)&&
+															(myRECOevent.leadMuonleadJRecodr2>dR2Max)&&
+															(myRECOevent.leadMuonsubJRecodr2>dR2Max)&&
 															(myRECOevent.leadJsubJdr2>dR2Max));
 
 
@@ -975,7 +975,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	bool goodReco = (myRECOevent.passedElectronReco || myRECOevent.passedMuonReco);
 
 	// if good reco, fill the ntuple and the 2d mass histogram
-  if (!background && !hasLargeDR2 && goodReco){
+  if (!background && allLargeDR2 && goodReco){
 		if (myRECOevent.passedElectronReco){
 			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i);
 			N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
