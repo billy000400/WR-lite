@@ -31,7 +31,7 @@ void testFit_WR2000()
                 RooArgSet(*WR_RecoMass_ee),
                 ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_N_RecoMass_ee"));
 
-  RooDataSet ds1("ds1", "ds1",
+  RooDataSet ds2("ds2", "ds2",
                 RooArgSet(*WR_RecoMass_mumu),
                 ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_N_RecoMass_mumu"));
 
