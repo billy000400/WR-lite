@@ -29,11 +29,11 @@ void testFit_WR2000()
 
   RooDataSet ds1("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
-                ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_N_RecoMass_ee"));
+                ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_RecoMass_ee"));
 
   RooDataSet ds2("ds2", "ds2",
                 RooArgSet(*WR_RecoMass_mumu),
-                ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_N_RecoMass_mumu"));
+                ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_RecoMass_mumu"));
 
   RooPlot *frame1 = WR_RecoMass_ee->frame(Title("2000 GeV WR Mass, Reco by Matching ee"));
   ds1.plotOn(frame1, Binning(128));
