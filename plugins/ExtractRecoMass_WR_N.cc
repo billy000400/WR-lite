@@ -714,16 +714,19 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				//if( background && (iMuon->tunePMuonBestTrack()->pt() < 53 || fabs(iMuon->eta()) > 2.4) ) continue; //preliminary pt cut to speed the loop, and the eta cut
 				if((iMuon->tunePMuonBestTrack()->pt() < 53 && fabs(iMuon->eta()) > 2.4) &&
 				 	(!( iMuon->isHighPtMuon(*myEvent.PVertex)) && !(iMuon->isolationR03().sumPt/iMuon->pt() < .1))) continue;
+
+				if (muCount == 0) {
+					leadMuon = &(*(iMuon));
+				}
+				if (muCount == 1) {
+					subleadMuon = &(*(iMuon));
+				}
+				if (muCount == 2){
+					myRECOevent.extraLeptons = true;
+				}
+
 				if(!background) {
-					if (muCount == 0) {
-						leadMuon = &(*(iMuon));
-					}
-					if (muCount == 1) {
-						subleadMuon = &(*(iMuon));
-					}
-					if (muCount == 2){
-						myRECOevent.extraLeptons = true;
-					}
+
 					double match1DR = sqrt(dR2(iMuon->eta(), myRECOevent.lepton1Eta, iMuon->phi(), myRECOevent.lepton1Phi));
 					double match2DR = sqrt(dR2(iMuon->eta(), myRECOevent.lepton2Eta, iMuon->phi(), myRECOevent.lepton2Phi));
 
@@ -735,8 +738,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 						matchedMuon = &(*(iMuon));
 						mu2Match++;
 					}
-					muCount++;
 				}
+				muCount++;
 			}
 
 		    //Check whether we have a viable muon event
