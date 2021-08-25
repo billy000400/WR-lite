@@ -24,16 +24,16 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 void testFit_WR2000()
 {
   // importing ntuples into RooDataSet
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 3000);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 3000);
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
 
   RooDataSet ds1("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
-                ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_RecoMass_ee"));
+                ImportFromFile("../WR6000_N3000/out_WR6000N3000_1.root","analysis/WR_RecoMass_ee"));
 
   RooDataSet ds2("ds2", "ds2",
                 RooArgSet(*WR_RecoMass_mumu),
-                ImportFromFile("../WR2000_N1400/out_WR2000N1400_1.root","analysis/WR_RecoMass_mumu"));
+                ImportFromFile("../WR6000_N3000/out_WR6000N3000_1.root","analysis/WR_RecoMass_mumu"));
 
   RooPlot *frame1 = WR_RecoMass_ee->frame(Title("2000 GeV WR Mass, Reco by Matching ee"));
   ds1.plotOn(frame1, Binning(128));
@@ -47,8 +47,8 @@ void testFit_WR2000()
   RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu);
 
   // fit distribution to data
-  RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(1100,2700));
-  RooFitResult *r2 = WR_mumu_pdf->fitTo(ds2, Save(), Range(1100,2700));
+  RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(3000,7500));
+  RooFitResult *r2 = WR_mumu_pdf->fitTo(ds2, Save(), Range(2000,16000));
 
   // Draw ntuples
   WR_ee_pdf->plotOn(frame1);
@@ -67,8 +67,8 @@ void testFit_WR2000()
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x)
 {
-  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 2000, 1000, 3000);
-  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 100, 50, 300);
+  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 6000, 5000, 8000);
+  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 200, 50, 2000);
   RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
   RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
 
