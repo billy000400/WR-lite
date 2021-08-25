@@ -42,7 +42,7 @@ void testFit_WR6000()
   ds2.plotOn(frame2, Binning(128));
 
 
-  // preparing the signal distribution
+  // preparing the double CB distribution
   RooAddPdf* WR_ee_pdf = DoubleCB(WR_RecoMass_ee);
   RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu);
 
@@ -54,8 +54,31 @@ void testFit_WR6000()
   WR_ee_pdf->plotOn(frame1);
   WR_mumu_pdf->plotOn(frame2);
 
+  // preparing the single CB distribution
+  // ee
+  RooRealVar m0_ee("m0_ee","m0 for ee",6000, 5000, 8000);
+  RooRealVar sigma_ee("sigma_ee","sigma for ee", 200, 50, 2000);
+  RooRealVar alpha_ee("alpha_ee", "alpha for ee", 2.0, 0., 200.0);
+  RooRealVar n_ee("n_ee","n for ee", 2.0, 0.0, 400.0);
+  RooCBShape cb_ee("signal_ee", "cb signal for ee",
+                *WR_RecoMass_ee,
+                m0_ee, sigma_ee, alpha_ee, n_ee);
+  // mumu
+  RooRealVar m0_mumu("m0_mumu","m0 for mumu",6000, 5000, 8000);
+  RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 200, 50, 2000);
+  RooRealVar alpha_mumu("alpha_mumu", "alpha for mumu", 2.0, 0., 200.0);
+  RooRealVar n_mumu("n_mumu","n for mumu", 2.0, 0.0, 400.0);
+  RooCBShape cb_mumu("signal_mumu", "cb signal for mumu",
+                *WR_RecoMass_mumu,
+                m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
 
+  // fit distribution to data
+  RooFitResult *r3 = cb_ee->fitTo(ds1, Save(), Range(3000,7500));
+  RooFitResult *r4 = cb_mumu->fitTo(ds2, Save(), Range(2000,16000));
 
+  // Draw ntuples
+  cb_ee->plotOn(frame1, LineColor(kRed));
+  cb_mumu->plotOn(frame2, LineColor(kRed));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
   c->Divide(1,2);
