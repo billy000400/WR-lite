@@ -719,7 +719,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 			for(std::vector<pat::Muon>::const_iterator iMuon = highMuons->begin(); iMuon != highMuons->end(); iMuon++) {
 				//if( background && (iMuon->tunePMuonBestTrack()->pt() < 53 || fabs(iMuon->eta()) > 2.4) ) continue; //preliminary pt cut to speed the loop, and the eta cut
-				if (fabs(iMuon->sta()) > 2.4) continue;
+				if (fabs(iMuon->eta()) > 2.4) continue;
 				if (iMuon->tunePMuonBestTrack()->pt() < 53) continue;
 				if (!( iMuon->isHighPtMuon(*myEvent.PVertex)) && !(iMuon->isolationR03().sumPt/iMuon->pt() < .1)) continue;
 
