@@ -73,12 +73,12 @@ void testFit_WR6000()
                 m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
 
   // fit distribution to data
-  RooFitResult *r3 = cb_ee->fitTo(ds1, Save(), Range(3000,7500));
-  RooFitResult *r4 = cb_mumu->fitTo(ds2, Save(), Range(2000,16000));
+  RooFitResult *r3 = cb_ee.fitTo(ds1, Save(), Range(3000,7500));
+  RooFitResult *r4 = cb_mumu.fitTo(ds2, Save(), Range(2000,16000));
 
   // Draw ntuples
-  cb_ee->plotOn(frame1, LineColor(kRed));
-  cb_mumu->plotOn(frame2, LineColor(kRed));
+  cb_ee.plotOn(frame1, LineColor(kRed));
+  cb_mumu.plotOn(frame2, LineColor(kRed));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
   c->Divide(1,2);
