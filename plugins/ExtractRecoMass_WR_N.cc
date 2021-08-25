@@ -561,8 +561,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				allLargeDR2 = ( (e1e2_dR2>dR2Max)&&
 												(e1J1_dR2>dR2Max)&&
 												(e1J2_dR2>dR2Max)&&
-												(e2J1>dR2Max)&&
-												(e2J2>dR2Max)&&
+												(e2J1_dR2>dR2Max)&&
+												(e2J2_dR2>dR2Max)&&
 												(myRECOevent.leadJsubJdr2>dR2Max));
 
 				myRECOevent.leadElectronsubElectronRecoMass = (subleadElectron->p4() + leadElectron->p4()).mass();
@@ -816,9 +816,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
 				allLargeDR2 = ( (mu1mu2_dR2>dR2Max)&&
 												(mu1J1_dR2>dR2Max)&&
-												(mu1J2>dR2Max)&&
-												(mu2J1>dR2Max)&&
-												(mu2J2>dR2Max)&&
+												(mu1J2_dR2>dR2Max)&&
+												(mu2J1_dR2>dR2Max)&&
+												(mu2J2_dR2>dR2Max)&&
 												(myRECOevent.leadJsubJdr2>dR2Max));
 
 
