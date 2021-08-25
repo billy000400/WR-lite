@@ -550,13 +550,20 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadElectronJJRecodr2 = dR2(leadElectron->eta(), (subleadJet->p4()+leadJet->p4()).eta(), leadElectron->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 
+				// calculate dR^2 between any pairs of matched leptons and 2 highest pT jets
+				double e1e2_dR2 = dR2(matchedElectronL1->eta(), matchedElectron->eta(), matchedElectronL1->phi(), matchedElectron->phi());
+				double e1J1_dR2 = dR2(matchedElectronL1->eta(), leadJet->eta(), matchedElectronL1->phi(), leadJet->phi());
+				double e1J2_dR2 = dR2(matchedElectronL1->eta(), subleadJet->eta(), matchedElectronL1->phi(), subleadJet->phi());
+				double e2J1_dR2 = dR2(matchedElectron->eta(), leadJet->eta(), matchedElectron->phi(), leadJet->phi());
+				double e2J2_dR2 = dR2(matchedElectron->eta(), subleadJet->eta(), matchedElectron->phi(), subleadJet->phi());
+
 				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
-				allLargeDR2 = ( (myRECOevent.subElectronleadElectronRecodr2>dR2Max)&&
-															(myRECOevent.subElectronleadJRecodr2>dR2Max)&&
-															(myRECOevent.subElectronsubJRecodr2>dR2Max)&&
-															(myRECOevent.leadElectronleadJRecodr2>dR2Max)&&
-															(myRECOevent.leadElectronsubJRecodr2>dR2Max)&&
-															(myRECOevent.leadJsubJdr2>dR2Max));
+				allLargeDR2 = ( (e1e2_dR2>dR2Max)&&
+												(e1J1_dR2>dR2Max)&&
+												(e1J2_dR2>dR2Max)&&
+												(e2J1>dR2Max)&&
+												(e2J2>dR2Max)&&
+												(myRECOevent.leadJsubJdr2>dR2Max));
 
 				myRECOevent.leadElectronsubElectronRecoMass = (subleadElectron->p4() + leadElectron->p4()).mass();
 				myRECOevent.subElectronleadJsubJRecoMass = (subleadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
@@ -799,13 +806,20 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 				myRECOevent.leadMuonJJRecodr2 = dR2(leadMuon->eta(), (subleadJet->p4()+leadJet->p4()).eta(),leadMuon->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 
+				// calculate dR^2 between any pairs of matched leptons and 2 highest pT jets
+				double mu1mu2_dR2 = dR2(matchedMuonL1->eta(), matchedMuon->eta(), matchedMuonL1->phi(), matchedMuon->phi());
+				double mu1J1_dR2 = dR2(matchedMuonL1->eta(), leadJet->eta(), matchedMuonL1->phi(), leadJet->phi());
+				double mu1J2_dR2 = dR2(matchedMuonL1->eta(), subleadJet->eta(), matchedMuonL1->phi(), subleadJet->phi());
+				double mu2J1_dR2 = dR2(matchedMuon->eta(), leadJet->eta(), matchedMuon->phi(), leadJet->phi());
+				double mu2J2_dR2 = dR2(matchedMuon->eta(), subleadJet->eta(), matchedMuon->phi(), subleadJet->phi());
+
 				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
-				allLargeDR2 = ( (myRECOevent.subMuonleadMuonRecodr2>dR2Max)&&
-															(myRECOevent.subMuonleadJRecodr2>dR2Max)&&
-															(myRECOevent.subMuonsubJRecodr2>dR2Max)&&
-															(myRECOevent.leadMuonleadJRecodr2>dR2Max)&&
-															(myRECOevent.leadMuonsubJRecodr2>dR2Max)&&
-															(myRECOevent.leadJsubJdr2>dR2Max));
+				allLargeDR2 = ( (mu1mu2_dR2>dR2Max)&&
+												(mu1J1_dR2>dR2Max)&&
+												(mu1J2>dR2Max)&&
+												(mu2J1>dR2Max)&&
+												(mu2J2>dR2Max)&&
+												(myRECOevent.leadJsubJdr2>dR2Max));
 
 
 				myRECOevent.leadMuonsubMuonRecoMass = (subleadMuon->p4() + leadMuon->p4()).mass();
