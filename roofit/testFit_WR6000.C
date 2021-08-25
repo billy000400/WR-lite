@@ -35,10 +35,10 @@ void testFit_WR6000()
                 RooArgSet(*WR_RecoMass_mumu),
                 ImportFromFile("../WR6000_N3000/out_WR6000N3000_1.root","analysis/WR_RecoMass_mumu"));
 
-  RooPlot *frame1 = WR_RecoMass_ee->frame(Title("2000 GeV WR Mass, Reco by Matching ee"));
+  RooPlot *frame1 = WR_RecoMass_ee->frame(Title("6000 GeV WR Mass, Reco by Matching ee"));
   ds1.plotOn(frame1, Binning(128));
 
-  RooPlot *frame2 = WR_RecoMass_mumu->frame(Title("2000 GeV N Mass, Reco by Matching mumu"));
+  RooPlot *frame2 = WR_RecoMass_mumu->frame(Title("6000 GeV N Mass, Reco by Matching mumu"));
   ds2.plotOn(frame2, Binning(128));
 
 
@@ -47,7 +47,7 @@ void testFit_WR6000()
   RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu);
 
   // fit distribution to data
-  RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(3000,7500));
+  RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(4000,7500));
   RooFitResult *r2 = WR_mumu_pdf->fitTo(ds2, Save(), Range(2000,16000));
 
   // Draw ntuples
