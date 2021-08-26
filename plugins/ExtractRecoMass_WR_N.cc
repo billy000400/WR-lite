@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-23-2021
+ * @Last modified time: 08-26-2021
  */
 
 
@@ -1207,7 +1207,7 @@ ExtractRecoMass_WR_N::beginJob() {
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
-																						"pT;eta;phi");
+																						"pT:eta:phi");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
