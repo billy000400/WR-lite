@@ -246,12 +246,15 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				    std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
 			if( abs( iParticle->mother()->pdgId() ) <= 6 || abs( iParticle->mother()->pdgId() ) == 9900024 || abs( iParticle->mother()->pdgId()) == 34)
 			{//CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
-				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ) //HERE'S A LEPtON
+				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ){
+					//HERE'S A LEPtON
 					lepton1 = &(*iParticle);
 
-					lepton1_pT = lepton1->pT();
+					lepton1_pT = lepton1->pt();
 					lepton1_eta = lepton1->eta();
 					lepton1_phi = lepton1->phi();
+				}
+
 
 				if( abs( iParticle->pdgId() ) == 9900014 || abs( iParticle->pdgId() ) == 9900012) //HERE'S A RIGHT-HANDED NEUTRINO
 					neutrino = &(*iParticle);
@@ -761,7 +764,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
 
-						match1_pT = matchedMuonL1->pT();
+						match1_pT = matchedMuonL1->pt();
 						match1_eta = matchedMuonL1->eta();
 						match1_phi = matchedMuonL1->phi();
 					}
