@@ -126,6 +126,9 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		double ljjRecoMass_Res_i; // ljj invMass Reconstructed by leptons selected by the Resolved NN
 		double ljjRecoMass_SpRes_i; // ljj inMass Reconstructed by leptons selected by the SuperResolved NN
 
+		double lepton1_pT, lepton1_eta, lepton1_phi;
+		double match1_pT, match1_eta, match1_phi;
+
 		// Billy's root objects
     TNtuple* WR_GenMass;
 		TNtuple* WR_RecoMass_ee;
@@ -137,6 +140,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* N_RecoMass_NN_mu;
 
 		TNtuple* bgRecoMass;
+
+		TNtuple* debug_muon1GENvsMatch;
 };
 
 //
@@ -200,6 +205,14 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	ljjRecoMass_Res_i=-1e4;
 	ljjRecoMass_SpRes_i=-1e4;
 
+	lepton1_pT = -1e5;
+	lepton1_eta = -1e2;
+	lepton1_phi = -1e3;
+
+	match1_pT = -2e5;
+	match1_eta = -2e2;
+	match1_phi = -2e2;
+
 	edm::Handle<GenEventInfoProduct> eventInfo;
 	iEvent.getByToken(m_genEventInfoToken, eventInfo);
 
@@ -235,6 +248,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			{//CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
 				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ) //HERE'S A LEPtON
 					lepton1 = &(*iParticle);
+
+					lepton1_pT = lepton1->pT();
+					lepton1_eta = lepton1->eta();
+					lepton1_phi = lepton1->phi();
+
 				if( abs( iParticle->pdgId() ) == 9900014 || abs( iParticle->pdgId() ) == 9900012) //HERE'S A RIGHT-HANDED NEUTRINO
 					neutrino = &(*iParticle);
 			}
@@ -733,6 +751,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					if(mu1Match == 0 && match1DR < 0.1) {
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
+
+						match1_pT = matchedMuonL1->pT();
+						match1_eta = matchedMuonL1->eta();
+						match1_phi = matchedMuonL1->phi();
 					}
 					else if(mu2Match == 0 && match2DR < 0.1)  {
 						matchedMuon = &(*(iMuon));
@@ -989,6 +1011,13 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i);
 			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
 			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
+
+			double diff_pT, diff_eta, diff_phi;
+			diff_pT = (lepton1_pT-match1_pT)/lepton1_pT*100.0;
+			diff_eta = (lepton1_eta-match1_eta)/lepton1_eta*100.0;
+			diff_phi = (lepton1_phi-match1_phi)/lepton1_phi*100.0;
+
+			debug_muon1GENvsMatch->Fill((float)diff_pT, (float)diff_eta, (float)diff_phi);
 		}
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
@@ -1156,6 +1185,10 @@ ExtractRecoMass_WR_N::beginJob() {
 	bgRecoMass = fs->make<TNtuple>("bgRecoMass",
 																	"Reconstructed invm for bkg",
 																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes");
+
+	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
+																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
+																						"pT;eta;phi");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
