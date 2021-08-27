@@ -126,8 +126,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		double ljjRecoMass_Res_i; // ljj invMass Reconstructed by leptons selected by the Resolved NN
 		double ljjRecoMass_SpRes_i; // ljj inMass Reconstructed by leptons selected by the SuperResolved NN
 
-		double lepton1_pT, lepton1_eta, lepton1_phi;
-		double match1_pT, match1_eta, match1_phi;
+		double lepton1_pt, lepton1_eta, lepton1_phi;
+		double match1_pt, match1_eta, match1_phi;
 
 		// Billy's root objects
     TNtuple* WR_GenMass;
@@ -205,11 +205,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	ljjRecoMass_Res_i=-1e4;
 	ljjRecoMass_SpRes_i=-1e4;
 
-	lepton1_pT = -1e5;
+	lepton1_pt = -1e5;
 	lepton1_eta = -1e2;
 	lepton1_phi = -1e3;
 
-	match1_pT = -2e5;
+	match1_pt = -2e5;
 	match1_eta = -2e2;
 	match1_phi = -2e2;
 
@@ -250,7 +250,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					//HERE'S A LEPtON
 					lepton1 = &(*iParticle);
 
-					lepton1_pT = lepton1->pt();
+					lepton1_pt = lepton1->pt();
 					lepton1_eta = lepton1->eta();
 					lepton1_phi = lepton1->phi();
 				}
@@ -764,7 +764,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
 
-						match1_pT = matchedMuonL1->pt();
+						match1_pt = matchedMuonL1->pt();
 						match1_eta = matchedMuonL1->eta();
 						match1_phi = matchedMuonL1->phi();
 					}
@@ -1031,12 +1031,13 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
 			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
 
-			double diff_pT, diff_eta, diff_phi;
-			diff_pT = (lepton1_pT-match1_pT)/lepton1_pT*100.0;
-			diff_eta = (lepton1_eta-match1_eta)/lepton1_eta*100.0;
-			diff_phi = (lepton1_phi-match1_phi)/lepton1_phi*100.0;
+			double diff_pt_percent, diff_pt, diff_eta, diff_phi;
+			diff_pt_percent = (match1_pt-lepton1_pt)/lepton1_pt*100.0;
+			diff_pt = (match1_pt-lepton1_pt);
+			diff_eta = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
+			diff_phi = (match1_phi-lepton1_phi)/lepton1_phi*100.0;
 
-			debug_muon1GENvsMatch->Fill((float)diff_pT, (float)diff_eta, (float)diff_phi);
+			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta, (float)diff_phi);
 		}
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
@@ -1207,7 +1208,7 @@ ExtractRecoMass_WR_N::beginJob() {
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
-																						"pT:eta:phi");
+																						"deltaPt(%):deltaPt:deltaEta(%):deltaPhi(%)");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
