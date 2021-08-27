@@ -129,6 +129,9 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		double lepton1_pt, lepton1_eta, lepton1_phi;
 		double match1_pt, match1_eta, match1_phi;
 
+		std::vector<double> delta_pt_percents;
+		std::vector<double> lepton1_pts;
+
 		// Billy's root objects
     TNtuple* WR_GenMass;
 		TNtuple* WR_RecoMass_ee;
@@ -142,6 +145,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* bgRecoMass;
 
 		TNtuple* debug_muon1GENvsMatch;
+
+		TGraph* ptError_pt_correlation;
 };
 
 //
@@ -1037,6 +1042,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			diff_eta_percent = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
 			diff_phi_percent = (match1_phi-lepton1_phi)/lepton1_phi*100.0;
 
+			delta_pt_percents.push_back(diff_pt_percent);
+			lepton1_pts.push_back(lepton1_pt);
+
 			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
 		}
   } else if (background && goodReco){
@@ -1209,12 +1217,17 @@ ExtractRecoMass_WR_N::beginJob() {
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
 																						"deltaPt_percent:deltaPt:deltaEta_percent:deltaPhi_percent");
+
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void
 ExtractRecoMass_WR_N::endJob() {
+	double* dpp_arr = &delta_pt_percents[0];
+	double* lp_arr = &lepton1_pts[0];
 
+	ptError_pt_correlation = fs->make<TGraph>(delta_pt_percents.size(), *dpp_arr, *lp_arr);
+	ptError_pt_correlation->Draw("ap");
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
