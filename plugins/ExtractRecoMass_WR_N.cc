@@ -1224,8 +1224,8 @@ ExtractRecoMass_WR_N::beginJob() {
 // ------------ method called once each job just after ending the event loop  ------------
 void
 ExtractRecoMass_WR_N::endJob() {
-	double_t* dpp_arr = &delta_pt_percents[0];
-	double_t* lp_arr = &lepton1_pts[0];
+	Double_t* dpp_arr = &delta_pt_percents[0];
+	Double_t* lp_arr = &lepton1_pts[0];
 	Int_t n = delta_pt_percents.size();
 
 	ptError_pt_correlation = fs->make<TGraph>(n, dpp_arr, lp_arr);
