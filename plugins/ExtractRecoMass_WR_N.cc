@@ -1034,10 +1034,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			double diff_pt_percent, diff_pt, diff_eta, diff_phi;
 			diff_pt_percent = (match1_pt-lepton1_pt)/lepton1_pt*100.0;
 			diff_pt = (match1_pt-lepton1_pt);
-			diff_eta = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
-			diff_phi = (match1_phi-lepton1_phi)/lepton1_phi*100.0;
+			diff_eta_percent = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
+			diff_phi_percent = (match1_phi-lepton1_phi)/lepton1_phi*100.0;
 
-			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta, (float)diff_phi);
+			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
 		}
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
@@ -1208,7 +1208,7 @@ ExtractRecoMass_WR_N::beginJob() {
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
-																						"deltaPt(%):deltaPt:deltaEta(%):deltaPhi(%)");
+																						"deltaPt_percent:deltaPt:deltaEta_percent:deltaPhi_percent");
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
