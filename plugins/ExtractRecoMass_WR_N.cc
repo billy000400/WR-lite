@@ -1031,7 +1031,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
 			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
 
-			double diff_pt_percent, diff_pt, diff_eta, diff_phi;
+			double diff_pt_percent, diff_pt, diff_eta_percent, diff_phi_percent;
 			diff_pt_percent = (match1_pt-lepton1_pt)/lepton1_pt*100.0;
 			diff_pt = (match1_pt-lepton1_pt);
 			diff_eta_percent = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
