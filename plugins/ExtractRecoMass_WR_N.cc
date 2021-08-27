@@ -48,6 +48,7 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TNtuple.h"
+#include "TGraph.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
