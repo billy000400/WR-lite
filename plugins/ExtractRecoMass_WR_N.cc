@@ -1226,7 +1226,7 @@ void
 ExtractRecoMass_WR_N::endJob() {
 	double_t* dpp_arr = &delta_pt_percents[0];
 	double_t* lp_arr = &lepton1_pts[0];
-	int_t n = delta_pt_percents.size();
+	Int_t n = delta_pt_percents.size();
 
 	ptError_pt_correlation = fs->make<TGraph>(n, dpp_arr, lp_arr);
 	ptError_pt_correlation->Draw("ap");
