@@ -412,7 +412,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 
 		const pat::Muon* matchedMuon = 0;
-		const pat::Muon* matchedMuonL1 = 0;
+		pat::Muon* matchedMuonL1 = 0;
 		const pat::Muon* leadMuon = 0;
 		const pat::Muon* subleadMuon = 0;
 
