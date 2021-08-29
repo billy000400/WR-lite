@@ -914,7 +914,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
 					pat::Muon matchedMuonL1Copy = *matchedMuonL1;
-					matchedMuonL1.embedTunePMuonBestTrack();
+					matchedMuonL1Copy.embedTunePMuonBestTrack();
 
 					WR_RecoMass_mumu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1Copy.p4()).mass();
 					N_RecoMass_Match_mu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
