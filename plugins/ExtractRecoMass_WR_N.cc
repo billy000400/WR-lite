@@ -146,6 +146,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* bgRecoMass;
 
 		TNtuple* debug_muon1GENvsMatch;
+		TNtuple* debug_pfVsTuneP;
 
 		TGraph* ptError_pt_correlation;
 };
@@ -916,6 +917,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					pat::Muon matchedMuonL1Copy = *matchedMuonL1;
 					matchedMuonL1Copy.embedTunePMuonBestTrack();
 
+					double pT_pfVsTuneP_i = matchedMuonL1->pt()-matchedMuonL1->tunePMuonBestTrack()->pt();
+					debug_pfVsTuneP->Fill(0.0, (float)pT_pfVsTuneP_i);
+
 					WR_RecoMass_mumu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1Copy.p4()).mass();
 					N_RecoMass_Match_mu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
 
@@ -1221,6 +1225,10 @@ ExtractRecoMass_WR_N::beginJob() {
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
 																						"deltaPt_percent:deltaPt:deltaEta_percent:deltaPhi_percent");
+
+	debug_pfVsTuneP = fs->make<TNtuple>("debug_pfVsTuneP",
+																		"debug information: check if the default pf p4 is different from tuneP track p4",
+																	"p4_pfVsTuneP:pT_pfVsTuneP");
 
 }
 
