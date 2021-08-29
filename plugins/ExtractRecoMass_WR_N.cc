@@ -913,7 +913,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon1RecoMass = (matchedMuonL1->p4()+leadJet->p4() + subleadJet->p4()).mass();
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
-					WR_RecoMass_mumu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->tunePMuonBestTrack()->p4()).mass();
+					WR_RecoMass_mumu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()+matchedMuonL1->tunePMuonBestTrack()->pt()).mass();
 					N_RecoMass_Match_mu_i = (leadJet->p4()+subleadJet->p4()+matchedMuon->p4()).mass();
 
 					if (resolved){
