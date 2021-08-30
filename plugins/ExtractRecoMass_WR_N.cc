@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-26-2021
+ * @Last modified time: 08-29-2021
  */
 
 
@@ -915,7 +915,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					myRECOevent.muon2RecoMass = (matchedMuon->p4()+leadJet->p4() + subleadJet->p4()).mass();
 
 					pat::Muon matchedMuonL1Copy = *matchedMuonL1;
-					matchedMuonL1Copy.embedTunePMuonBestTrack();
+					matchedMuonL1Copy.embedTunePMuonBestTrack(true);
 
 					double pT_pfVsTuneP_i = matchedMuonL1->pt()-matchedMuonL1->tunePMuonBestTrack()->pt();
 					debug_pfVsTuneP->Fill(0.0, (float)pT_pfVsTuneP_i);
