@@ -771,12 +771,12 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					if(mu1Match == 0 && match1DR < 0.1) {
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
-						match1DR_tmp = match1DR
+						match1DR_tmp = match1DR;
 					}
-					else if(mu1Match > 0 && match1dR < match1DR_tmp){
+					else if(mu1Match > 0 && match1DR < match1DR_tmp){
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
-						match1DR_tmp = match1DR
+						match1DR_tmp = match1DR;
 					}
 					else if(mu2Match == 0 && match2DR < 0.1)  {
 						matchedMuon = &(*(iMuon));
