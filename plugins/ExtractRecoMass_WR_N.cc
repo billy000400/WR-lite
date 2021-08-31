@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-29-2021
+ * @Last modified time: 08-30-2021
  */
 
 
@@ -745,6 +745,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			edm::Handle<std::vector<pat::Muon>> highMuons;
 			iEvent.getByToken(m_highMuonToken, highMuons);
 
+			double match1DR_tmp;
 			for(std::vector<pat::Muon>::const_iterator iMuon = highMuons->begin(); iMuon != highMuons->end(); iMuon++) {
 				//if( background && (iMuon->tunePMuonBestTrack()->pt() < 53 || fabs(iMuon->eta()) > 2.4) ) continue; //preliminary pt cut to speed the loop, and the eta cut
 				if (fabs(iMuon->eta()) > 2.4) continue;
@@ -770,15 +771,18 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					if(mu1Match == 0 && match1DR < 0.1) {
 						mu1Match++;
 						matchedMuonL1 = &(*(iMuon));
-
-						match1_pt = matchedMuonL1->pt();
-						match1_eta = matchedMuonL1->eta();
-						match1_phi = matchedMuonL1->phi();
+						match1DR_tmp = match1DR
+					}
+					else if(mu1Match > 0 && match1dR < match1DR_tmp){
+						mu1Match++;
+						matchedMuonL1 = &(*(iMuon));
+						match1DR_tmp = match1DR
 					}
 					else if(mu2Match == 0 && match2DR < 0.1)  {
 						matchedMuon = &(*(iMuon));
 						mu2Match++;
 					}
+
 				}
 				muCount++;
 			}
@@ -800,6 +804,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 				//Boosting information for matched muons
 				if(!background){
+					match1_pt = matchedMuonL1->pt();
+					match1_eta = matchedMuonL1->eta();
+					match1_phi = matchedMuonL1->phi();
+
 					lepton1P4 = matchedMuonL1->p4();
 					lepton2P4 = matchedMuon->p4();
 					jetsPlusLepton1P4Boost = -(combinedJetsP4 + lepton1P4);
