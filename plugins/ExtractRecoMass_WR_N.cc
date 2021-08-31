@@ -745,7 +745,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			edm::Handle<std::vector<pat::Muon>> highMuons;
 			iEvent.getByToken(m_highMuonToken, highMuons);
 
-			double match1DR_tmp;
+			double match1DR_tmp = 1e6;
 			for(std::vector<pat::Muon>::const_iterator iMuon = highMuons->begin(); iMuon != highMuons->end(); iMuon++) {
 				//if( background && (iMuon->tunePMuonBestTrack()->pt() < 53 || fabs(iMuon->eta()) > 2.4) ) continue; //preliminary pt cut to speed the loop, and the eta cut
 				if (fabs(iMuon->eta()) > 2.4) continue;
