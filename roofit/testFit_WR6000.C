@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-18-2021
+ * @Last modified time: 09-07-2021
  */
 
 
@@ -21,8 +21,10 @@ using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 
-void testFit_WR6000()
+void testFit_WR6000(std::string name)
 {
+  std::cout << name << std::endl;
+  
   // importing ntuples into RooDataSet
   RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
   RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
