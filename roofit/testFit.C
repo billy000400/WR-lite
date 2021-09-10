@@ -64,7 +64,7 @@ void testFit(std::string filePath)
   ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(256), DataError(RooAbsData::SumW2));
 
   RooPlot* mumuFrame_CB = WR_RecoMass_mumu->frame("mumujj CB");
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_CB, Binning(256), DataError(RooAbsData::SumW2))
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_CB, Binning(256), DataError(RooAbsData::SumW2));
 
 
   // preparing the double CB distribution
