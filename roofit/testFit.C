@@ -140,14 +140,17 @@ void testFit(std::string filePath)
   mumuFrame_doubleCB->Draw();
   c->cd(4);
   mumuFrame_CB->Draw();
-  c->cd(5);
-  eeFrame_doubleCBPull->Draw();
+
   c->cd(6);
   eeFrame_CBPull->Draw();
-  c->cd(7);
-  mumuFrame_doubleCBPull->Draw();
   c->cd(8);
   mumuFrame_CBPull->Draw();
+
+  c->cd(5);
+  eeFrame_doubleCBPull->Draw();
+  c->cd(7);
+  mumuFrame_doubleCBPull->Draw();
+
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
