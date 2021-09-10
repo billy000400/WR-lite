@@ -19,7 +19,7 @@
 #include "TRandom.h"
 using namespace RooFit;
 
-RooAddPdf* DoubleCB(RooRealVar* rrv_x);
+RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
 
 void testFit(std::string filePath)
 {
