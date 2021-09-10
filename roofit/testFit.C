@@ -41,22 +41,23 @@ void testFit(std::string filePath)
   //return
 
   // importing ntuples into RooDataSet
+  std::string fullFilePath = "../"+filePath;
   RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
   RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
 
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
-                ImportFromFile("../"+filePath, "analysis/WR_RecoMass_ee"));
+                ImportFromFile(fullFilePath, "analysis/WR_RecoMass_ee"));
 
   RooDataSet ds_WR_RecoMass_mumu("ds2", "ds2",
                 RooArgSet(*WR_RecoMass_mumu),
-                ImportFromFile("../"+filePath, "analysis/WR_RecoMass_mumu"));
+                ImportFromFile(fullFilePath, "analysis/WR_RecoMass_mumu"));
 
   RooPlot *frame1 = WR_RecoMass_ee->frame();
-  ds1.plotOn(frame1, Binning(128));
+  ds_WR_RecoMass_ee.plotOn(frame1, Binning(128));
 
   RooPlot *frame2 = WR_RecoMass_mumu->frame();
-  ds2.plotOn(frame2, Binning(128));
+  ds_WR_RecoMass_mumu.plotOn(frame2, Binning(128));
 
 
   // preparing the double CB distribution
@@ -90,8 +91,8 @@ void testFit(std::string filePath)
                 m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
 
   // fit distribution to data
-  RooFitResult *r3 = cb_ee.fitTo(ds1, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r4 = cb_mumu.fitTo(ds2, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
 
   // Draw ntuples
   cb_ee.plotOn(frame1, LineColor(kRed));
