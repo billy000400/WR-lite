@@ -76,7 +76,7 @@ void testFit(std::string filePath)
   RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution")));
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCBPull->pullHist();
 
-  RooPlot mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution")));
+  RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution")));
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCBPull->pullHist();
 
   // preparing the single CB distribution
