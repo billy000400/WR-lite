@@ -75,7 +75,7 @@ void testFit(std::string filePath)
 
   RooHist *eeHist_doubleCBPull = frame1->pullHist();
   RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"));
-  eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P");
+  eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P", LineColor(kRed));
 
   RooHist *mumuHist_doubleCBPull = frame2->pullHist();
   RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"));
