@@ -54,30 +54,37 @@ void testFit(std::string filePath)
                 RooArgSet(*WR_RecoMass_mumu),
                 ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_mumu"));
 
-  RooPlot *frame1 = WR_RecoMass_ee->frame();
-  ds_WR_RecoMass_ee.plotOn(frame1, Binning(256), DataError(RooAbsData::SumW2));
-  RooPlot *frame2 = WR_RecoMass_mumu->frame();
-  ds_WR_RecoMass_mumu.plotOn(frame2, Binning(256), DataError(RooAbsData::SumW2));
+  RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj Double CB"));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_data, Binning(256), DataError(RooAbsData::SumW2));
+
+  RooPlot *eeFrame_CB = WR_RecoMass_ee->frame(Title("eejj CB"));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_data, Binning(256), DataError(RooAbsData::SumW2));
+
+  RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame("mumujj Double CB");
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(256), DataError(RooAbsData::SumW2));
+
+  RooPlot* mumuFrame_CB = WR_RecoMass_mumu->frame("mumujj CB");
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_CB, Binning(256), DataError(RooAbsData::SumW2))
 
 
   // preparing the double CB distribution
-  RooAddPdf* WR_ee_pdf = DoubleCB(WR_RecoMass_ee, WRGenMean);
-  RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu, WRGenMean);
+  RooAddPdf* WR_ee_doubleCB = DoubleCB(WR_RecoMass_ee, WRGenMean);
+  RooAddPdf* WR_mumu_doubleCB = DoubleCB(WR_RecoMass_mumu, WRGenMean);
 
   // fit distribution to data
-  RooFitResult *r1 = WR_ee_pdf->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r2 = WR_mumu_pdf->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r1 = WR_ee_doubleCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
 
   // Draw ntuples
-  WR_ee_pdf->plotOn(frame1);
-  WR_mumu_pdf->plotOn(frame2);
+  WR_ee_doubleCB->plotOn(eeFrame_doubleCB);
+  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB);
 
 
-  RooHist *eeHist_doubleCBPull = frame1->pullHist();
+  RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"));
-  eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P", LineColor(kRed));
+  eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P");
 
-  RooHist *mumuHist_doubleCBPull = frame2->pullHist();
+  RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"));
   mumuFrame_doubleCBPull->addPlotable(mumuHist_doubleCBPull, "P");
 
@@ -104,25 +111,43 @@ void testFit(std::string filePath)
   RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
   RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
 
+  // Draw ntuples
+  cb_ee.plotOn(eeFrame_CB);
+  cb_mumu.plotOn(mumuFrame_CB);
+
+  RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
+  RooPlot *eeFrame_CBPull = WR_RecoMass_ee->frame(Title("ee CB Pull Distribution"));
+  eeFrame_CBPull->addPlotable(eeHist_CBPull, "P");
+
+  RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
+  RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
+  mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
+
   std::cout << r1->minNll() << "\n";
   std::cout << r2->minNll() << "\n";
   std::cout << r3->minNll() << "\n";
   std::cout << r4->minNll() << "\n";
 
-  // Draw ntuples
-  cb_ee.plotOn(frame1, LineColor(kRed));
-  cb_mumu.plotOn(frame2, LineColor(kRed));
+
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  c->Divide(2,2);
+  c->Divide(2,4);
   c->cd(1);
-  frame1->Draw();
+  eeFrame_doubleCB->Draw();
   c->cd(2);
-  frame2->Draw();
+  eeFrame_CB->Draw();
   c->cd(3);
-  eeFrame_doubleCBPull->Draw();
+  mumuFrame_doubleCB->Draw();
   c->cd(4);
+  mumuFrame_CB->Draw();
+  c->cd(5);
+  eeFrame_doubleCBPull->Draw();
+  c->cd(6);
+  eeFrame_CbPull->Draw();
+  c->cd(7);
   mumuFrame_doubleCBPull->Draw();
+  c->cd(8);
+  mumuFrame_CBPull->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
