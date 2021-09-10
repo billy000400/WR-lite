@@ -48,11 +48,11 @@ void testFit(std::string filePath)
 
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
-                ImportFromFile(fullFilePath, "analysis/WR_RecoMass_ee"));
+                ImportFromFile(*fullFilePath, "analysis/WR_RecoMass_ee"));
 
   RooDataSet ds_WR_RecoMass_mumu("ds2", "ds2",
                 RooArgSet(*WR_RecoMass_mumu),
-                ImportFromFile(fullFilePath, "analysis/WR_RecoMass_mumu"));
+                ImportFromFile(*fullFilePath, "analysis/WR_RecoMass_mumu"));
 
   RooPlot *frame1 = WR_RecoMass_ee->frame();
   ds_WR_RecoMass_ee.plotOn(frame1, Binning(128));
