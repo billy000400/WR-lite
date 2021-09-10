@@ -37,7 +37,7 @@ void testFit_WR6000(std::string filePath)
   size_t dotPos = fileName.find_last_of(".");
   double WRGenMean = std::stod(fileName.substr(RPos+1, NPos-RPos));
   double NGenMean = std::stod(fileName.substr(NPos+1, dotPos-NPos));
-  std::cout << WRGenMean << " " NGenMean << std::endl;
+  std::cout << WRGenMean << " " << NGenMean << std::endl;
   return
 
 
