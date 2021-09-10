@@ -73,6 +73,12 @@ void testFit(std::string filePath)
   WR_ee_pdf->plotOn(frame1);
   WR_mumu_pdf->plotOn(frame2);
 
+  RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution")));
+  RooHist *eeHist_doubleCBPull = eeFrame_doubleCBPull->pullHist();
+
+  RooPlot mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution")));
+  RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCBPull->pullHist();
+
   // preparing the single CB distribution
   // ee
   RooRealVar m0_ee("m0_ee","m0 for ee", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
@@ -105,11 +111,15 @@ void testFit(std::string filePath)
   cb_mumu.plotOn(frame2, LineColor(kRed));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  c->Divide(1,2);
+  c->Divide(2,2);
   c->cd(1);
   frame1->Draw();
   c->cd(2);
   frame2->Draw();
+  c->cd(3);
+  eeFrame_doubleCBPull->Draw();
+  c->cd(4);
+  mumuFrame_doubleCBPull->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
