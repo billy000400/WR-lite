@@ -95,7 +95,7 @@ void testFit(std::string filePath)
   RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
   RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
 
-  std::cout << r1->minNll() << "\n";
+  std::cout << TMath::Exp(-r1->minNll()) << "\n";
   std::cout << r2->minNll() << "\n";
   std::cout << r3->minNll() << "\n";
   std::cout << r4->minNll() << "\n";
