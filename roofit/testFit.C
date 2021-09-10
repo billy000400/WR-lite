@@ -131,26 +131,30 @@ void testFit(std::string filePath)
 
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  c->Divide(2,4);
+  c->Divide(4,2);
   c->cd(1);
   eeFrame_doubleCB->Draw();
-  c->cd(2);
-  eeFrame_CB->Draw();
-  c->cd(3);
-  mumuFrame_doubleCB->Draw();
-  c->cd(4);
-  mumuFrame_CB->Draw();
 
-  c->cd(6);
+  c->cd(2);
+  eeFrame_doubleCBPull->Draw();
+
+  c->cd(3);
+  eeFrame_CB->Draw();
+
+  c->cd(4);
   eeFrame_CBPull->Draw();
-  c->cd(8);
-  mumuFrame_CBPull->Draw();
 
   c->cd(5);
-  eeFrame_doubleCBPull->Draw();
-  c->cd(7);
+  mumuFrame_doubleCB->Draw();
+
+  c->cd(6);
   mumuFrame_doubleCBPull->Draw();
 
+  c->cd(7);
+  mumuFrame_CB->Draw();
+
+  c->cd(8);
+  mumuFrame_CBPull->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
