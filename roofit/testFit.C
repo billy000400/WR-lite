@@ -56,7 +56,6 @@ void testFit(std::string filePath)
 
   RooPlot *frame1 = WR_RecoMass_ee->frame();
   ds_WR_RecoMass_ee.plotOn(frame1, Binning(256));
-
   RooPlot *frame2 = WR_RecoMass_mumu->frame();
   ds_WR_RecoMass_mumu.plotOn(frame2, Binning(256));
 
@@ -73,10 +72,10 @@ void testFit(std::string filePath)
   WR_ee_pdf->plotOn(frame1);
   WR_mumu_pdf->plotOn(frame2);
 
-  RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"));
+  RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"), Bins(256));
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCBPull->pullHist();
 
-  RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"));
+  RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"), Bins(256));
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCBPull->pullHist();
 
   // preparing the single CB distribution
