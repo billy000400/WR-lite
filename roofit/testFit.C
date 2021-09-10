@@ -73,7 +73,7 @@ void testFit(std::string filePath)
   WR_mumu_pdf->plotOn(frame2);
 
 
-  RooHist *eeHist_doubleCBPull = frame1>pullHist();
+  RooHist *eeHist_doubleCBPull = frame1->pullHist();
   RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"));
   eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P");
 
