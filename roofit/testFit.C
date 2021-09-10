@@ -62,16 +62,16 @@ void testFit(std::string filePath)
 
 
   // preparing the double CB distribution
-  // RooAddPdf* WR_ee_pdf = DoubleCB(WR_RecoMass_ee);
-  // RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu);
-  //
-  // // fit distribution to data
-  // RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  // RooFitResult *r2 = WR_mumu_pdf->fitTo(ds2, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  //
-  // // Draw ntuples
-  // WR_ee_pdf->plotOn(frame1);
-  // WR_mumu_pdf->plotOn(frame2);
+  RooAddPdf* WR_ee_pdf = DoubleCB(WR_RecoMass_ee, WRGenMean);
+  RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu, WRGenMean);
+
+  // fit distribution to data
+  RooFitResult *r1 = WR_ee_pdf->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r2 = WR_mumu_pdf->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+
+  // Draw ntuples
+  WR_ee_pdf->plotOn(frame1);
+  WR_mumu_pdf->plotOn(frame2);
 
   // preparing the single CB distribution
   // ee
@@ -107,9 +107,9 @@ void testFit(std::string filePath)
   frame2->Draw();
 }
 
-RooAddPdf* DoubleCB(RooRealVar* rrv_x)
+RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 {
-  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 6000, 5000, 8000);
+  RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
   RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 200, 50, 2000);
   RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
   RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
