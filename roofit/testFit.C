@@ -21,7 +21,7 @@ using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 
-void testFit_WR6000(std::string filePath)
+void testFit(std::string filePath)
 {
   // Extract WR and N mean value via the file name
   std::cout << "Openning file " << filePath << std::endl;
