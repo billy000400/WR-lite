@@ -115,13 +115,13 @@ void testFit(std::string filePath)
   cb_ee.plotOn(eeFrame_CB);
   cb_mumu.plotOn(mumuFrame_CB);
 
-  RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
-  RooPlot *eeFrame_CBPull = WR_RecoMass_ee->frame(Title("ee CB Pull Distribution"));
-  eeFrame_CBPull->addPlotable(eeHist_CBPull, "P");
-
-  RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
-  RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
-  mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
+  // RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
+  // RooPlot *eeFrame_CBPull = WR_RecoMass_ee->frame(Title("ee CB Pull Distribution"));
+  // eeFrame_CBPull->addPlotable(eeHist_CBPull, "P");
+  //
+  // RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
+  // RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
+  // mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
 
   std::cout << r1->minNll() << "\n";
   std::cout << r2->minNll() << "\n";
@@ -138,8 +138,8 @@ void testFit(std::string filePath)
   eeFrame_CB->Draw();
   c->cd(3);
   mumuFrame_doubleCB->Draw();
-  // c->cd(4);
-  // mumuFrame_CB->Draw();
+  c->cd(4);
+  mumuFrame_CB->Draw();
 
   // c->cd(6);
   // eeFrame_CBPull->Draw();
