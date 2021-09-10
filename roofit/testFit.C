@@ -75,7 +75,7 @@ void testFit(std::string filePath)
 
   // preparing the single CB distribution
   // ee
-  RooRealVar m0_ee("m0_ee","m0 for ee", WRGenMean, 5000, 8000);
+  RooRealVar m0_ee("m0_ee","m0 for ee", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
   RooRealVar sigma_ee("sigma_ee","sigma for ee", 200, 50, 2000);
   RooRealVar alpha_ee("alpha_ee", "alpha for ee", 2.0, 0., 200.0);
   RooRealVar n_ee("n_ee","n for ee", 2.0, 0.0, 400.0);
@@ -83,7 +83,7 @@ void testFit(std::string filePath)
                 *WR_RecoMass_ee,
                 m0_ee, sigma_ee, alpha_ee, n_ee);
   // mumu
-  RooRealVar m0_mumu("m0_mumu","m0 for mumu", WRGenMean, 5000, 8000);
+  RooRealVar m0_mumu("m0_mumu","m0 for mumu", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
   RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 200, 50, 2000);
   RooRealVar alpha_mumu("alpha_mumu", "alpha for mumu", 2.0, 0., 200.0);
   RooRealVar n_mumu("n_mumu","n for mumu", 2.0, 0.0, 400.0);
