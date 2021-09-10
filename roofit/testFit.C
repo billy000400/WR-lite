@@ -58,7 +58,7 @@ void testFit(std::string filePath)
   ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(256), DataError(RooAbsData::SumW2));
 
   RooPlot *eeFrame_CB = WR_RecoMass_ee->frame(Title("eejj CB"));
-  ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(256), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_CB, Binning(256), DataError(RooAbsData::SumW2));
 
   RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame("mumujj Double CB");
   ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(256), DataError(RooAbsData::SumW2));
@@ -115,13 +115,13 @@ void testFit(std::string filePath)
   cb_ee.plotOn(eeFrame_CB);
   cb_mumu.plotOn(mumuFrame_CB);
 
-  // RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
-  // RooPlot *eeFrame_CBPull = WR_RecoMass_ee->frame(Title("ee CB Pull Distribution"));
-  // eeFrame_CBPull->addPlotable(eeHist_CBPull, "P");
-  //
-  // RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
-  // RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
-  // mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
+  RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
+  RooPlot *eeFrame_CBPull = WR_RecoMass_ee->frame(Title("ee CB Pull Distribution"));
+  eeFrame_CBPull->addPlotable(eeHist_CBPull, "P");
+
+  RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
+  RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
+  mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
 
   std::cout << r1->minNll() << "\n";
   std::cout << r2->minNll() << "\n";
@@ -141,15 +141,15 @@ void testFit(std::string filePath)
   c->cd(4);
   mumuFrame_CB->Draw();
 
-  // c->cd(6);
-  // eeFrame_CBPull->Draw();
-  // c->cd(8);
-  // mumuFrame_CBPull->Draw();
-  //
-  // c->cd(5);
-  // eeFrame_doubleCBPull->Draw();
-  // c->cd(7);
-  // mumuFrame_doubleCBPull->Draw();
+  c->cd(6);
+  eeFrame_CBPull->Draw();
+  c->cd(8);
+  mumuFrame_CBPull->Draw();
+
+  c->cd(5);
+  eeFrame_doubleCBPull->Draw();
+  c->cd(7);
+  mumuFrame_doubleCBPull->Draw();
 
 }
 
