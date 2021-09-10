@@ -136,22 +136,28 @@ void testFit(std::string filePath)
   eeFrame_doubleCB->Draw();
 
   c->cd(2);
-  eeFrame_doubleCBPull->Draw();
-
-  c->cd(3);
   eeFrame_CB->Draw();
 
-  c->cd(4);
-  eeFrame_CBPull->Draw();
 
-  c->cd(5);
+  c->cd(3);
   mumuFrame_doubleCB->Draw();
 
+
+  c->cd(4);
+  mumuFrame_CB->Draw();
+
+
+  c->cd(5);
+  eeFrame_doubleCBPull->Draw();
+
+
   c->cd(6);
-  mumuFrame_doubleCBPull->Draw();
+  eeFrame_CBPull->Draw();
+
 
   c->cd(7);
-  mumuFrame_CB->Draw();
+  mumuFrame_doubleCBPull->Draw();
+
 
   c->cd(8);
   mumuFrame_CBPull->Draw();
