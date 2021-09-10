@@ -41,7 +41,7 @@ void testFit(std::string filePath)
   //return
 
   // importing ntuples into RooDataSet
-  std::string fullFilePath = "../"+filePath;
+  char fullFilePath = ("../"+filePath).c_str();
   RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
   RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
 
