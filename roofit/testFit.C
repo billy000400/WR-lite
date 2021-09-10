@@ -40,70 +40,69 @@ void testFit(std::string filePath)
   std::cout << WRGenMean << " " << NGenMean << std::endl;
   //return
 
+  // importing ntuples into RooDataSet
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
 
-  // // importing ntuples into RooDataSet
-  // RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
-  // RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
-  //
-  // RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
-  //               RooArgSet(*WR_RecoMass_ee),
-  //               ImportFromFile(filePath, "analysis/WR_RecoMass_ee"));
-  //
-  // RooDataSet ds_WR_RecoMass_mumu("ds2", "ds2",
-  //               RooArgSet(*WR_RecoMass_mumu),
-  //               ImportFromFile(filePath, "analysis/WR_RecoMass_mumu"));
-  //
-  // RooPlot *frame1 = WR_RecoMass_ee->frame(Title("6000 GeV WR Mass, Reco by Matching ee"));
-  // ds1.plotOn(frame1, Binning(128));
-  //
-  // RooPlot *frame2 = WR_RecoMass_mumu->frame(Title("6000 GeV N Mass, Reco by Matching mumu"));
-  // ds2.plotOn(frame2, Binning(128));
-  //
-  //
-  // // preparing the double CB distribution
+  RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
+                RooArgSet(*WR_RecoMass_ee),
+                ImportFromFile("../"+filePath, "analysis/WR_RecoMass_ee"));
+
+  RooDataSet ds_WR_RecoMass_mumu("ds2", "ds2",
+                RooArgSet(*WR_RecoMass_mumu),
+                ImportFromFile("../"+filePath, "analysis/WR_RecoMass_mumu"));
+
+  RooPlot *frame1 = WR_RecoMass_ee->frame();
+  ds1.plotOn(frame1, Binning(128));
+
+  RooPlot *frame2 = WR_RecoMass_mumu->frame();
+  ds2.plotOn(frame2, Binning(128));
+
+
+  // preparing the double CB distribution
   // RooAddPdf* WR_ee_pdf = DoubleCB(WR_RecoMass_ee);
   // RooAddPdf* WR_mumu_pdf = DoubleCB(WR_RecoMass_mumu);
   //
   // // fit distribution to data
-  // RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(4000,7500));
-  // RooFitResult *r2 = WR_mumu_pdf->fitTo(ds2, Save(), Range(2000,16000));
+  // RooFitResult *r1 = WR_ee_pdf->fitTo(ds1, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  // RooFitResult *r2 = WR_mumu_pdf->fitTo(ds2, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
   //
   // // Draw ntuples
   // WR_ee_pdf->plotOn(frame1);
   // WR_mumu_pdf->plotOn(frame2);
-  //
-  // // preparing the single CB distribution
-  // // ee
-  // RooRealVar m0_ee("m0_ee","m0 for ee",6000, 5000, 8000);
-  // RooRealVar sigma_ee("sigma_ee","sigma for ee", 200, 50, 2000);
-  // RooRealVar alpha_ee("alpha_ee", "alpha for ee", 2.0, 0., 200.0);
-  // RooRealVar n_ee("n_ee","n for ee", 2.0, 0.0, 400.0);
-  // RooCBShape cb_ee("signal_ee", "cb signal for ee",
-  //               *WR_RecoMass_ee,
-  //               m0_ee, sigma_ee, alpha_ee, n_ee);
-  // // mumu
-  // RooRealVar m0_mumu("m0_mumu","m0 for mumu",6000, 5000, 8000);
-  // RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 200, 50, 2000);
-  // RooRealVar alpha_mumu("alpha_mumu", "alpha for mumu", 2.0, 0., 200.0);
-  // RooRealVar n_mumu("n_mumu","n for mumu", 2.0, 0.0, 400.0);
-  // RooCBShape cb_mumu("signal_mumu", "cb signal for mumu",
-  //               *WR_RecoMass_mumu,
-  //               m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
-  //
-  // // fit distribution to data
-  // RooFitResult *r3 = cb_ee.fitTo(ds1, Save(), Range(3000,7500));
-  // RooFitResult *r4 = cb_mumu.fitTo(ds2, Save(), Range(2000,16000));
-  //
-  // // Draw ntuples
-  // cb_ee.plotOn(frame1, LineColor(kRed));
-  // cb_mumu.plotOn(frame2, LineColor(kRed));
-  //
-  // TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  // c->Divide(1,2);
-  // c->cd(1);
-  // frame1->Draw();
-  // c->cd(2);
-  // frame2->Draw();
+
+  // preparing the single CB distribution
+  // ee
+  RooRealVar m0_ee("m0_ee","m0 for ee", WRGenMean, 5000, 8000);
+  RooRealVar sigma_ee("sigma_ee","sigma for ee", 200, 50, 2000);
+  RooRealVar alpha_ee("alpha_ee", "alpha for ee", 2.0, 0., 200.0);
+  RooRealVar n_ee("n_ee","n for ee", 2.0, 0.0, 400.0);
+  RooCBShape cb_ee("signal_ee", "cb signal for ee",
+                *WR_RecoMass_ee,
+                m0_ee, sigma_ee, alpha_ee, n_ee);
+  // mumu
+  RooRealVar m0_mumu("m0_mumu","m0 for mumu", WRGenMean, 5000, 8000);
+  RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 200, 50, 2000);
+  RooRealVar alpha_mumu("alpha_mumu", "alpha for mumu", 2.0, 0., 200.0);
+  RooRealVar n_mumu("n_mumu","n for mumu", 2.0, 0.0, 400.0);
+  RooCBShape cb_mumu("signal_mumu", "cb signal for mumu",
+                *WR_RecoMass_mumu,
+                m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
+
+  // fit distribution to data
+  RooFitResult *r3 = cb_ee.fitTo(ds1, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r4 = cb_mumu.fitTo(ds2, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+
+  // Draw ntuples
+  cb_ee.plotOn(frame1, LineColor(kRed));
+  cb_mumu.plotOn(frame2, LineColor(kRed));
+
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
+  c->Divide(1,2);
+  c->cd(1);
+  frame1->Draw();
+  c->cd(2);
+  frame2->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x)
