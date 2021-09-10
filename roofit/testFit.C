@@ -55,9 +55,9 @@ void testFit(std::string filePath)
                 ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_mumu"));
 
   RooPlot *frame1 = WR_RecoMass_ee->frame();
-  ds_WR_RecoMass_ee.plotOn(frame1, Binning(256));
+  ds_WR_RecoMass_ee.plotOn(frame1, Binning(256), DataError(RooAbsData::SumW2));
   RooPlot *frame2 = WR_RecoMass_mumu->frame();
-  ds_WR_RecoMass_mumu.plotOn(frame2, Binning(256));
+  ds_WR_RecoMass_mumu.plotOn(frame2, Binning(256), DataError(RooAbsData::SumW2));
 
 
   // preparing the double CB distribution
