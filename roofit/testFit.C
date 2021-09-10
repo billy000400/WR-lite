@@ -60,10 +60,10 @@ void testFit(std::string filePath)
   RooPlot *eeFrame_CB = WR_RecoMass_ee->frame(Title("eejj CB"));
   ds_WR_RecoMass_ee.plotOn(eeFrame_CB, Binning(256), DataError(RooAbsData::SumW2));
 
-  RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame("mumujj Double CB");
+  RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame(Title("mumujj Double CB"));
   ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(256), DataError(RooAbsData::SumW2));
 
-  RooPlot* mumuFrame_CB = WR_RecoMass_mumu->frame("mumujj CB");
+  RooPlot* mumuFrame_CB = WR_RecoMass_mumu->frame(Title("mumujj CB"));
   ds_WR_RecoMass_mumu.plotOn(mumuFrame_CB, Binning(256), DataError(RooAbsData::SumW2));
 
 
