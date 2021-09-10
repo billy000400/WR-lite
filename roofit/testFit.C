@@ -41,9 +41,10 @@ void testFit(std::string filePath)
   //return
 
   // importing ntuples into RooDataSet
-  const char* fullFilePath = ("../"+filePath.c_str());
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 8000);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 16000);
+  std::string prefix = "../";
+  const char* fullFilePath = (prefix+filePath).c_str();
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 2*WRGenMean);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 2*WRGenMean);
 
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
