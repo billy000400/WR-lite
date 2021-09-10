@@ -25,8 +25,8 @@ void testFit_WR6000(std::string filePath)
 {
   // Extract WR and N mean value via the file name
   std::cout << "Openning file " << filePath << std::endl;
-  bool fileExists = std::filesystem::exists(filePath);
-  if !fileExists{
+  // bool fileExists = std::filesystem::exists(filePath);
+  if (!fileExists){
     std::cerr << "File does not exists\n";
     return 1;
   }
