@@ -22,6 +22,7 @@ using namespace RooFit;
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
 double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
+double Nll2LAvg(double& Nll, double& dFree);
 
 void testFit(std::string filePath)
 {
@@ -137,10 +138,10 @@ void testFit(std::string filePath)
   double minNll_mumuDoubleCB = r3->minNll();
   double minNll_mumuCB = r4->minNll();
 
-  double LMax_eeDoubleCB = Nll2L(minNll_eeDoubleCB);
-  double LMax_eeCB = Nll2L(minNll_eeCB);
-  double LMax_mumuDoubleCB = Nll2L(minNll_mumuDoubleCB);
-  double LMax_mumuCB = Nll2L(minNll_mumuCB);
+  // double LMax_eeDoubleCB = Nll2L(minNll_eeDoubleCB);
+  // double LMax_eeCB = Nll2L(minNll_eeCB);
+  // double LMax_mumuDoubleCB = Nll2L(minNll_mumuDoubleCB);
+  // double LMax_mumuCB = Nll2L(minNll_mumuCB);
 
   std::cout << LMax_eeDoubleCB << std::endl;
 
@@ -149,10 +150,10 @@ void testFit(std::string filePath)
   double dFree_mumu2CB = bin_size+5.0;
   double dFree_mumuCB = bin_size+4.0;
 
-  double LAvg_eeDoubleCB = geoAvg(LMax_eeDoubleCB, dFree_ee2CB);
-  double LAvg_eeCB = geoAvg(LMax_eeCB, dFree_eeCB);
-  double LAvg_mumuDoubleCB = geoAvg(LMax_mumuDoubleCB, dFree_mumu2CB);
-  double LAvg_mumuCB = geoAvg(LMax_mumuCB, dFree_mumuCB);
+  double LAvg_eeDoubleCB = Nll2LAvg(minNll_eeDoubleCB, dFree_ee2CB);
+  double LAvg_eeCB = Nll2LAvg(minNll_eeCB, dFree_eeCB);
+  double LAvg_mumuDoubleCB = Nll2LAvg(minNll_mumuDoubleCB, dFree_mumu2CB);
+  double LAvg_mumuCB = Nll2LAvg(minNll_mumuCB, dFree_mumuCB);
 
   std::cout << LAvg_eeDoubleCB << "\n";
   std::cout << LAvg_eeCB << "\n";
@@ -231,4 +232,9 @@ double Nll2L(double& Nll)
 double geoAvg(double& product, double& dFree)
 {
   return std::pow(product, 1.0/dFree);
+}
+
+double Nll2LAvg(double& Nll, double& dFree)
+{
+  return std::exp(-Nll/dFree);
 }
