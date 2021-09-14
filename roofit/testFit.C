@@ -142,10 +142,15 @@ void testFit(std::string filePath)
   double LMax_mumuDoubleCB = Nll2L(minNll_mumuDoubleCB);
   double LMax_mumuCB = Nll2L(minNll_mumuCB);
 
-  double LAvg_eeDoubleCB = geoAvg(LMax_eeDoubleCB, bin_size+5.0);
-  double LAvg_eeCB = geoAvg(LMax_eeCB, bin_size+4.0);
-  double LAvg_mumuDoubleCB = geoAvg(LMax_mumuDoubleCB, bin_size+5.0);
-  double LAvg_mumuCB = geoAvg(LMax_mumuCB, bin_size+4.0);
+  double dFree_ee2CB = bin_size+5.0;
+  double dFree_eeCB = bin_size+4.0;
+  double dFree_mumu2CB = bin_size+5.0;
+  double dFree_mumuCB = bin_size+4.0;
+
+  double LAvg_eeDoubleCB = geoAvg(LMax_eeDoubleCB, dFree_ee2CB);
+  double LAvg_eeCB = geoAvg(LMax_eeCB, dFree_eeCB);
+  double LAvg_mumuDoubleCB = geoAvg(LMax_mumuDoubleCB, dFree_mumu2CB);
+  double LAvg_mumuCB = geoAvg(LMax_mumuCB, dFree_mumuCB);
 
   std::cout << LAvg_eeDoubleCB << "\n";
   std::cout << LAvg_eeCB << "\n";
