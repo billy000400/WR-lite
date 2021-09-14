@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 09-09-2021
+ * @Last modified time: 09-13-2021
  */
 
 
@@ -23,6 +23,8 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
 
 void testFit(std::string filePath)
 {
+  double bin_size = 256;
+
   // Extract WR and N mean value via the file name
   std::cout << "Openning file " << filePath << std::endl;
   // bool fileExists = std::filesystem::exists(filePath);
@@ -39,6 +41,14 @@ void testFit(std::string filePath)
   double NGenMean = std::stod(fileName.substr(NPos+1, dotPos-NPos));
   std::cout << WRGenMean << " " << NGenMean << std::endl;
   //return
+
+  // calculation bin
+  int binNum = (int)WRGenMean*0.6/bin_size;
+  std::vector<double> bin_left, bin_right;
+  for (int i=0;i<binNum;i++){
+    bin_left.push_back(WRGenMean*0.65+i*bin_size);
+    bin_right.push_back(WRGenMean*0.65+(i+1)*bin_size);
+  }
 
   // importing ntuples into RooDataSet
   std::string prefix = "../";
@@ -83,6 +93,9 @@ void testFit(std::string filePath)
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"));
   eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P");
+
+  // extract bins from the pull plot and make a histogram of pulls
+  
 
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"));
