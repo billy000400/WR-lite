@@ -20,18 +20,16 @@
 using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
+double Nll2L(double& Nll);
+double geoAvg(double& product, double& dFree);
 
 void testFit(std::string filePath)
 {
+  // set bin number for pullHist and chi2
   double bin_size = 256;
 
   // Extract WR and N mean value via the file name
   std::cout << "Openning file " << filePath << std::endl;
-  // bool fileExists = std::filesystem::exists(filePath);
-  // if (!fileExists){
-  //   std::cerr << "File does not exists\n";
-  //   return 1;
-  // }
   size_t fileNamePos = filePath.find_last_of("/");
   std::string fileName = filePath.substr(fileNamePos+1);
   size_t RPos = fileName.find_last_of("R");
@@ -40,9 +38,8 @@ void testFit(std::string filePath)
   double WRGenMean = std::stod(fileName.substr(RPos+1, NPos-RPos));
   double NGenMean = std::stod(fileName.substr(NPos+1, dotPos-NPos));
   std::cout << WRGenMean << " " << NGenMean << std::endl;
-  //return
 
-  // calculation bin
+  // calculate bin number, bin_lo and bin_hi for each bin
   int binNum = (int)WRGenMean*0.6/bin_size;
   std::vector<double> bin_left, bin_right;
   for (int i=0;i<binNum;i++){
@@ -52,7 +49,6 @@ void testFit(std::string filePath)
 
   // importing ntuples into RooDataSet
   std::string prefix = "../";
-  //const char* fullFilePath = (prefix+filePath).c_str();
   RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", 0, 2*WRGenMean);
   RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", 0, 2*WRGenMean);
 
@@ -95,7 +91,7 @@ void testFit(std::string filePath)
   eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P");
 
   // extract bins from the pull plot and make a histogram of pulls
-  
+
 
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"));
@@ -136,10 +132,25 @@ void testFit(std::string filePath)
   RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
   mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
 
-  std::cout << r1->minNll() << "\n";
-  std::cout << r2->minNll() << "\n";
-  std::cout << r3->minNll() << "\n";
-  std::cout << r4->minNll() << "\n";
+  double minNll_eeDoubleCB = r1->minNll();
+  double minNll_eeCB = r2->minNll();
+  double minNll_mumuDoubleCB = r3->minNll();
+  double minNll_mumuCB = r4->minNll();
+
+  double LMax_eeDoubleCB = Nll2L(minNll_eeDoubleCB);
+  double LMax_eeCB = Nll2L(minNll_eeCB);
+  double LMax_mumuDoubleCB = Nll2L(minNll_mumuDoubleCB);
+  double LMax_mumuCB = Nll2L(minNll_mumuCB);
+
+  double LAvg_eeDoubleCB = geoAvg(LMax_eeDoubleCB, bin_size+5.0);
+  double LAvg_eeCB = geoAvg(LMax_eeCB, bin_size+4.0);
+  double LAvg_mumuDoubleCB = geoAvg(LMax_mumuDoubleCB, bin_size+5.0);
+  double LAvg_mumuCB = geoAvg(LMax_mumuCB, bin_size+4.0);
+
+  std::cout << LAvg_eeDoubleCB << "\n";
+  std::cout << LAvg_eeCB << "\n";
+  std::cout << LAvg_mumuDoubleCB << "\n";
+  std::cout << LAvg_mumuCB << "\n";
 
 
 
@@ -201,4 +212,16 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 
 
   return model_pdf;
+}
+
+// Negative log likelihood to likelihood
+double Nll2L(double& Nll)
+{
+  return std::exp(-Nll);
+}
+
+// calculate geometric average of data
+double geoAvg(double& product, double& dFree)
+{
+  return std::pow(product, 1.0/dFree);
 }
