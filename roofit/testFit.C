@@ -143,8 +143,6 @@ void testFit(std::string filePath)
   // double LMax_mumuDoubleCB = Nll2L(minNll_mumuDoubleCB);
   // double LMax_mumuCB = Nll2L(minNll_mumuCB);
 
-  std::cout << LMax_eeDoubleCB << std::endl;
-
   double dFree_ee2CB = bin_size+5.0;
   double dFree_eeCB = bin_size+4.0;
   double dFree_mumu2CB = bin_size+5.0;
