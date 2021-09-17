@@ -254,3 +254,10 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
   }
   return num;
 }
+
+RooHist pullPlot2Hist(RooHist& pullPlot)
+{
+  for (Int_t i=0; i<256; i++){
+    
+  }
+}
