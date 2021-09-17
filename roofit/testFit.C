@@ -149,6 +149,11 @@ void testFit(std::string filePath)
   double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-5.0;
   double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-4.0;
 
+  std::cout << dFree_ee2CB << std::endl;
+  std::cout << dFree_eeCB << std::endl;
+  std::cout << dFree_mumu2CB << std::endl;
+  std::cout << dFree_mumuCB << std::endl;
+
   double LAvg_eeDoubleCB = Nll2LAvg(minNll_eeDoubleCB, dFree_ee2CB);
   double LAvg_eeCB = Nll2LAvg(minNll_eeCB, dFree_eeCB);
   double LAvg_mumuDoubleCB = Nll2LAvg(minNll_mumuDoubleCB, dFree_mumu2CB);
@@ -244,7 +249,7 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
   Int_t numEntries=ds.numEntries();
   for (Int_t i=0; i<numEntries; i++){
     auto data = ds.get(i)->getRealValue(name.c_str());
-    std::cout << ds.get(i)->contentsString() << " " << data << std::endl;
+    // std::cout << ds.get(i)->contentsString() << " " << data << std::endl;
     if ((data>min)&&(data<max)) num++;
   }
   return num;
