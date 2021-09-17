@@ -266,7 +266,7 @@ RooPlot pullPlot2Hist(RooHist* pullPlot)
   TH1* hist;
 
   for (Int_t i=0; i<256; i++){
-    Double_t pull = pullPlot->GetPointY(i);
+    Double_t pull = pullPlot->GetPointX(i);
     RooRealVar pull_i = RooRealVar("pullVar", "pull variable", pull);
     pulls.add(RooArgSet(pull_i));
   }
