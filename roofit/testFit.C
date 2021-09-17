@@ -243,8 +243,8 @@ double NEvtInRange(RooDataSet& ds, double min, double max)
   double num=0;
   Int_t numEntries=ds.numEntries();
   for (Int_t i=0; i<numEntries; i++){
-    auto data = ds.get(i)->getRealValue("V");
-    std::cout << ds.get(i)->GetName() << std::endl;
+    auto data = ds.get(i)->getRealValue("");
+    std::cout << ds.get(i)->GetName() << " " << data << std::endl;
     if ((data>min)&&(data<max)) num++;
   }
   return num;
