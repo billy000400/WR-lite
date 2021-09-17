@@ -14,6 +14,7 @@
 #include "RooGaussian.h"
 #include "TCanvas.h"
 #include "RooPlot.h"
+#include "RooHist.h"
 #include "TTree.h"
 #include "TH1D.h"
 #include "TRandom.h"
