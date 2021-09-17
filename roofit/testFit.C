@@ -264,12 +264,12 @@ RooPlot pullPlot2Hist(RooHist* pullPlot)
 
   for (Int_t i=0; i<256; i++){
     Double_t pull = pullPlot->GetPointY();
-    RooRealVar pull_i = RooRealVar("pullVar", pull);
+    RooRealVar pull_i = RooRealVar("pullVar", "pull variable", pull);
     pulls.add(RooArgSet(pull_i));
   }
 
   RooPlot *frame;
   pulls.plotOn(frame, Binning(256), DataError(RooAbsData::SumW2));
 
-  return frame;
+  return *frame;
 }
