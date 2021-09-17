@@ -13,6 +13,7 @@
 #include "RooDataHist.h"
 #include "RooGaussian.h"
 #include "TCanvas.h"
+#include "TGraph.h"
 #include "RooPlot.h"
 #include "RooHist.h"
 #include "TTree.h"
