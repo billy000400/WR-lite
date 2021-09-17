@@ -258,12 +258,13 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
 
 RooHist pullPlot2Hist(RooHist& pullPlot)
 {
-  RooDataSet pulls("pulls", "pull data", -100.0, 100.0);
+  RooRealVar pullVar("pullVar", "pull variable", -100.0, 100.0);
+  RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
   for (Int_t i=0; i<256; i++){
     Double_t pull = pullPlot->GetPointY();
-    RooArgSet pullRoo = RooArgSet((double)pull, "pull");
+    RooArgSet pullRoo = RooArgSet((double)pull, "pullVar");
     pulls.add(pullRoo);
   }
 
