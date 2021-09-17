@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 09-16-2021
+ * @Last modified time: 09-17-2021
  */
 
 
@@ -24,6 +24,7 @@ double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
 double NEvtInRange(RooDataSet& ds, std::string name, double min, double max);
+RooHist pullPlot2Hist(RooHist& pullPlot)
 
 void testFit(std::string filePath)
 {
@@ -257,7 +258,17 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
 
 RooHist pullPlot2Hist(RooHist& pullPlot)
 {
+  RooDataSet pulls("pulls", "pull data", -100.0, 100.0);
+  TH1* hist;
+
   for (Int_t i=0; i<256; i++){
-    
+    Double_t pull = pullPlot->GetPointY();
+    RooArgSet pullRoo = RooArgSet((double)pull, "pull");
+    pulls.add(pullRoo);
   }
+
+  RooPlot *frame;
+  pulls.plotOn(frame, Binning(256), DataError(RooAbsData::SumW2));
+
+  return frame;
 }
