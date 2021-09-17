@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 09-13-2021
+ * @Last modified time: 09-16-2021
  */
 
 
@@ -23,6 +23,7 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
 double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
+double NEvtInRange(&RooDataSet ds, double min, double max);
 
 void testFit(std::string filePath)
 {
@@ -143,10 +144,10 @@ void testFit(std::string filePath)
   // double LMax_mumuDoubleCB = Nll2L(minNll_mumuDoubleCB);
   // double LMax_mumuCB = Nll2L(minNll_mumuCB);
 
-  double dFree_ee2CB = bin_size+5.0;
-  double dFree_eeCB = bin_size+4.0;
-  double dFree_mumu2CB = bin_size+5.0;
-  double dFree_mumuCB = bin_size+4.0;
+  double dFree_ee2CB = NEvtInRange(ds_WR_RecoMass_ee, WRGenMean*0.65, WRGenMean*1.25)-5.0;
+  double dFree_eeCB = NEvtInRange(ds_WR_RecoMass_ee, WRGenMean*0.65, WRGenMean*1.25)-4.0;
+  double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, WRGenMean*0.65, WRGenMean*1.25)-5.0;
+  double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, WRGenMean*0.65, WRGenMean*1.25)-4.0;
 
   double LAvg_eeDoubleCB = Nll2LAvg(minNll_eeDoubleCB, dFree_ee2CB);
   double LAvg_eeCB = Nll2LAvg(minNll_eeCB, dFree_eeCB);
@@ -235,4 +236,15 @@ double geoAvg(double& product, double& dFree)
 double Nll2LAvg(double& Nll, double& dFree)
 {
   return std::exp(-Nll/dFree);
+}
+
+double NEvtInRange(&RooDataSet ds, double min, double max)
+{
+  double num=0;
+  Int_t numEntries=ds.numEntries();
+  for (Int_t i=0; i<numEntries; i++){
+    data = ds.get(i);
+    if ((data>min)&&(data<max)) num++;
+  }
+  return num;
 }
