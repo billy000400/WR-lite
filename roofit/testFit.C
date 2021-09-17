@@ -23,7 +23,7 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
 double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
-double NEvtInRange(&RooDataSet ds, double min, double max);
+double NEvtInRange(RooDataSet& ds, double min, double max);
 
 void testFit(std::string filePath)
 {
@@ -238,7 +238,7 @@ double Nll2LAvg(double& Nll, double& dFree)
   return std::exp(-Nll/dFree);
 }
 
-double NEvtInRange(&RooDataSet ds, double min, double max)
+double NEvtInRange(RooDataSet& ds, double min, double max)
 {
   double num=0;
   Int_t numEntries=ds.numEntries();
