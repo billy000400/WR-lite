@@ -24,7 +24,7 @@ double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
 double NEvtInRange(RooDataSet& ds, std::string name, double min, double max);
-RooHist pullPlot2Hist(RooHist& pullPlot)
+RooHist pullPlot2Hist(RooHist& pullPlot);
 
 void testFit(std::string filePath)
 {
