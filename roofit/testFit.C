@@ -268,8 +268,8 @@ RooPlot pullPlot2Hist(RooHist* pullPlot)
     pulls.add(RooArgSet(pull_i));
   }
 
-  RooPlot frame;
-  pulls.plotOn(&frame, Binning(256), DataError(RooAbsData::SumW2));
+  RooPlot aframe;
+  pulls.plotOn(&aframe, Binning(256), DataError(RooAbsData::SumW2));
 
-  return frame;
+  return aframe;
 }
