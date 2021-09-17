@@ -24,7 +24,7 @@ double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
 double NEvtInRange(RooDataSet& ds, std::string name, double min, double max);
-RooHist pullPlot2Hist(RooHist& pullPlot);
+RooPlot pullPlot2Hist(RooHist* pullPlot);
 
 void testFit(std::string filePath)
 {
@@ -256,16 +256,16 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
   return num;
 }
 
-RooHist pullPlot2Hist(RooHist& pullPlot)
+RooPlot pullPlot2Hist(RooHist* pullPlot)
 {
-  RooRealVar* pullVar("pullVar", "pull variable", -100.0, 100.0);
-  RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
+  RooRealVar pullVar = new RooRealVar("pullVar", "pull variable", -100.0, 100.0);
+  RooDataSet pulls("pulls", "pulls", RooArgSet(pullVar));
   TH1* hist;
 
   for (Int_t i=0; i<256; i++){
     Double_t pull = pullPlot->GetPointY();
-    RooArgSet pullRoo = RooArgSet((double)pull, "pullVar");
-    pulls.add(pullRoo);
+    RooRealVar pullVar = RooRealVar("pullVar", pull);
+    pulls.add(RooArgSet(pullVar));
   }
 
   RooPlot *frame;
