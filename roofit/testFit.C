@@ -243,7 +243,7 @@ double NEvtInRange(RooDataSet& ds, double min, double max)
   double num=0;
   Int_t numEntries=ds.numEntries();
   for (Int_t i=0; i<numEntries; i++){
-    auto data = ds.get(i).getRealValue();
+    auto data = ds.get(i)->getRealValue();
     if ((data>min)&&(data<max)) num++;
   }
   return num;
