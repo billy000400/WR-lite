@@ -122,12 +122,12 @@ void testFit(std::string filePath)
   RooDataSet eeCBPulls = Hist2Pulls(eeHist_CBPull);
   RooDataSet mumuCBPulls = Hist2Pulls(mumuHist_CBPull);
   // Prepare frame for the pull histograms
-  RooPlot* ee2CBPullFrame = ee2CBPulls.frame(Title("ee Double CB Pull Hist"));
-  RooPlot* mumu2CBPullFrame = mumu2CBPulls.frame(Title("mumu Double CB pull Hist"));
-  RooPlot* eeCBPullFrame = eeCBPulls.frame(Title("ee CB Pull Hist"));
-  RooPlot* mumuCBPullFrame = mumuCBPulls.frame(Title("mumu CB Pull Hist"));
+  RooPlot* ee2CBPullFrame = frame(Title("ee Double CB Pull Hist"));
+  RooPlot* mumu2CBPullFrame = frame(Title("mumu Double CB pull Hist"));
+  RooPlot* eeCBPullFrame = frame(Title("ee CB Pull Hist"));
+  RooPlot* mumuCBPullFrame = frame(Title("mumu CB Pull Hist"));
   // plot pull histograms on frames
-  ee2CBPulls.plotOn(ee2CBPullFame, Binning(256));
+  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(256));
   mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(256));
   eeCBPulls.plotOn(eeCBPullFrame, Binning(256));
   mumuCBPulls.plotOn(mumuCBPullFrame, Binning(256));
@@ -172,7 +172,7 @@ void testFit(std::string filePath)
   c->cd(5);
   ee2CBPullFrame->Draw();
   c->cd(6);
-  eeCBPullFrame>Draw();
+  eeCBPullFrame->Draw();
   c->cd(7);
   mumu2CBPullFrame->Draw();
   c->cd(8);
@@ -242,7 +242,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot)
   TH1* hist;
 
   for (Int_t i=0; i<256; i++){
-    Double_t binX
+    Double_t binX;
     Double_t pull;
     pullPlot->GetPoint(i, binX, pull);
     RooRealVar pull_i = RooRealVar("pullVar", "pull variable", pull);
