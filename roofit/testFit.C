@@ -128,10 +128,10 @@ void testFit(std::string filePath)
   RooPlot* eeCBPullFrame = pullVar->frame(Title("ee CB Pull Hist"));
   RooPlot* mumuCBPullFrame = pullVar->frame(Title("mumu CB Pull Hist"));
   // plot pull histograms on frames
-  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(256));
-  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(256));
-  eeCBPulls.plotOn(eeCBPullFrame, Binning(256));
-  mumuCBPulls.plotOn(mumuCBPullFrame, Binning(256));
+  ee2CBPulls.plotOn(ee2CBPullFrame);
+  mumu2CBPulls.plotOn(mumu2CBPullFrame);
+  eeCBPulls.plotOn(eeCBPullFrame);
+  mumuCBPulls.plotOn(mumuCBPullFrame);
 
   //// calculate and print fit parameters
   double minNll_eeDoubleCB = r1->minNll();
