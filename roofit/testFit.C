@@ -162,10 +162,10 @@ void testFit(std::string filePath)
   double chi2_eeCB = eeFrame_CB->chiSquare();
   double chi2_mumu2CB = mumuFrame_doubleCB->chiSquare();
   double chi2_mumuCB = mumuFrame_CB->chiSquare();
-  std::cout << "chi2_ee2CB" << chi2_ee2CB <<std::endl;
-  std::cout << "chi2_eeCB" << chi2_eeCB <<std::endl;
-  std::cout << "chi2_mumu2CB" << chi2_mumu2CB <<std::endl;
-  std::cout << "chi2_mumuCB" << chi2_mumuCB <<std::endl;
+  std::cout << "chi2_ee2CB: " << chi2_ee2CB <<std::endl;
+  std::cout << "chi2_eeCB: " << chi2_eeCB <<std::endl;
+  std::cout << "chi2_mumu2CB: " << chi2_mumu2CB <<std::endl;
+  std::cout << "chi2_mumuCB: " << chi2_mumuCB <<std::endl;
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
