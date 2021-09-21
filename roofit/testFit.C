@@ -134,30 +134,38 @@ void testFit(std::string filePath)
   mumuCBPulls.plotOn(mumuCBPullFrame, Binning(32));
 
   //// calculate and print fit parameters
+  // minimum NLL
   double minNll_eeDoubleCB = r1->minNll();
   double minNll_eeCB = r2->minNll();
   double minNll_mumuDoubleCB = r3->minNll();
   double minNll_mumuCB = r4->minNll();
-
+  // number of fitted points and dof
   double dFree_ee2CB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25)-5.0;
   double dFree_eeCB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25)-4.0;
   double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-5.0;
   double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-4.0;
-
   std::cout << dFree_ee2CB << std::endl;
   std::cout << dFree_eeCB << std::endl;
   std::cout << dFree_mumu2CB << std::endl;
   std::cout << dFree_mumuCB << std::endl;
-
+  // average likelihood
   double LAvg_eeDoubleCB = Nll2LAvg(minNll_eeDoubleCB, dFree_ee2CB);
   double LAvg_eeCB = Nll2LAvg(minNll_eeCB, dFree_eeCB);
   double LAvg_mumuDoubleCB = Nll2LAvg(minNll_mumuDoubleCB, dFree_mumu2CB);
   double LAvg_mumuCB = Nll2LAvg(minNll_mumuCB, dFree_mumuCB);
-
   std::cout << "Average L for eeDoubleCB: "<< LAvg_eeDoubleCB << "\n";
   std::cout << "Average L for eeCB: " << LAvg_eeCB << "\n";
   std::cout << "Average L for mumuDoubleCB: " << LAvg_mumuDoubleCB << "\n";
   std::cout << "Average L for mumuCB: " << LAvg_mumuCB << "\n";
+  // chi2
+  double chi2_ee2CB = eeFrame_doubleCB->chiSquare();
+  double chi2_eeCB = eeFrame_CB->chiSquare();
+  double chi2_mumu2CB = mumuFrame_doubleCB->chiSquare();
+  double chi2_mumuCB = mumuFrame_CB->chiSquare();
+  std::cout << "chi2_ee2CB" << chi2_ee2CB <<std::endl;
+  std::cout << "chi2_eeCB" << chi2_eeCB <<std::endl;
+  std::cout << "chi2_mumu2CB" << chi2_mumu2CB <<std::endl;
+  std::cout << "chi2_mumuCB" << chi2_mumuCB <<std::endl;
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
