@@ -122,10 +122,10 @@ void testFit(std::string filePath)
   RooDataSet eeCBPulls = Hist2Pulls(eeHist_CBPull);
   RooDataSet mumuCBPulls = Hist2Pulls(mumuHist_CBPull);
   // Prepare frame for the pull histograms
-  RooPlot* ee2CBPullFrame = frame(Title("ee Double CB Pull Hist"));
-  RooPlot* mumu2CBPullFrame = frame(Title("mumu Double CB pull Hist"));
-  RooPlot* eeCBPullFrame = frame(Title("ee CB Pull Hist"));
-  RooPlot* mumuCBPullFrame = frame(Title("mumu CB Pull Hist"));
+  RooPlot* ee2CBPullFrame = Frame(Title("ee Double CB Pull Hist"));
+  RooPlot* mumu2CBPullFrame = Frame(Title("mumu Double CB pull Hist"));
+  RooPlot* eeCBPullFrame = Frame(Title("ee CB Pull Hist"));
+  RooPlot* mumuCBPullFrame = Frame(Title("mumu CB Pull Hist"));
   // plot pull histograms on frames
   ee2CBPulls.plotOn(ee2CBPullFrame, Binning(256));
   mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(256));
