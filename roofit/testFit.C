@@ -63,7 +63,7 @@ void testFit(std::string filePath)
                 RooArgSet(*WR_RecoMass_mumu),
                 ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_mumu"));
 
-  // Preparing probability distirbution functions for fitting
+  //// Preparing probability distirbution functions for fitting
   // preparing the double CB distributions
   RooAddPdf* WR_ee_doubleCB = DoubleCB(WR_RecoMass_ee, WRGenMean);
   RooAddPdf* WR_mumu_doubleCB = DoubleCB(WR_RecoMass_mumu, WRGenMean);
@@ -110,22 +110,27 @@ void testFit(std::string filePath)
   cb_ee.plotOn(eeFrame_CB);
   cb_mumu.plotOn(mumuFrame_CB);
 
+  //// pull related
   // Prepare pulls
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
-  RooPlot *eeFrame_doubleCBPull = WR_RecoMass_ee->frame(Title("ee doubleCB Pull Distribution"));
-  eeFrame_doubleCBPull->addPlotable(eeHist_doubleCBPull, "P");
-
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
-  RooPlot *mumuFrame_doubleCBPull = WR_RecoMass_mumu->frame(Title("mumu doubleCB Pull Distribution"));
-  mumuFrame_doubleCBPull->addPlotable(mumuHist_doubleCBPull, "P");
-
   RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
-  RooPlot *eeFrame_CBPull = WR_RecoMass_ee->frame(Title("ee CB Pull Distribution"));
-  eeFrame_CBPull->addPlotable(eeHist_CBPull, "P");
-
   RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
-  RooPlot *mumuFrame_CBPull = WR_RecoMass_mumu->frame(Title("mumu CB Pull Distribution"));
-  mumuFrame_CBPull->addPlotable(mumuHist_CBPull, "P");
+  // Extract pulls from RooHist
+  RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull);
+  RooDataSet mumu2CBPulls = Hist2Pulls(mumuHist_doubleCBPull);
+  RooDataSet eeCBPulls = Hist2Pulls(eeHist_CBPull);
+  RooDataSet mumuCBPulls = Hist2Pulls(mumuHist_CBPull);
+  // Prepare frame for the pull histograms
+  RooPlot* ee2CBPullFrame = ee2CBPulls.frame(Title("ee Double CB Pull Hist"));
+  RooPlot* mumu2CBPullFrame = mumu2CBPulls.frame(Title("mumu Double CB pull Hist"));
+  RooPlot* eeCBPullFrame = eeCBPulls.frame(Title("ee CB Pull Hist"));
+  RooPlot* mumuCBPullFrame = mumuCBPulls.frame(Title("mumu CB Pull Hist"));
+  // plot pull histograms on frames
+  ee2CBPulls.plotOn(ee2CBPullFame, Binning(256));
+  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(256));
+  eeCBPulls.plotOn(eeCBPullFrame, Binning(256));
+  mumuCBPulls.plotOn(mumuCBPullFrame, Binning(256));
 
   //// calculate and print fit parameters
   double minNll_eeDoubleCB = r1->minNll();
@@ -153,7 +158,7 @@ void testFit(std::string filePath)
   std::cout << LAvg_mumuDoubleCB << "\n";
   std::cout << LAvg_mumuCB << "\n";
 
-  // Draw Frames on TCanvas
+  //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
   c->Divide(4,2);
   c->cd(1);
@@ -165,13 +170,13 @@ void testFit(std::string filePath)
   c->cd(4);
   mumuFrame_CB->Draw();
   c->cd(5);
-  eeFrame_doubleCBPull->Draw();
+  ee2CBPullFrame->Draw();
   c->cd(6);
-  eeFrame_CBPull->Draw();
+  eeCBPullFrame>Draw();
   c->cd(7);
-  mumuFrame_doubleCBPull->Draw();
+  mumu2CBPullFrame->Draw();
   c->cd(8);
-  mumuFrame_CBPull->Draw();
+  mumuCBPullFrame->Draw();
 }
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
