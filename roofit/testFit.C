@@ -155,9 +155,9 @@ void testFit(std::string filePath)
   double LAvg_mumuCB = Nll2LAvg(minNll_mumuCB, dFree_mumuCB);
 
   std::cout << "Average L for eeDoubleCB: "<< LAvg_eeDoubleCB << "\n";
-  std::cout << "Average L for eeCB" << LAvg_eeCB << "\n";
-  std::cout << "Average L for mumuDoubleCB" << LAvg_mumuDoubleCB << "\n";
-  std::cout << "Average L for mumuCB" << LAvg_mumuCB << "\n";
+  std::cout << "Average L for eeCB: " << LAvg_eeCB << "\n";
+  std::cout << "Average L for mumuDoubleCB: " << LAvg_mumuDoubleCB << "\n";
+  std::cout << "Average L for mumuCB: " << LAvg_mumuCB << "\n";
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
