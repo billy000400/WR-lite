@@ -112,7 +112,7 @@ void testFit(std::string filePath)
 
   //// pull related
   // Prepare pulls
-  RooRealVar* pullVar = new RooRealVar("pullVar", "pull variable", -10.0, 10.0);
+  RooRealVar* pullVar = new RooRealVar("pullVar", "pull variable", -2.0, 2.0);
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
