@@ -112,7 +112,7 @@ void testFit(std::string filePath)
 
   //// pull related
   // Prepare pulls
-  RooRealVar* pullVar = new RooRealVar("pullVar", "pull variable", -10, 10);
+  RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -20, 20);
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
@@ -154,10 +154,10 @@ void testFit(std::string filePath)
   double LAvg_mumuDoubleCB = Nll2LAvg(minNll_mumuDoubleCB, dFree_mumu2CB);
   double LAvg_mumuCB = Nll2LAvg(minNll_mumuCB, dFree_mumuCB);
 
-  std::cout << LAvg_eeDoubleCB << "\n";
-  std::cout << LAvg_eeCB << "\n";
-  std::cout << LAvg_mumuDoubleCB << "\n";
-  std::cout << LAvg_mumuCB << "\n";
+  std::cout << "Average L for eeDoubleCB: "<< LAvg_eeDoubleCB << "\n";
+  std::cout << "Average L for eeCB" << LAvg_eeCB << "\n";
+  std::cout << "Average L for mumuDoubleCB" << LAvg_mumuDoubleCB << "\n";
+  std::cout << "Average L for mumuCB" << LAvg_mumuCB << "\n";
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
