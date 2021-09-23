@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 08-30-2021
+ * @Last modified time: 09-23-2021
  */
 
 
@@ -149,6 +149,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* debug_pfVsTuneP;
 
 		TGraph* ptError_pt_correlation;
+
+		TNtuple* martin;
 };
 
 //
@@ -327,6 +329,12 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 		myRECOevent.WRMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 		myRECOevent.NMass = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
+
+		if ( !background && ((abs(myRECOevent.lepton1Id)==13)&&(abs(myRECOevent.lepton2Id)==13)) )
+		{
+			martin.Fill((float)lepton1->pt());
+			martin.Fill((float)lepton2->pt());
+		}
 
 		WR_GenMass_i = myRECOevent.WRMass;
 		WR_GenMass->Fill((float)WR_GenMass_i);
@@ -1237,6 +1245,10 @@ ExtractRecoMass_WR_N::beginJob() {
 	debug_pfVsTuneP = fs->make<TNtuple>("debug_pfVsTuneP",
 																		"debug information: check if the default pf p4 is different from tuneP track p4",
 																	"p4_pfVsTuneP:pT_pfVsTuneP");
+
+	martin = fs->make<TNtuple>("martin's muons",
+															"Obviously, they are martin's muons",
+														"merged_pT");
 
 }
 
