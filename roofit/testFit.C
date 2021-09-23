@@ -113,6 +113,7 @@ void testFit(std::string filePath)
   //// pull related
   // Prepare pulls
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -2, 2);
+  std::cout << "Making the pull plots" << std::endl;
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
@@ -128,6 +129,7 @@ void testFit(std::string filePath)
   RooPlot* eeCBPullFrame = pullVar->frame(Title("ee CB Pull Hist"));
   RooPlot* mumuCBPullFrame = pullVar->frame(Title("mumu CB Pull Hist"));
   // plot pull histograms on frames
+  std::cout << "Making the pull histograms" << std::endl;
   ee2CBPulls.plotOn(ee2CBPullFrame, Binning(32));
   mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(32));
   eeCBPulls.plotOn(eeCBPullFrame, Binning(32));
