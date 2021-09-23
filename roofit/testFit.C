@@ -100,10 +100,10 @@ void testFit(std::string filePath)
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(50), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_ee.plotOn(eeFrame_CB, Binning(50), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(50), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_CB, Binning(50), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(40), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_CB, Binning(40), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(40), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_CB, Binning(40), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   WR_ee_doubleCB->plotOn(eeFrame_doubleCB);
   WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB);
@@ -112,7 +112,7 @@ void testFit(std::string filePath)
 
   //// pull related
   // Prepare pulls
-  RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -2, 2);
+  RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -10, 10);
   std::cout << "Making the pull plots" << std::endl;
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
@@ -130,10 +130,10 @@ void testFit(std::string filePath)
   RooPlot* mumuCBPullFrame = pullVar->frame(Title("mumu CB Pull Hist"));
   // plot pull histograms on frames
   std::cout << "Making the pull histograms" << std::endl;
-  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(15));
-  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(15));
-  eeCBPulls.plotOn(eeCBPullFrame, Binning(15));
-  mumuCBPulls.plotOn(mumuCBPullFrame, Binning(15));
+  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(10));
+  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(10));
+  eeCBPulls.plotOn(eeCBPullFrame, Binning(10));
+  mumuCBPulls.plotOn(mumuCBPullFrame, Binning(10));
 
   //// calculate and print fit parameters
   // minimum NLL
@@ -252,7 +252,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, bool print=false)
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
-  for (Int_t i=0; i<50; i++){
+  for (Int_t i=0; i<40; i++){
     Double_t binX;
     Double_t pull;
     pullPlot->GetPoint(i, binX, pull);
