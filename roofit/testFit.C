@@ -27,7 +27,7 @@ double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
 double NEvtInRange(RooDataSet& ds, std::string name, double min, double max);
-RooDataSet Hist2Pulls(RooHist* pullPlot, Bool print=false);
+RooDataSet Hist2Pulls(RooHist* pullPlot, bool print=false);
 
 void testFit(std::string filePath)
 {
@@ -43,7 +43,7 @@ void testFit(std::string filePath)
   size_t dotPos = fileName.find_last_of(".");
   double WRGenMean = std::stod(fileName.substr(RPos+1, NPos-RPos));
   double NGenMean = std::stod(fileName.substr(NPos+1, dotPos-NPos));
-  std::cout << "Target WR: " WRGenMean << "; Target N" << NGenMean << std::endl;
+  std::cout << "Target WR: " WRGenMean << ", Target N" << NGenMean << std::endl;
   // calculate bin number, bin_lo and bin_hi for each bin
   int binNum = (int)WRGenMean*0.6/bin_size;
   std::vector<double> bin_left, bin_right;
@@ -244,7 +244,7 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
   return num;
 }
 
-RooDataSet Hist2Pulls(RooHist* pullPlot, Bool print=false)
+RooDataSet Hist2Pulls(RooHist* pullPlot, bool print=false)
 {
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull variable", -100.0, 100.0);
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
