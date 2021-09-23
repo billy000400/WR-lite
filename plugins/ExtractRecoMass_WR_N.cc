@@ -332,8 +332,8 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 		if ( !background && ((abs(myRECOevent.lepton1Id)==13)&&(abs(myRECOevent.lepton2Id)==13)) )
 		{
-			martin.Fill((float)lepton1->pt());
-			martin.Fill((float)lepton2->pt());
+			martin->Fill((float)lepton1->pt());
+			martin->Fill((float)lepton2->pt());
 		}
 
 		WR_GenMass_i = myRECOevent.WRMass;
