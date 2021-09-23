@@ -27,7 +27,7 @@ double Nll2L(double& Nll);
 double geoAvg(double& product, double& dFree);
 double Nll2LAvg(double& Nll, double& dFree);
 double NEvtInRange(RooDataSet& ds, std::string name, double min, double max);
-RooDataSet Hist2Pulls(RooHist* pullPlot);
+RooDataSet Hist2Pulls(RooHist* pullPlot, Bool print=false);
 
 void testFit(std::string filePath)
 {
@@ -118,7 +118,7 @@ void testFit(std::string filePath)
   RooHist *eeHist_CBPull = eeFrame_CB->pullHist();
   RooHist *mumuHist_CBPull = mumuFrame_CB->pullHist();
   // Extract pulls from RooHist
-  RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull);
+  RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull,true);
   RooDataSet mumu2CBPulls = Hist2Pulls(mumuHist_doubleCBPull);
   RooDataSet eeCBPulls = Hist2Pulls(eeHist_CBPull);
   RooDataSet mumuCBPulls = Hist2Pulls(mumuHist_CBPull);
@@ -244,7 +244,7 @@ double NEvtInRange(RooDataSet& ds, std::string name, double min, double max)
   return num;
 }
 
-RooDataSet Hist2Pulls(RooHist* pullPlot)
+RooDataSet Hist2Pulls(RooHist* pullPlot, Bool print=false)
 {
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull variable", -100.0, 100.0);
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
@@ -254,6 +254,15 @@ RooDataSet Hist2Pulls(RooHist* pullPlot)
     Double_t binX;
     Double_t pull;
     pullPlot->GetPoint(i, binX, pull);
+
+    if (print==true)
+    {
+      std::ofstream csv;
+      csv.open("pulls.csv", std::ios_base::app);
+      csv << pull << "\n";
+    }
+
+
     RooRealVar pull_i = RooRealVar("pullVar", "pull variable", pull);
     pulls.add(RooArgSet(pull_i));
   }
