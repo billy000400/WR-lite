@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 09-23-2021
+ * @Last modified time: 10-04-2021
  */
 
 
@@ -105,6 +105,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		std::string m_dataSaveFile;
 		bool m_isSignal;
 		bool m_genTrainData;
+		std::string m_ofName;
 
     edm::Service<TFileService> fs;
     // TFileDirectory subDir;
@@ -175,7 +176,8 @@ ExtractRecoMass_WR_N::ExtractRecoMass_WR_N(const edm::ParameterSet& iConfig)
 	m_offlineVerticesToken (consumes<std::vector<reco::Vertex>> (iConfig.getParameter<edm::InputTag>("vertices"))),
 	m_dataSaveFile (iConfig.getUntrackedParameter<std::string>("trainFile")),
 	m_isSignal (iConfig.getUntrackedParameter<bool>("isSignal")),
-	m_genTrainData (iConfig.getUntrackedParameter<bool>("genTrainData"))
+	m_genTrainData (iConfig.getUntrackedParameter<bool>("genTrainData")),
+	m_ofName (iConfig.getUntrackedParameter<std::string>("ofName"))
 {
    //now do what ever initialization is needed
 	 dR2Max = 0.16;
@@ -196,6 +198,15 @@ ExtractRecoMass_WR_N::~ExtractRecoMass_WR_N()
 // ------------ method called for each event  ------------
 void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
+	size_t fileNamePos = filePath.find_last_of("_");
+  std::string fileName = filePath.substr(fileNamePos+1);
+  size_t RPos = fileName.find_last_of("R");
+  size_t NPos = fileName.find_last_of("N");
+  size_t dotPos = fileName.find_last_of(".");
+  double WRGenMean = std::stod(fileName.substr(RPos+1, NPos-RPos));
+  double NGenMean = std::stod(fileName.substr(NPos+1, dotPos-NPos));
+  std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
+
 	bool background = !m_isSignal;
 	eventBits myRECOevent;
 	eventInfo myEvent;
