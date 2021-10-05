@@ -239,8 +239,8 @@ process.analysis = cms.EDAnalyzer('ExtractRecoMass_WR_N',
 						vertices = cms.InputTag("offlineSlimmedPrimaryVertices"),
 						trainFile = cms.untracked.string(options.trainFile),
 						isSignal = cms.untracked.bool(options.isSignal),
-						genTrainData = cms.untracked.bool(options.genTrainData),
-                        ofName = cms.untracked.string(options.outputFile)
+						genTrainData = cms.untracked.bool(options.genTrainData)
+                        # ofName = cms.untracked.string(options.outputFile)
 )
 
 
