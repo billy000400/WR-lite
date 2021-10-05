@@ -1,8 +1,8 @@
 # @Author: Billy Li <billy000400>
 # @Date:   07-19-2021
 # @Email:  li000400@umn.edu
-# @Last modified by:   billy000400
-# @Last modified time: 07-19-2021
+# @Last modified by:   billyli
+# @Last modified time: 10-04-2021
 
 
 
@@ -239,7 +239,8 @@ process.analysis = cms.EDAnalyzer('ExtractRecoMass_WR_N',
 						vertices = cms.InputTag("offlineSlimmedPrimaryVertices"),
 						trainFile = cms.untracked.string(options.trainFile),
 						isSignal = cms.untracked.bool(options.isSignal),
-						genTrainData = cms.untracked.bool(options.genTrainData)
+						genTrainData = cms.untracked.bool(options.genTrainData),
+                        ofName = cms.untracked.string(options.outputFile)
 )
 
 
