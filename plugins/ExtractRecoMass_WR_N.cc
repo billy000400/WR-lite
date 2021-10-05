@@ -105,7 +105,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		std::string m_dataSaveFile;
 		bool m_isSignal;
 		bool m_genTrainData;
-		// std::string m_ofName;
+		std::string m_ofName;
 
     edm::Service<TFileService> fs;
     // TFileDirectory subDir;
@@ -198,14 +198,14 @@ ExtractRecoMass_WR_N::~ExtractRecoMass_WR_N()
 // ------------ method called for each event  ------------
 void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-	// size_t fileNamePos = m_ofName.find_last_of("_");
-  // std::string fileName = m_ofName.substr(fileNamePos+1);
-  // size_t RPos = m_ofName.find_last_of("R");
-  // size_t NPos = m_ofName.find_last_of("N");
-  // size_t dotPos = m_ofName.find_last_of(".");
-  // double WRGenMean = std::stod(m_ofName.substr(RPos+1, NPos-RPos));
-  // double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
-  // std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
+	size_t fileNamePos = m_ofName.find_last_of("_");
+  std::string fileName = m_ofName.substr(fileNamePos+1);
+  size_t RPos = m_ofName.find_last_of("R");
+  size_t NPos = m_ofName.find_last_of("N");
+  size_t dotPos = m_ofName.find_last_of(".");
+  double WRGenMean = std::stod(m_ofName.substr(RPos+1, NPos-RPos));
+  double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
+  std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
 
 	bool background = !m_isSignal;
 	eventBits myRECOevent;
