@@ -66,6 +66,64 @@
 // from  edm::one::EDAnalyzer<>
 // This will improve performance in multithreaded jobs.
 
+// helper class to invetigate the difference between gen and reco data
+class missMatchCatcher {
+	public:
+		missMatchCatcher(double left, double right);
+		double getLeftBoundary();
+		double getRightBoundary();
+		void fill(double gen, double reco);
+		TNtuple getLeftDiff();
+		TNtuple getMiddleDiff();
+		TNtuple getRightDiff();
+	private:
+		double boundary_l;
+		double boundary_r;
+		TNtuple diff_l;
+		TNtuple diff_m;
+		TNtuple diff_r;
+};
+
+// constructor
+missMatchCatcher::missMatchCatcher(double left, double right)
+{
+	boundary_l=left;
+	boundary_r=right;
+}
+
+void missMatchCatcher::fill(double gen, double reco)
+{
+	double diff = reco-gen;
+	if (reco < boundary_l){
+		diff_l.fill((float)diff);
+	} else if(reco < boundary_r){
+		diff_m.fill((float)diff);
+	}else{
+		diff_r.fill((float)diff);
+	}
+}
+
+void missMatchCatcher::getLeftBoundary(){
+	return boundary_l;
+}
+
+void missMatchCatcher::getRightBoundary(){
+	return boundary_r;
+}
+
+TNtuple missMatchCatcher::getLeftDiff(){
+	return diff_l;
+}
+
+TNtuple missMatchCatcher::getMiddleDiff(){
+	return diff_m;
+}
+
+TNtuple missMatchCatcher::getRightDiff(){
+	return diff_r;
+}
+
+//
 
 using reco::TrackCollection;
 
@@ -198,15 +256,6 @@ ExtractRecoMass_WR_N::~ExtractRecoMass_WR_N()
 // ------------ method called for each event  ------------
 void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-	size_t fileNamePos = m_ofName.find_last_of("_");
-  std::string fileName = m_ofName.substr(fileNamePos+1);
-  size_t RPos = m_ofName.find_last_of("R");
-  size_t NPos = m_ofName.find_last_of("N");
-  size_t dotPos = m_ofName.find_last_of(".");
-  double WRGenMean = std::stod(m_ofName.substr(RPos+1, NPos-RPos));
-  double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
-  std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
-
 	bool background = !m_isSignal;
 	eventBits myRECOevent;
 	eventInfo myEvent;
@@ -1260,6 +1309,20 @@ ExtractRecoMass_WR_N::beginJob() {
 	martin = fs->make<TNtuple>("martin's muons",
 															"Obviously, they are martin's muons",
 														"merged_pT");
+
+	size_t fileNamePos = m_ofName.find_last_of("_");
+  std::string fileName = m_ofName.substr(fileNamePos+1);
+  size_t RPos = m_ofName.find_last_of("R");
+  size_t NPos = m_ofName.find_last_of("N");
+  size_t dotPos = m_ofName.find_last_of(".");
+  double WRGenMean = std::stod(m_ofName.substr(RPos+1, NPos-RPos));
+  double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
+  std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
+
+	mu1Diffs = missMatchCatcher();
+	mu2Diffs = missMatchCatcher();
+	e1Diffs = missMatchCatcher();
+	e2Diffs = missMatchCatcher();
 
 }
 
