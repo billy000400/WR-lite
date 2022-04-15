@@ -213,7 +213,9 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 
   RooAddPdf* model_pdf = new RooAddPdf("model_pdf", "model_pdf",
                                       RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
-                                      RooArgList(*rrv_frac_CB));
+                                      RooArgList(*rrv_frac_CB)); // how does RooAddPdf work, can it fit frac?
+
+  // check update function for normalization
 
 
   return model_pdf;
