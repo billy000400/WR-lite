@@ -35,8 +35,8 @@ void testFit(std::string filePath)
   // set bin number for pullHist and chi2
   double bin_size = 256;
   // Extract WR and N mean value via the file name
-  std::string prefix = "/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/";
-  filePath = prefix+filePath;
+  // std::string prefix = "/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/";
+  // filePath = prefix+filePath;
   std::cout << "Openning file " << filePath << std::endl;
   size_t fileNamePos = filePath.find_last_of("/");
   std::string fileName = filePath.substr(fileNamePos+1);
