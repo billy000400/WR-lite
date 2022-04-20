@@ -35,6 +35,8 @@ void testFit(std::string filePath)
   // set bin number for pullHist and chi2
   double bin_size = 256;
   // Extract WR and N mean value via the file name
+  // std::string prefix = "/data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/";
+  // filePath = prefix+filePath;
   std::cout << "Openning file " << filePath << std::endl;
   size_t fileNamePos = filePath.find_last_of("/");
   std::string fileName = filePath.substr(fileNamePos+1);
@@ -211,7 +213,9 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 
   RooAddPdf* model_pdf = new RooAddPdf("model_pdf", "model_pdf",
                                       RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
-                                      RooArgList(*rrv_frac_CB));
+                                      RooArgList(*rrv_frac_CB)); // how does RooAddPdf work, can it fit frac?
+
+  // check update function for normalization
 
 
   return model_pdf;
