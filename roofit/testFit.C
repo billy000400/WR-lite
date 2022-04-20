@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 09-23-2021
+ * @Last modified time: 04-19-2022
  */
 
 
@@ -200,7 +200,7 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
   RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
 
   RooRealVar* rrv_normalization_CB_I = new RooRealVar("rrv_normalization_CB_I", "rrv_normalization_CB_I", 2, 0., 400);
-  RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5);
+  RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5, 0.1, 10);
 
 
   RooCBShape* Crystal_Ball_I = new RooCBShape("CrystalBall_I", "CrystalBall_I",
@@ -213,7 +213,9 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 
   RooAddPdf* model_pdf = new RooAddPdf("model_pdf", "model_pdf",
                                       RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
-                                      RooArgList(*rrv_frac_CB));
+                                      RooArgList(*rrv_frac_CB)); // how does RooAddPdf work, can it fit frac?
+
+  // check update function for normalization
 
 
   return model_pdf;
