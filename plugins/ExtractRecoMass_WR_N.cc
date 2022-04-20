@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 10-04-2021
+ * @Last modified time: 04-13-2022
  */
 
 
@@ -170,11 +170,11 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 
 		// Billy's global variable
 		bool resolved;
-		double WR_GenMass_i;
-		double WR_RecoMass_ee_i;
-		double WR_RecoMass_mumu_i;
+		double WR_GenMass_i; 						// an instance of WR gen mass
+		double WR_RecoMass_ee_i;				// an instance of WR mass reco from eejj
+		double WR_RecoMass_mumu_i;		  // an instance of WR mass reco from mumujj
 
-		double N_RecoMass_Match_e_i;
+		double N_RecoMass_Match_e_i;		// an instance of N mass reco from ejj, e was selected by matching with gen
 		double N_RecoMass_NN_e_i;
 		double N_RecoMass_Match_mu_i;
 		double N_RecoMass_NN_mu_i;
@@ -310,13 +310,16 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		std::vector<const reco::GenParticle*> decayQuarks;
 
 		for (std::vector<reco::GenParticle>::const_iterator iParticle = genParticles->begin(); iParticle != genParticles->end(); iParticle++) {
-			if( ! iParticle->isHardProcess() ) continue;  //ONLY HARD PROCESS AND NOT INCOMING
+			//ONLY HARD PROCESS AND NOT INCOMING
+			if( ! iParticle->isHardProcess() ) continue;
+			// Pythia8: at the disposal of each model builder equivalent to a null line
 			if( iParticle->status() == 21 ) continue;
 				    std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
+			// CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
 			if( abs( iParticle->mother()->pdgId() ) <= 6 || abs( iParticle->mother()->pdgId() ) == 9900024 || abs( iParticle->mother()->pdgId()) == 34)
-			{//CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
+			{
+				//HERE'S A electron or muon (l)
 				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ){
-					//HERE'S A LEPtON
 					lepton1 = &(*iParticle);
 
 					lepton1_pt = lepton1->pt();
@@ -324,19 +327,21 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 					lepton1_phi = lepton1->phi();
 				}
 
-
+				//HERE's A Neutrino (NRu or NRe)
 				if( abs( iParticle->pdgId() ) == 9900014 || abs( iParticle->pdgId() ) == 9900012) //HERE'S A RIGHT-HANDED NEUTRINO
 					neutrino = &(*iParticle);
 			}
+			// A lepton CAME FROM A RIGHT-HANDED NEUTRINO
 			if( (abs( iParticle->mother()->pdgId() ) == 9900014)
 			 || (abs( iParticle->mother()->pdgId() ) == 9900012)
-			  ) {//CAME FROM A RIGHT-HANDED NEUTRINO
+			  ) {
 				if( abs( iParticle->pdgId() ) == 13 || abs( iParticle->pdgId() ) == 11 ) {
 					std::cout << "IN HERE" << std::endl;
 					std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
 					lepton2 = &(*iParticle);
 				}
 			}
+			// A quark from right handed neutrino or WR or heavy W
 			if( (abs( iParticle->mother()->pdgId() ) == 9900014)
 			 || (abs( iParticle->mother()->pdgId() ) == 9900012)
 			 || (abs( iParticle->mother()->pdgId() ) == 34)
