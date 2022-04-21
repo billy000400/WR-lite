@@ -72,7 +72,7 @@ void testFit(std::string filePath)
   // preparing the single CB distributions
   // ee
   RooRealVar m0_ee("m0_ee","m0 for ee", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
-  RooRealVar sigma_ee("sigma_ee","sigma for ee", 200, 1900, 2000);
+  RooRealVar sigma_ee("sigma_ee","sigma for ee", 1800, 50, 2000);
   RooRealVar alpha_ee("alpha_ee", "alpha for ee", 2.0, 0., 200.0);
   RooRealVar n_ee("n_ee","n for ee", 2.0, 0.0, 400.0);
   RooCBShape cb_ee("signal_ee", "cb signal for ee",
@@ -80,7 +80,7 @@ void testFit(std::string filePath)
                 m0_ee, sigma_ee, alpha_ee, n_ee);
   // mumu
   RooRealVar m0_mumu("m0_mumu","m0 for mumu", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
-  RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 200, 1900, 2000);
+  RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 1800, 50, 2000);
   RooRealVar alpha_mumu("alpha_mumu", "alpha for mumu", 2.0, 0., 200.0);
   RooRealVar n_mumu("n_mumu","n for mumu", 2.0, 0.0, 400.0);
   RooCBShape cb_mumu("signal_mumu", "cb signal for mumu",
@@ -195,7 +195,7 @@ void testFit(std::string filePath)
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 {
   RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
-  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 200, 1900, 2000);
+  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 1800, 50, 2000);
   RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
   RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
 
