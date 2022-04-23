@@ -56,8 +56,8 @@ void testFit(std::string filePath)
 
   //// importing TNtuples from root files
   std::string prefix = "../";
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25);
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45);
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
                 ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_ee"));
@@ -88,10 +88,10 @@ void testFit(std::string filePath)
                 m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_doubleCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r1 = WR_ee_doubleCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
 
   //// Prepare frames for plotting
   RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj Double CB"));
@@ -144,10 +144,10 @@ void testFit(std::string filePath)
   double minNll_mumuDoubleCB = r3->minNll();
   double minNll_mumuCB = r4->minNll();
   // number of fitted points and dof
-  double dFree_ee2CB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25)-5.0;
-  double dFree_eeCB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25)-4.0;
-  double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-5.0;
-  double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-4.0;
+  double dFree_ee2CB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45)-5.0;
+  double dFree_eeCB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45)-4.0;
+  double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45)-5.0;
+  double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45)-4.0;
   std::cout << dFree_ee2CB << std::endl;
   std::cout << dFree_eeCB << std::endl;
   std::cout << dFree_mumu2CB << std::endl;
@@ -195,11 +195,11 @@ void testFit(std::string filePath)
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 {
   RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
-  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 1800, 50, 2000);
-  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 200, 0., 400);
-  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -200., -400., 0.);
+  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 260, 50, 2000);
+  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 20, 0., 500);
+  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -20., -500., 0.);
 
-  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 90, 0., 130.);
+  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 2, 0., 135.);
   RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5, 1e-3, 1);
 
 

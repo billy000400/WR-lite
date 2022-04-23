@@ -6,6 +6,9 @@
  * @Last modified time: 09-07-2021
  */
 
+// This script is to figure out the best strategy to fit data into a
+// double CB distribution. It will be put in testFit.C to compare the result
+// of double CB and single CB
 
 
 #include "RooRealVar.h"
@@ -21,10 +24,21 @@ using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 
-void testFit_DoubleCB(std::string name)
+void testFit_DoubleCB(std::string filePath)
 {
-  std::cout << name << std::endl;
-  
+  //// Extract useful information and set fitting parameters
+  // Extract WR and N mean value via the file name
+  std::cout << "Openning file " << filePath << std::endl;
+  size_t fileNamePos = filePath.find_last_of("/");
+  std::string fileName = filePath.substr(fileNamePos+1);
+  size_t RPos = fileName.find_last_of("R");
+  size_t NPos = fileName.find_last_of("N");
+  size_t dotPos = fileName.find_last_of(".");
+  double WRGenMean = std::stod(fileName.substr(RPos+1, NPos-RPos));
+  double NGenMean = std::stod(fileName.substr(NPos+1, dotPos-NPos));
+  std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
+
+
   // importing ntuples into RooDataSet
   RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);
   RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 3000);
