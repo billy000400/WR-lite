@@ -196,20 +196,20 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 {
   RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
   RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 1800, 50, 2000);
-  RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
-  RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
+  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 200, 0., 400);
+  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -200., -400., 0.);
 
-  RooRealVar* rrv_normalization_CB_I = new RooRealVar("rrv_normalization_CB_I", "rrv_normalization_CB_I", 2, 0., 130.);
+  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 90, 0., 130.);
   RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5, 1e-3, 1);
 
 
   RooCBShape* Crystal_Ball_I = new RooCBShape("CrystalBall_I", "CrystalBall_I",
                                               *rrv_x,
-                                              *rrv_mean_CB,*rrv_sigma_CB,*rrv_tail_CB_I,*rrv_normalization_CB_I);
+                                              *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_n_CB_I);
 
   RooCBShape* Crystal_Ball_II = new RooCBShape("CrystalBall_II", "CrystalBall_II",
                                               *rrv_x,
-                                              *rrv_mean_CB,*rrv_sigma_CB,*rrv_tail_CB_II,*rrv_normalization_CB_I);
+                                              *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_II,*rrv_n_CB_I);
 
   RooAddPdf* model_pdf = new RooAddPdf("model_pdf", "model_pdf",
                                       RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
