@@ -200,7 +200,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
     }
 
 
-    RooRealVar pull_i = RooRealVar("pullVar_i", label.c_str(), pull);
+    RooRealVar pull_i = RooRealVar("pullVar", label.c_str(), pull);
     pulls.add(RooArgSet(pull_i));
   }
 
