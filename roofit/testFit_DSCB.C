@@ -170,20 +170,20 @@ void testFit_DSCB(std::string filePath)
 
 RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean, std::string label)
 {
- RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB_"+label, "rrv_mean_CB_"+label, mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB_"+label, "rrv_sigma_CB_"+label, 260, 50, 2000);
- RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I_"+label, "rrv_alpha_CB_I_"+label, 1, 0., 20);
- RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II_"+label, "rrv_alpha_CB_II_"+label, -1., -20., 0.);
+ RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB_"+label.c_str(), "rrv_mean_CB_"+label.c_str(), mean, 0.8*mean, 1.1*mean);
+ RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB_"+label.c_str(), "rrv_sigma_CB_"+label.c_str(), 260, 50, 2000);
+ RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I_"+label.c_str(), "rrv_alpha_CB_I_"+label.c_str(), 1, 0., 20);
+ RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II_"+label.c_str(), "rrv_alpha_CB_II_"+label.c_str(), -1., -20., 0.);
 
- RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I_"+label, "rrv_n_CB_I_"+label, 300, 0., 3000.);
- RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II_"+label, "rrv_n_CB_II_"+label, 300, 0., 3000.);
+ RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I_"+label.c_str(), "rrv_n_CB_I_"+label.c_str(), 300, 0., 3000.);
+ RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II_"+label.c_str(), "rrv_n_CB_II_"+label.c_str(), 300, 0., 3000.);
 
- return new RooDSCBShape("DoubleSideCrystallBall_"+label, "DoubleSideCrystallBall_"+label, *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
+ return new RooDSCBShape("DoubleSideCrystallBall_"+label.c_str(), "DoubleSideCrystallBall_"+label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
 }
 
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
 {
-  RooRealVar* pullVar = new RooRealVar("pullVar_"+label, "pull variable: "+label, -100.0, 100.0);
+  RooRealVar* pullVar = new RooRealVar("pullVar_"+label.c_str(), "pull variable: "+label.c_str(), -100.0, 100.0);
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
@@ -200,7 +200,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
     }
 
 
-    RooRealVar pull_i = RooRealVar("pullVar_i_"+label, "pull variable i: "+label, pull);
+    RooRealVar pull_i = RooRealVar("pullVar_i_"+label.c_str(), "pull variable i: "+label.c_str(), pull);
     pulls.add(RooArgSet(pull_i));
   }
 
