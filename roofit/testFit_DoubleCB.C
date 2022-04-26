@@ -93,8 +93,8 @@ void testFit_DoubleCB(std::string filePath)
   //// plot the errors of the fitted functions
   //// This needs to be done after the pulls was calculated
   //// otherwise it will interfer the pull calculations
-  WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1));
-  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2));
+  WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1, 1, kFalse));
+  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2, 1, kFalse));
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
