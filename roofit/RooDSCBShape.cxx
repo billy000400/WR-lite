@@ -65,7 +65,7 @@ ClassImp(RooDSCBShape);
    Double_t t = (x-mu)/sigma;
 
    Double_t absAlphaL = fabs((Double_t)alphaL);
-   Double_t absAlphaR = fabs((Double_t)alphaR)
+   Double_t absAlphaR = fabs((Double_t)alphaR);
 
    if (t < -absAlphaL){
 
