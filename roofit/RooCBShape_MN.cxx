@@ -90,7 +90,7 @@ Double_t RooCBShape_MN::evaluate() const
 Int_t RooCBShape_MN::getAnalyticalIntegral(RooArgSet& allVars, RooArgSet& analVars, const char* /*rangeName*/) const
 {
   if( matchArgs(allVars,analVars,m) )
-    return 0 ;
+    return 0 ; // change this to 1 if you want to noramlize by numerical integral
 
   return 0;
 }
