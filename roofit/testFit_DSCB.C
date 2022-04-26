@@ -175,8 +175,8 @@ RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean)
  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 1, 0., 20);
  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -1., -20., 0.);
 
- RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 2, 0., 150.);
- RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II", "rrv_n_CB_II", 2, 0., 150.);
+ RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 300, 0., 3000.);
+ RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II", "rrv_n_CB_II", 300, 0., 3000.);
 
  return new RooDSCBShape("CrystalBall_II", "CrystalBall_II", *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
 }
