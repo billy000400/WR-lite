@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 04-20-2022
+ * @Last modified time: 04-23-2022
  */
 
 
@@ -56,8 +56,8 @@ void testFit(std::string filePath)
 
   //// importing TNtuples from root files
   std::string prefix = "../";
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25);
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45);
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
                 ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_ee"));
@@ -72,26 +72,26 @@ void testFit(std::string filePath)
   // preparing the single CB distributions
   // ee
   RooRealVar m0_ee("m0_ee","m0 for ee", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
-  RooRealVar sigma_ee("sigma_ee","sigma for ee", 1800, 50, 2000);
+  RooRealVar sigma_ee("sigma_ee","sigma for ee", 800, 50, 2000);
   RooRealVar alpha_ee("alpha_ee", "alpha for ee", 2.0, 0., 200.0);
-  RooRealVar n_ee("n_ee","n for ee", 2.0, 0.0, 130.0);
+  RooRealVar n_ee("n_ee","n for ee", 60.0, 0.0, 100.0);
   RooCBShape cb_ee("signal_ee", "cb signal for ee",
                 *WR_RecoMass_ee,
                 m0_ee, sigma_ee, alpha_ee, n_ee);
   // mumu
   RooRealVar m0_mumu("m0_mumu","m0 for mumu", WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
-  RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 1800, 50, 2000);
+  RooRealVar sigma_mumu("sigma_mumu","sigma for mumu", 800, 50, 2000);
   RooRealVar alpha_mumu("alpha_mumu", "alpha for mumu", 2.0, 0., 200.0);
-  RooRealVar n_mumu("n_mumu","n for mumu", 2.0, 0.0, 130.0);
+  RooRealVar n_mumu("n_mumu","n for mumu", 60.0, 0.0, 100.0);
   RooCBShape cb_mumu("signal_mumu", "cb signal for mumu",
                 *WR_RecoMass_mumu,
                 m0_mumu, sigma_mumu, alpha_mumu, n_mumu);
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_doubleCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
-  RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.65,WRGenMean*1.25));
+  RooFitResult *r1 = WR_ee_doubleCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r3 = cb_ee.fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r4 = cb_mumu.fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
 
   //// Prepare frames for plotting
   RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj Double CB"));
@@ -144,10 +144,10 @@ void testFit(std::string filePath)
   double minNll_mumuDoubleCB = r3->minNll();
   double minNll_mumuCB = r4->minNll();
   // number of fitted points and dof
-  double dFree_ee2CB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25)-5.0;
-  double dFree_eeCB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.65, WRGenMean*1.25)-4.0;
-  double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-5.0;
-  double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.65, WRGenMean*1.25)-4.0;
+  double dFree_ee2CB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45)-5.0;
+  double dFree_eeCB = NEvtInRange(ds_WR_RecoMass_ee, "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45)-4.0;
+  double dFree_mumu2CB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45)-5.0;
+  double dFree_mumuCB = NEvtInRange(ds_WR_RecoMass_mumu, "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45)-4.0;
   std::cout << dFree_ee2CB << std::endl;
   std::cout << dFree_eeCB << std::endl;
   std::cout << dFree_mumu2CB << std::endl;
@@ -195,11 +195,14 @@ void testFit(std::string filePath)
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 {
   RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
-  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 1800, 50, 2000);
-  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 200, 0., 400);
-  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -200., -400., 0.);
+  RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 220, 50, 2000);
+  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 2, 0., 500);
+  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -2., -500., 0.);
 
-  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 90, 0., 130.);
+  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 50, 0., 100.);
+
+  RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II", "rrv_n_CB_II", 50, 0., 100.);
+
   RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5, 1e-3, 1);
 
 
@@ -209,7 +212,7 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 
   RooCBShape* Crystal_Ball_II = new RooCBShape("CrystalBall_II", "CrystalBall_II",
                                               *rrv_x,
-                                              *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_II,*rrv_n_CB_I);
+                                              *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_II,*rrv_n_CB_II);
 
   RooAddPdf* model_pdf = new RooAddPdf("model_pdf", "model_pdf",
                                       RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
