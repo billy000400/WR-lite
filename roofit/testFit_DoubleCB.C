@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 09-07-2021
+ * @Last modified time: 04-25-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -20,6 +20,7 @@
 #include "TTree.h"
 #include "TH1D.h"
 #include "TRandom.h"
+#include "RooCBShape_MN.h+"
 using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
@@ -64,7 +65,6 @@ void testFit_DoubleCB(std::string filePath)
   RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj Double CB"));
   RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame(Title("mumujj Double CB"));
 
-
   //// Plot on frames
   // plot data on frames
   ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(40), DataError(RooAbsData::SumW2));
@@ -89,6 +89,12 @@ void testFit_DoubleCB(std::string filePath)
   std::cout << "Making the pull histograms" << std::endl;
   ee2CBPulls.plotOn(ee2CBPullFrame, Binning(15));
   mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(15));
+
+  //// plot the errors of the fitted functions
+  //// This needs to be done after the pulls was calculated
+  //// otherwise it will interfer the pull calculations
+  WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1));
+  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2));
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
@@ -170,15 +176,15 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
   RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 1, 0., 500);
   RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -1., -500., 0.);
 
-  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 2, 0., 135.);
+  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 2, 0., 90.);
   RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5, 1e-3, 1);
 
 
-  RooCBShape* Crystal_Ball_I = new RooCBShape("CrystalBall_I", "CrystalBall_I",
+  RooCBShape_MN* Crystal_Ball_I = new RooCBShape_MN("CrystalBall_I", "CrystalBall_I",
                                               *rrv_x,
                                               *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_n_CB_I);
 
-  RooCBShape* Crystal_Ball_II = new RooCBShape("CrystalBall_II", "CrystalBall_II",
+  RooCBShape_MN* Crystal_Ball_II = new RooCBShape_MN("CrystalBall_II", "CrystalBall_II",
                                               *rrv_x,
                                               *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_II,*rrv_n_CB_I);
 
