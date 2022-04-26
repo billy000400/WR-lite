@@ -43,15 +43,14 @@ ClassImp(RooCBShape_MN);
 
 
  RooCBShape_MN::RooCBShape_MN(const RooCBShape_MN& other, const char* name) :
-   RooAbsPdf(other,name),
-   m("m",this,other.m),
-   m0("m0",this,other.m0),
-   sigma("sigma",this,other.sigma),
-   alpha("alpha",this,other.alpha),
-   n("n",this,other.n)
+    RooAbsPdf(other,name),
+    m("m",this,other.m),
+    m0("m0",this,other.m0),
+    sigma("sigma",this,other.sigma),
+    alpha("alpha",this,other.alpha),
+    n("n",this,other.n)
  {
  }
-
 
 
  Double_t RooCBShape_MN::evaluate() const
@@ -67,6 +66,8 @@ ClassImp(RooCBShape_MN);
     // Double_t a =  TMath::Power(n/absAlpha,n)*exp(-0.5*absAlpha*absAlpha);
     // Double_t b= n/absAlpha - absAlpha;
 
+    // return a/TMath::Power(b - t, n);
+
     Double_t exp_part = exp(-0.5*absAlpha*absAlpha);
     Double_t D = (n-absAlpha*absAlpha-absAlpha*t);
     Double_t arg = n/D;
@@ -74,3 +75,4 @@ ClassImp(RooCBShape_MN);
     return TMath::Power(arg, n)*exp_part;
   }
  }
+
