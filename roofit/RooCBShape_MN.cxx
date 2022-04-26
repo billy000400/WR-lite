@@ -68,7 +68,7 @@ ClassImp(RooCBShape_MN);
     // Double_t b= n/absAlpha - absAlpha;
 
     Double_t exp_part = exp(-0.5*absAlpha*absAlpha);
-    Double_t D = n/(n-absAlpha*absAlpha-absAlpha*t);
+    Double_t D = (n-absAlpha*absAlpha-absAlpha*t);
     Double_t arg = n/D;
 
     return TMath::Power(arg, n)*exp_part;
