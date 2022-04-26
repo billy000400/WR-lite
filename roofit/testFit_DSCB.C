@@ -170,15 +170,15 @@ void testFit_DSCB(std::string filePath)
 
 RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean, std::string label)
 {
- RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_CB")+label).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_CB")+label).c_str(), label.c_str(), 260, 50, 2000);
- RooRealVar* rrv_alpha_CB_I = new RooRealVar((std::string("rrv_alpha_CB_I")+label).c_str(), label.c_str(), 1, 0., 20);
- RooRealVar* rrv_alpha_CB_II = new RooRealVar((std::string("rrv_alpha_CB_II")+label).c_str(), label.c_str(), -1., -20., 0.);
+ RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_CB_")+label).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
+ RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_CB_")+label).c_str(), label.c_str(), 260, 50, 2000);
+ RooRealVar* rrv_alpha_CB_I = new RooRealVar((std::string("rrv_alpha_CB_I_")+label).c_str(), label.c_str(), 1, 0., 20);
+ RooRealVar* rrv_alpha_CB_II = new RooRealVar((std::string("rrv_alpha_CB_II_")+label).c_str(), label.c_str(), -1., -20., 0.);
 
- RooRealVar* rrv_n_CB_I = new RooRealVar((std::string("rrv_n_CB_I")+label).c_str(), label.c_str(), 300, 0., 3000.);
- RooRealVar* rrv_n_CB_II = new RooRealVar((std::string("rrv_n_CB_II")+label).c_str(), label.c_str(), 300, 0., 3000.);
+ RooRealVar* rrv_n_CB_I = new RooRealVar((std::string("rrv_n_CB_I_")+label).c_str(), label.c_str(), 5, 0., 3000.);
+ RooRealVar* rrv_n_CB_II = new RooRealVar((std::string("rrv_n_CB_II_")+label).c_str(), label.c_str(), 5, 0., 3000.);
 
- return new RooDSCBShape((std::string("DoubleSideCrystallBall")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
+ return new RooDSCBShape((std::string("DoubleSideCrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
 }
 
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
