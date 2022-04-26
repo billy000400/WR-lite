@@ -85,4 +85,5 @@ ClassImp(RooExpCBShape);
      Double_t arg = n/D;
 
      return TMath::Power(arg, n)*exp_part;
+   }
  }
