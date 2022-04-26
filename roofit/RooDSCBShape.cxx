@@ -28,20 +28,20 @@ ClassImp(RooDSCBShape);
 
  RooDSCBShape::RooDSCBShape(const char *name, const char *title,
                         RooAbsReal& _x,
-                        RooAbsReal& _ mu,
-                        RooAbsReal& _ sigma,
-                        RooAbsReal& _ alphaL,
-                        RooAbsReal& _ alphaR,
-                        RooAbsReal& _ nL,
-                        RooAbsReal& _ nR) :
+                        RooAbsReal& _mu,
+                        RooAbsReal& _sigma,
+                        RooAbsReal& _alphaL,
+                        RooAbsReal& _alphaR,
+                        RooAbsReal& _nL,
+                        RooAbsReal& _nR) :
    RooAbsPdf(name,title),
    x("x","x",this,_x),
-    mu(" mu"," mu",this,_ mu),
-    sigma(" sigma"," sigma",this,_ sigma),
-    alphaL(" alphaL"," alphaL",this,_ alphaL),
-    alphaR(" alphaR"," alphaR",this,_ alphaR),
-    nL(" nL"," nL",this,_ nL),
-    nR(" nR"," nR",this,_ nR)
+    mu("mu","mu",this,_mu),
+    sigma("sigma","sigma",this,_sigma),
+    alphaL("alphaL","alphaL",this,_alphaL),
+    alphaR("alphaR","alphaR",this,_alphaR),
+    nL("nL","nL",this,_nL),
+    nR("nR","nR",this,_nR)
  {
  }
 
@@ -49,12 +49,12 @@ ClassImp(RooDSCBShape);
  RooDSCBShape::RooDSCBShape(const RooDSCBShape& other, const char* name) :
    RooAbsPdf(other,name),
    x("x",this,other.x),
-    mu(" mu",this,other. mu),
-    sigma(" sigma",this,other. sigma),
-    alphaL(" alphaL",this,other. alphaL),
-    alphaR(" alphaR",this,other. alphaR),
-    nL(" nL",this,other. nL),
-    nR(" nR",this,other. nR)
+    mu("mu",this,other.mu),
+    sigma("sigma",this,other.sigma),
+    alphaL("alphaL",this,other.alphaL),
+    alphaR("alphaR",this,other.alphaR),
+    nL("nL",this,other.nL),
+    nR("nR",this,other.nR)
  {
  }
 
