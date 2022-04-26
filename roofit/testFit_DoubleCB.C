@@ -10,7 +10,6 @@
 // double CB distribution. It will be put in testFit.C to compare the result
 // of double CB and single CB
 
-
 #include "RooRealVar.h"
 #include "RooDataSet.h"
 #include "RooDataHist.h"
@@ -20,7 +19,7 @@
 #include "TTree.h"
 #include "TH1D.h"
 #include "TRandom.h"
-#include "RooCBShape_MN.h+"
+#include "RooCBShape_MN.h"
 using namespace RooFit;
 
 RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean);
@@ -93,8 +92,8 @@ void testFit_DoubleCB(std::string filePath)
   //// plot the errors of the fitted functions
   //// This needs to be done after the pulls was calculated
   //// otherwise it will interfer the pull calculations
-  WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1, 1, kFalse));
-  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2, 1, kFalse));
+  //WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1, 1, kFalse));
+  //WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2, 1, kFalse));
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
@@ -173,10 +172,10 @@ RooAddPdf* DoubleCB(RooRealVar* rrv_x, double mean)
 {
   RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
   RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 260, 50, 2000);
-  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 1, 0., 500);
-  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -1., -500., 0.);
+  RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 1, 0., 20);
+  RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -1., -20., 0.);
 
-  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 2, 0., 90.);
+  RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 2, 0., 150.);
   RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5, 1e-3, 1);
 
 
