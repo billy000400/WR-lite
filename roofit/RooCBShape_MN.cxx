@@ -66,8 +66,8 @@ RooCBShape_MN::RooCBShape_MN(const RooCBShape_MN& other, const char* name) :
 
 Double_t RooCBShape_MN::evaluate() const
 {
-   Double_t t = (m-m0)/sigma;
-   if (alpha < 0) t = -t;
+  Double_t t = (m-m0)/sigma;
+  if (alpha < 0) t = -t;
 
   Double_t absAlpha = fabs((Double_t)alpha);
   if (t >= -absAlpha) {
