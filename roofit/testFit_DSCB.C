@@ -22,8 +22,8 @@
 #include "RooDSCBShape.h"
 using namespace RooFit;
 
-RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean);
-RooDataSet Hist2Pulls(RooHist* pullPlot, bool print=false);
+RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean, std::string label);
+RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
 
 void testFit_DSCB(std::string filePath)
 {
@@ -52,8 +52,8 @@ void testFit_DSCB(std::string filePath)
 
   //// Preparing probability distirbution functions for fitting
   // preparing the double CB distributions
-  RooDSCBShape* WR_ee_doubleCB = DSCB_init(WR_RecoMass_ee, WRGenMean);
-  RooDSCBShape* WR_mumu_doubleCB = DSCB_init(WR_RecoMass_mumu, WRGenMean);
+  RooDSCBShape* WR_ee_doubleCB = DSCB_init(WR_RecoMass_ee, WRGenMean, label="eejj");
+  RooDSCBShape* WR_mumu_doubleCB = DSCB_init(WR_RecoMass_mumu, WRGenMean, label="mumujj");
 
 
   //// fit distribution to data
@@ -79,8 +79,8 @@ void testFit_DSCB(std::string filePath)
   RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
   RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
   // Extract pulls from RooHist
-  RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull,true);
-  RooDataSet mumu2CBPulls = Hist2Pulls(mumuHist_doubleCBPull);
+  RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull,"eejj", true);
+  RooDataSet mumu2CBPulls = Hist2Pulls(mumuHist_doubleCBPull, "mumujj", true);
   // Prepare frame for the pull histograms
   RooPlot* ee2CBPullFrame = pullVar->frame(Title("ee Double CB Pull Hist"));
   RooPlot* mumu2CBPullFrame = pullVar->frame(Title("mumu Double CB pull Hist"));
@@ -168,22 +168,22 @@ void testFit_DSCB(std::string filePath)
   // frame3->Draw();
 }
 
-RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean)
+RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean, std::string label)
 {
- RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 260, 50, 2000);
- RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I", "rrv_alpha_CB_I", 1, 0., 20);
- RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II", "rrv_alpha_CB_II", -1., -20., 0.);
+ RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB_"+label, "rrv_mean_CB_"+label, mean, 0.8*mean, 1.1*mean);
+ RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB_"+label, "rrv_sigma_CB_"+label, 260, 50, 2000);
+ RooRealVar* rrv_alpha_CB_I = new RooRealVar("rrv_alpha_CB_I_"+label, "rrv_alpha_CB_I_"+label, 1, 0., 20);
+ RooRealVar* rrv_alpha_CB_II = new RooRealVar("rrv_alpha_CB_II_"+label, "rrv_alpha_CB_II_"+label, -1., -20., 0.);
 
- RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I", "rrv_n_CB_I", 300, 0., 3000.);
- RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II", "rrv_n_CB_II", 300, 0., 3000.);
+ RooRealVar* rrv_n_CB_I = new RooRealVar("rrv_n_CB_I_"+label, "rrv_n_CB_I_"+label, 300, 0., 3000.);
+ RooRealVar* rrv_n_CB_II = new RooRealVar("rrv_n_CB_II_"+label, "rrv_n_CB_II_"+label, 300, 0., 3000.);
 
- return new RooDSCBShape("CrystalBall_II", "CrystalBall_II", *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
+ return new RooDSCBShape("DoubleSideCrystallBall_"+label, "DoubleSideCrystallBall_"+label, *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB_I,*rrv_alpha_CB_II,*rrv_n_CB_I,*rrv_n_CB_II);
 }
 
-RooDataSet Hist2Pulls(RooHist* pullPlot, bool print=false)
+RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
 {
-  RooRealVar* pullVar = new RooRealVar("pullVar", "pull variable", -100.0, 100.0);
+  RooRealVar* pullVar = new RooRealVar("pullVar_"+label, "pull variable: "+label, -100.0, 100.0);
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
@@ -200,7 +200,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, bool print=false)
     }
 
 
-    RooRealVar pull_i = RooRealVar("pullVar", "pull variable", pull);
+    RooRealVar pull_i = RooRealVar("pullVar_i_"+label, "pull variable i: "+label, pull);
     pulls.add(RooArgSet(pull_i));
   }
 
