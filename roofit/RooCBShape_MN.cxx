@@ -3,7 +3,7 @@
  * @Date:   04-25-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 04-25-2022
+ * @Last modified time: 04-26-2022
  */
 
 
@@ -26,7 +26,7 @@
 
 ClassImp(RooCBShape_MN);
 
-Double_t RooCBShape::ApproxErf(Double_t arg) const
+Double_t RooCBShape_MN::ApproxErf(Double_t arg) const
 {
   static const double erflim = 5.0;
   if( arg > erflim )
@@ -87,7 +87,7 @@ Double_t RooCBShape_MN::evaluate() const
   }
 }
 
-Int_t RooCBShape::getAnalyticalIntegral(RooArgSet& allVars, RooArgSet& analVars, const char* /*rangeName*/) const
+Int_t RooCBShape_MN::getAnalyticalIntegral(RooArgSet& allVars, RooArgSet& analVars, const char* /*rangeName*/) const
 {
   if( matchArgs(allVars,analVars,m) )
     return 1 ;
@@ -95,7 +95,7 @@ Int_t RooCBShape::getAnalyticalIntegral(RooArgSet& allVars, RooArgSet& analVars,
   return 0;
 }
 
-Double_t RooCBShape::analyticalIntegral(Int_t code, const char* rangeName) const
+Double_t RooCBShape_MN::analyticalIntegral(Int_t code, const char* rangeName) const
 {
  static const double sqrtPiOver2 = 1.2533141373;
  static const double sqrt2 = 1.4142135624;
