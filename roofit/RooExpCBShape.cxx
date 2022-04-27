@@ -67,7 +67,7 @@ ClassImp(RooExpCBShape);
    if (t < -absBeta){
 
      Double_t A = exp(0.5*absBeta*absBeta);
-     return A*exp(-absBeta*x);
+     return A*exp(absBeta*t);
 
    } else if (t < absAlpha) {
 

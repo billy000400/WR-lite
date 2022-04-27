@@ -92,8 +92,8 @@ void testFit_ExpCB(std::string filePath)
   //// plot the errors of the fitted functions
   //// This needs to be done after the pulls was calculated
   //// otherwise it will interfer the pull calculations
-  WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1, 1, kFALSE));
-  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2, 1, kFALSE));
+  // WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1, 1, kFALSE));
+  // WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2, 1, kFALSE));
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
@@ -174,7 +174,7 @@ RooExpCBShape* ExpCB_init(RooRealVar* rrv_x, double mean, std::string label)
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpCB_")+label).c_str(), label.c_str(), 260, 50, 2000);
  RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpCB_")+label).c_str(), label.c_str(), 1, 0., 20);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpCB_")+label).c_str(), label.c_str(), 5, 0., 100.);
- RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpCB_")+label).c_str(), label.c_str(), -1., -20., 0.);
+ RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpCB_")+label).c_str(), label.c_str(), 1., 0., 10.);
 
 
  return new RooExpCBShape((std::string("ExponentialCrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_alpha_CB,*rrv_n_CB,*rrv_beta_CB);
