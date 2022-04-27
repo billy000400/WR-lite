@@ -61,8 +61,8 @@ void testFit_ExpCB(std::string filePath)
   RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
 
   //// Prepare frames for plotting
-  RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj Double CB"));
-  RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame(Title("mumujj Double CB"));
+  RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj ExpCB"));
+  RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame(Title("mumujj ExpCB"));
 
   //// Plot on frames
   // plot data on frames
@@ -82,8 +82,8 @@ void testFit_ExpCB(std::string filePath)
   RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull,"eejj", true);
   RooDataSet mumu2CBPulls = Hist2Pulls(mumuHist_doubleCBPull, "mumujj", true);
   // Prepare frame for the pull histograms
-  RooPlot* ee2CBPullFrame = pullVar->frame(Title("ee Double CB Pull Hist"));
-  RooPlot* mumu2CBPullFrame = pullVar->frame(Title("mumu Double CB pull Hist"));
+  RooPlot* ee2CBPullFrame = pullVar->frame(Title("ee ExpCB Pull Hist"));
+  RooPlot* mumu2CBPullFrame = pullVar->frame(Title("mumu ExpCB pull Hist"));
   // plot pull histograms on frames
   std::cout << "Making the pull histograms" << std::endl;
   ee2CBPulls.plotOn(ee2CBPullFrame, Binning(15));
