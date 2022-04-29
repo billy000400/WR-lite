@@ -67,61 +67,61 @@
 // This will improve performance in multithreaded jobs.
 
 // helper class to invetigate the difference between gen and reco data
-class missMatchCatcher {
-	public:
-		missMatchCatcher(double left, double right);
-		double getLeftBoundary();
-		double getRightBoundary();
-		void fill(double gen, double reco);
-		TNtuple getLeftDiff();
-		TNtuple getMiddleDiff();
-		TNtuple getRightDiff();
-	private:
-		double boundary_l;
-		double boundary_r;
-		TNtuple diff_l;
-		TNtuple diff_m;
-		TNtuple diff_r;
-};
-
-// constructor
-missMatchCatcher::missMatchCatcher(double left, double right)
-{
-	boundary_l=left;
-	boundary_r=right;
-}
-
-void missMatchCatcher::fill(double gen, double reco)
-{
-	double diff = reco-gen;
-	if (reco < boundary_l){
-		diff_l.fill((float)diff);
-	} else if(reco < boundary_r){
-		diff_m.fill((float)diff);
-	}else{
-		diff_r.fill((float)diff);
-	}
-}
-
-void missMatchCatcher::getLeftBoundary(){
-	return boundary_l;
-}
-
-void missMatchCatcher::getRightBoundary(){
-	return boundary_r;
-}
-
-TNtuple missMatchCatcher::getLeftDiff(){
-	return diff_l;
-}
-
-TNtuple missMatchCatcher::getMiddleDiff(){
-	return diff_m;
-}
-
-TNtuple missMatchCatcher::getRightDiff(){
-	return diff_r;
-}
+// class missMatchCatcher {
+// 	public:
+// 		missMatchCatcher(double left, double right);
+// 		double getLeftBoundary();
+// 		double getRightBoundary();
+// 		void fill(double gen, double reco);
+// 		TNtuple getLeftDiff();
+// 		TNtuple getMiddleDiff();
+// 		TNtuple getRightDiff();
+// 	private:
+// 		double boundary_l;
+// 		double boundary_r;
+// 		TNtuple diff_l;
+// 		TNtuple diff_m;
+// 		TNtuple diff_r;
+// };
+//
+// // constructor
+// missMatchCatcher::missMatchCatcher(double left, double right)
+// {
+// 	boundary_l=left;
+// 	boundary_r=right;
+// }
+//
+// void missMatchCatcher::fill(double gen, double reco)
+// {
+// 	double diff = reco-gen;
+// 	if (reco < boundary_l){
+// 		diff_l.fill((float)diff);
+// 	} else if(reco < boundary_r){
+// 		diff_m.fill((float)diff);
+// 	}else{
+// 		diff_r.fill((float)diff);
+// 	}
+// }
+//
+// void missMatchCatcher::getLeftBoundary(){
+// 	return boundary_l;
+// }
+//
+// void missMatchCatcher::getRightBoundary(){
+// 	return boundary_r;
+// }
+//
+// TNtuple missMatchCatcher::getLeftDiff(){
+// 	return diff_l;
+// }
+//
+// TNtuple missMatchCatcher::getMiddleDiff(){
+// 	return diff_m;
+// }
+//
+// TNtuple missMatchCatcher::getRightDiff(){
+// 	return diff_r;
+// }
 
 //
 
