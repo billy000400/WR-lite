@@ -921,6 +921,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 				myRECOevent.leadMuonJJRecodr2 = dR2(leadMuon->eta(), (subleadJet->p4()+leadJet->p4()).eta(),leadMuon->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 
+				std::cout << "Hello? It's me." << std::endl;
 				// calculate dR^2 between any pairs of matched leptons and 2 highest pT jets
 				double mu1mu2_dR2 = dR2(matchedMuonL1->eta(), matchedMuon->eta(), matchedMuonL1->phi(), matchedMuon->phi());
 				double mu1J1_dR2 = dR2(matchedMuonL1->eta(), leadJet->eta(), matchedMuonL1->phi(), leadJet->phi());
