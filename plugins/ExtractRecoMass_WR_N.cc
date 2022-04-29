@@ -600,6 +600,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadElectron->p4() << ", "<< leadElectron->pt() << std::endl;
 				std::cout << "sublead lepton" << subleadElectron->p4() << ", "<< subleadElectron->pt() << std::endl;
+				std::cout << "Hello? I'm at electron." << std::endl;
 				//calculate boosts
 				combinedJetsP4 = subleadJet->p4() + leadJet->p4();
 				std::cout << "combined" << combinedJetsP4 << std::endl;
@@ -868,6 +869,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadMuon->p4() << ", "<< leadMuon->pt() << std::endl;
 				std::cout << "sublead lepton" << subleadMuon->p4() << ", "<< subleadMuon->pt() << std::endl;
+				std::cout << "Hello? I'm at muon." << std::endl;
 
 				//Boosting information
 				combinedJetsP4 = subleadJet->p4() + leadJet->p4();
