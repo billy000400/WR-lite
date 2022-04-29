@@ -596,6 +596,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	  	//If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
 			if((leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0 && el1Match != 0 && el2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0)){
+				std::cout << "Hello? I'm before electron." << std::endl;
 				std::cout << "lead jet" << leadJet->p4() << ", "<< leadJet->pt() << std::endl;
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadElectron->p4() << ", "<< leadElectron->pt() << std::endl;
@@ -864,7 +865,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		    //Check whether we have a viable muon event
 			if((leadJet != 0 && subleadJet != 0 && leadMuon != 0 && subleadMuon != 0 && mu1Match != 0 && mu2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadMuon != 0 && subleadMuon != 0)) {
-
+				std::cout << "Hello? I'm before muon." << std::endl;
 				std::cout << "lead jet" << leadJet->p4() << ", "<< leadJet->pt() << std::endl;
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadMuon->p4() << ", "<< leadMuon->pt() << std::endl;
