@@ -1324,10 +1324,10 @@ ExtractRecoMass_WR_N::beginJob() {
   double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
   std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
 
-	mu1Diffs = missMatchCatcher();
-	mu2Diffs = missMatchCatcher();
-	e1Diffs = missMatchCatcher();
-	e2Diffs = missMatchCatcher();
+	// mu1Diffs = missMatchCatcher();
+	// mu2Diffs = missMatchCatcher();
+	// e1Diffs = missMatchCatcher();
+	// e2Diffs = missMatchCatcher();
 
 }
 
