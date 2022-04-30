@@ -67,61 +67,61 @@
 // This will improve performance in multithreaded jobs.
 
 // helper class to invetigate the difference between gen and reco data
-class missMatchCatcher {
-	public:
-		missMatchCatcher(double left, double right);
-		double getLeftBoundary();
-		double getRightBoundary();
-		void fill(double gen, double reco);
-		TNtuple getLeftDiff();
-		TNtuple getMiddleDiff();
-		TNtuple getRightDiff();
-	private:
-		double boundary_l;
-		double boundary_r;
-		TNtuple diff_l;
-		TNtuple diff_m;
-		TNtuple diff_r;
-};
-
-// constructor
-missMatchCatcher::missMatchCatcher(double left, double right)
-{
-	boundary_l=left;
-	boundary_r=right;
-}
-
-void missMatchCatcher::fill(double gen, double reco)
-{
-	double diff = reco-gen;
-	if (reco < boundary_l){
-		diff_l.fill((float)diff);
-	} else if(reco < boundary_r){
-		diff_m.fill((float)diff);
-	}else{
-		diff_r.fill((float)diff);
-	}
-}
-
-void missMatchCatcher::getLeftBoundary(){
-	return boundary_l;
-}
-
-void missMatchCatcher::getRightBoundary(){
-	return boundary_r;
-}
-
-TNtuple missMatchCatcher::getLeftDiff(){
-	return diff_l;
-}
-
-TNtuple missMatchCatcher::getMiddleDiff(){
-	return diff_m;
-}
-
-TNtuple missMatchCatcher::getRightDiff(){
-	return diff_r;
-}
+// class missMatchCatcher {
+// 	public:
+// 		missMatchCatcher(double left, double right);
+// 		double getLeftBoundary();
+// 		double getRightBoundary();
+// 		void fill(double gen, double reco);
+// 		TNtuple getLeftDiff();
+// 		TNtuple getMiddleDiff();
+// 		TNtuple getRightDiff();
+// 	private:
+// 		double boundary_l;
+// 		double boundary_r;
+// 		TNtuple diff_l;
+// 		TNtuple diff_m;
+// 		TNtuple diff_r;
+// };
+//
+// // constructor
+// missMatchCatcher::missMatchCatcher(double left, double right)
+// {
+// 	boundary_l=left;
+// 	boundary_r=right;
+// }
+//
+// void missMatchCatcher::fill(double gen, double reco)
+// {
+// 	double diff = reco-gen;
+// 	if (reco < boundary_l){
+// 		diff_l.fill((float)diff);
+// 	} else if(reco < boundary_r){
+// 		diff_m.fill((float)diff);
+// 	}else{
+// 		diff_r.fill((float)diff);
+// 	}
+// }
+//
+// void missMatchCatcher::getLeftBoundary(){
+// 	return boundary_l;
+// }
+//
+// void missMatchCatcher::getRightBoundary(){
+// 	return boundary_r;
+// }
+//
+// TNtuple missMatchCatcher::getLeftDiff(){
+// 	return diff_l;
+// }
+//
+// TNtuple missMatchCatcher::getMiddleDiff(){
+// 	return diff_m;
+// }
+//
+// TNtuple missMatchCatcher::getRightDiff(){
+// 	return diff_r;
+// }
 
 //
 
@@ -179,7 +179,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		double N_RecoMass_Match_mu_i;
 		double N_RecoMass_NN_mu_i;
 
-		double dR2Max;
+		double dR2Min;
 		bool allLargeDR2;
 
 		double lljjRecoMass_i;
@@ -238,7 +238,7 @@ ExtractRecoMass_WR_N::ExtractRecoMass_WR_N(const edm::ParameterSet& iConfig)
 	// m_ofName (iConfig.getUntrackedParameter<std::string>("ofName"))
 {
    //now do what ever initialization is needed
-	 dR2Max = 0.16;
+	 dR2Min = 0.16;
 }
 
 
@@ -596,10 +596,12 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	  	//If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
 			if((leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0 && el1Match != 0 && el2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0)){
+				std::cout << "Hello? I'm before electron." << std::endl;
 				std::cout << "lead jet" << leadJet->p4() << ", "<< leadJet->pt() << std::endl;
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadElectron->p4() << ", "<< leadElectron->pt() << std::endl;
 				std::cout << "sublead lepton" << subleadElectron->p4() << ", "<< subleadElectron->pt() << std::endl;
+				std::cout << "Hello? I'm at electron." << std::endl;
 				//calculate boosts
 				combinedJetsP4 = subleadJet->p4() + leadJet->p4();
 				std::cout << "combined" << combinedJetsP4 << std::endl;
@@ -651,20 +653,23 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadElectronJJRecodr2 = dR2(leadElectron->eta(), (subleadJet->p4()+leadJet->p4()).eta(), leadElectron->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 
-				// calculate dR^2 between any pairs of matched leptons and 2 highest pT jets
-				double e1e2_dR2 = dR2(matchedElectronL1->eta(), matchedElectron->eta(), matchedElectronL1->phi(), matchedElectron->phi());
-				double e1J1_dR2 = dR2(matchedElectronL1->eta(), leadJet->eta(), matchedElectronL1->phi(), leadJet->phi());
-				double e1J2_dR2 = dR2(matchedElectronL1->eta(), subleadJet->eta(), matchedElectronL1->phi(), subleadJet->phi());
-				double e2J1_dR2 = dR2(matchedElectron->eta(), leadJet->eta(), matchedElectron->phi(), leadJet->phi());
-				double e2J2_dR2 = dR2(matchedElectron->eta(), subleadJet->eta(), matchedElectron->phi(), subleadJet->phi());
+				if (!background){
+					// calculate dR^2 between any pairs of matched leptons and 2 highest pT jets
+					double e1e2_dR2 = dR2(matchedElectronL1->eta(), matchedElectron->eta(), matchedElectronL1->phi(), matchedElectron->phi());
+					double e1J1_dR2 = dR2(matchedElectronL1->eta(), leadJet->eta(), matchedElectronL1->phi(), leadJet->phi());
+					double e1J2_dR2 = dR2(matchedElectronL1->eta(), subleadJet->eta(), matchedElectronL1->phi(), subleadJet->phi());
+					double e2J1_dR2 = dR2(matchedElectron->eta(), leadJet->eta(), matchedElectron->phi(), leadJet->phi());
+					double e2J2_dR2 = dR2(matchedElectron->eta(), subleadJet->eta(), matchedElectron->phi(), subleadJet->phi());
 
-				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
-				allLargeDR2 = ( (e1e2_dR2>dR2Max)&&
-												(e1J1_dR2>dR2Max)&&
-												(e1J2_dR2>dR2Max)&&
-												(e2J1_dR2>dR2Max)&&
-												(e2J2_dR2>dR2Max)&&
-												(myRECOevent.leadJsubJdr2>dR2Max));
+					// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
+					allLargeDR2 = ( (e1e2_dR2>dR2Min)&&
+													(e1J1_dR2>dR2Min)&&
+													(e1J2_dR2>dR2Min)&&
+													(e2J1_dR2>dR2Min)&&
+													(e2J2_dR2>dR2Min)&&
+													(myRECOevent.leadJsubJdr2>dR2Min));
+				}
+
 
 				myRECOevent.leadElectronsubElectronRecoMass = (subleadElectron->p4() + leadElectron->p4()).mass();
 				myRECOevent.subElectronleadJsubJRecoMass = (subleadElectron->p4() + leadJet->p4() + subleadJet->p4()).mass();
@@ -863,11 +868,12 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		    //Check whether we have a viable muon event
 			if((leadJet != 0 && subleadJet != 0 && leadMuon != 0 && subleadMuon != 0 && mu1Match != 0 && mu2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadMuon != 0 && subleadMuon != 0)) {
-
+				std::cout << "Hello? I'm before muon." << std::endl;
 				std::cout << "lead jet" << leadJet->p4() << ", "<< leadJet->pt() << std::endl;
 				std::cout << "sublead jet" << subleadJet->p4() << ", "<< subleadJet->pt() << std::endl;
 				std::cout << "lead lepton" << leadMuon->p4() << ", "<< leadMuon->pt() << std::endl;
 				std::cout << "sublead lepton" << subleadMuon->p4() << ", "<< subleadMuon->pt() << std::endl;
+				std::cout << "Hello? I'm at muon." << std::endl;
 
 				//Boosting information
 				combinedJetsP4 = subleadJet->p4() + leadJet->p4();
@@ -921,20 +927,24 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				myRECOevent.leadJsubJdr2 = dR2(leadJet->eta(), subleadJet->eta(), leadJet->phi(), subleadJet->phi());
 				myRECOevent.leadMuonJJRecodr2 = dR2(leadMuon->eta(), (subleadJet->p4()+leadJet->p4()).eta(),leadMuon->phi(), (subleadJet->p4()+leadJet->p4()).phi());
 
+				std::cout << "Hello? It's me." << std::endl;
 				// calculate dR^2 between any pairs of matched leptons and 2 highest pT jets
-				double mu1mu2_dR2 = dR2(matchedMuonL1->eta(), matchedMuon->eta(), matchedMuonL1->phi(), matchedMuon->phi());
-				double mu1J1_dR2 = dR2(matchedMuonL1->eta(), leadJet->eta(), matchedMuonL1->phi(), leadJet->phi());
-				double mu1J2_dR2 = dR2(matchedMuonL1->eta(), subleadJet->eta(), matchedMuonL1->phi(), subleadJet->phi());
-				double mu2J1_dR2 = dR2(matchedMuon->eta(), leadJet->eta(), matchedMuon->phi(), leadJet->phi());
-				double mu2J2_dR2 = dR2(matchedMuon->eta(), subleadJet->eta(), matchedMuon->phi(), subleadJet->phi());
+				if (!background){
+					double mu1mu2_dR2 = dR2(matchedMuonL1->eta(), matchedMuon->eta(), matchedMuonL1->phi(), matchedMuon->phi());
+					double mu1J1_dR2 = dR2(matchedMuonL1->eta(), leadJet->eta(), matchedMuonL1->phi(), leadJet->phi());
+					double mu1J2_dR2 = dR2(matchedMuonL1->eta(), subleadJet->eta(), matchedMuonL1->phi(), subleadJet->phi());
+					double mu2J1_dR2 = dR2(matchedMuon->eta(), leadJet->eta(), matchedMuon->phi(), leadJet->phi());
+					double mu2J2_dR2 = dR2(matchedMuon->eta(), subleadJet->eta(), matchedMuon->phi(), subleadJet->phi());
 
-				// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
-				allLargeDR2 = ( (mu1mu2_dR2>dR2Max)&&
-												(mu1J1_dR2>dR2Max)&&
-												(mu1J2_dR2>dR2Max)&&
-												(mu2J1_dR2>dR2Max)&&
-												(mu2J2_dR2>dR2Max)&&
-												(myRECOevent.leadJsubJdr2>dR2Max));
+					// if any pair of lepton/jet and lepton/jet has a dR>dR2 threshold, the signal is marked and will be rejected
+					allLargeDR2 = ( (mu1mu2_dR2>dR2Min)&&
+													(mu1J1_dR2>dR2Min)&&
+													(mu1J2_dR2>dR2Min)&&
+													(mu2J1_dR2>dR2Min)&&
+													(mu2J2_dR2>dR2Min)&&
+													(myRECOevent.leadJsubJdr2>dR2Min));
+				}
+
 
 
 				myRECOevent.leadMuonsubMuonRecoMass = (subleadMuon->p4() + leadMuon->p4()).mass();
@@ -1315,19 +1325,19 @@ ExtractRecoMass_WR_N::beginJob() {
 															"Obviously, they are martin's muons",
 														"merged_pT");
 
-	size_t fileNamePos = m_ofName.find_last_of("_");
-  std::string fileName = m_ofName.substr(fileNamePos+1);
-  size_t RPos = m_ofName.find_last_of("R");
-  size_t NPos = m_ofName.find_last_of("N");
-  size_t dotPos = m_ofName.find_last_of(".");
-  double WRGenMean = std::stod(m_ofName.substr(RPos+1, NPos-RPos));
-  double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
-  std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
+	// size_t fileNamePos = m_ofName.find_last_of("_");
+  // std::string fileName = m_ofName.substr(fileNamePos+1);
+  // size_t RPos = m_ofName.find_last_of("R");
+  // size_t NPos = m_ofName.find_last_of("N");
+  // size_t dotPos = m_ofName.find_last_of(".");
+  // double WRGenMean = std::stod(m_ofName.substr(RPos+1, NPos-RPos));
+  // double NGenMean = std::stod(m_ofName.substr(NPos+1, dotPos-NPos));
+  // std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
 
-	mu1Diffs = missMatchCatcher();
-	mu2Diffs = missMatchCatcher();
-	e1Diffs = missMatchCatcher();
-	e2Diffs = missMatchCatcher();
+	// mu1Diffs = missMatchCatcher();
+	// mu2Diffs = missMatchCatcher();
+	// e1Diffs = missMatchCatcher();
+	// e2Diffs = missMatchCatcher();
 
 }
 
