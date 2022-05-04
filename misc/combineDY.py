@@ -101,6 +101,14 @@ def main():
     	weightArray2 = weightArray*xSec/count2
     	weightArray = weightArray*xSec/counts
 
+        # fill bgRecoMass Ntuple
+        recoMassNtuple = rootfile.Get(analysisFolder+recoMassNtupleName)
+        lljjArray = tree2array(recoMassNtuple, branches=lljjBranch)
+        ljjResArray = tree2array(recoMassNtuple, branches=ljjResBranch)
+        ljjSpResArray = tree2array(recoMassNtuple, branches=ljjSpResBranch)
+        for i in range(lljjArray.shape[0]):
+            ntuple.Fill(lljjArray[i], ljjResArray[i], ljjSpResArray[i])
+
     	print(WRmassArray.shape)
     	print(WRmassArray.shape[0])
     	for i in range(WRmassArray.shape[0]):
@@ -115,13 +123,7 @@ def main():
     		subNMass[0] = subleadMassArray[i]
     		tree.Fill()
 
-        # fill bgRecoMass Ntuple
-        recoMassNtuple = rootfile.Get(analysisFolder+recoMassNtupleName)
-        lljjArray = tree2array(recoMassNtuple, branches=lljjBranch)
-        ljjResArray = tree2array(recoMassNtuple, branches=ljjResBranch)
-        ljjSpResArray = tree2array(recoMassNtuple, branches=ljjSpResBranch)
-        for i in range(lljjArray.shape[0]):
-            ntuple.Fill(lljjArray[i], ljjResArray[i], ljjSpResArray[i])
+
 
 
     # write the tree into the output file and close the file
