@@ -1,3 +1,11 @@
+# @Author: Billy Li <billyli>
+# @Date:   04-23-2022
+# @Email:  li000400@umn.edu
+# @Last modified by:   billyli
+# @Last modified time: 05-03-2022
+
+
+
 """
 Combines all dy ttrees into a single root file
 """
@@ -18,9 +26,16 @@ def main():
     correctMassBranch = "correctNMass"
     incorrectMassBranch = "incorrectNMass"
     leadMassBranch = "leadNMass"
-    subleadMassBranch = "subNMass" 
+    subleadMassBranch = "subNMass"
     weightBranch =  "weight"
-    
+
+    analysisFolder = "analysis/"
+    recoMassNtupleName = "bgRecoMass"
+    lljjBranch = "lljjRecoMass"
+    ljjResBranch = "ljjRecoMass_Res"
+    ljjSpResBranch = "ljjRecoMass_SpRes"
+
+
     #LOADING THE TTREE
     fileNames = ["DY100to200.root",
     		"DY200to400.root",
@@ -31,19 +46,20 @@ def main():
     		"DY2500toInf.root"]
     crossSections = [147.4,  40.99, 5.678, 2.198, 0.6304, 0.1514, 0.003565]
     counts2 = [2751187, 962195, 1070454, 8292957, 2673066, 596079, 399492]
-        
+
     # make new root file with new tree
     file = ROOT.TFile("fullDY.root", 'recreate')
     tree = ROOT.TTree("fullDY", "fullDY")
-     
+    ntuple = ROOT.TNtuple("bgRecoMass", "bgRecoMass", f"{lljjBranch}:{ljjResBranch}:{ljjSpResBranch}")
+
     # create 1 dimensional float arrays as fill variables, in this way the float
     # array serves as a pointer which can be passed to the branch
-    
-    
-    
+
+
+
     # create some random numbers, assign them into the fill variables and call Fill()
-    
-     
+
+
     WRMass = np.zeros(1, dtype=float)
     resolvedNNMass = np.zeros(1, dtype=float)
     superResolvedNNMass = np.zeros(1, dtype=float)
@@ -53,7 +69,7 @@ def main():
     incorrectNMass = np.zeros(1, dtype=float)
     leadNMass = np.zeros(1, dtype=float)
     subNMass = np.zeros(1, dtype=float)
-    
+
     tree.Branch("WRMass",WRMass,"WRMass/D");
     tree.Branch("resolvedNNMass",resolvedNNMass,"resolvedNNMass/D");
     tree.Branch("superResolvedNNMass",superResolvedNNMass,"superResolvedNNMass/D");
@@ -63,17 +79,17 @@ def main():
     tree.Branch("subNMass",subNMass,"subNMass/D");
     tree.Branch("weight",treeWeight,"weight/D");
     tree.Branch("weight2",treeWeight2,"weight2/D");
-    
-    
+
+
     for fileName, xSec, count2 in zip(fileNames, crossSections, counts2):
     	rootfile= ROOT.TFile.Open(fileName, "read")
-    
+
     	massTree = rootfile.Get(treeFolder+treeName)
-    	
+
     	countHisto = rootfile.Get(treeFolder+"countHisto")
     	counts = countHisto.GetBinContent(1)
     	print(counts)
-    	
+
     	WRmassArray = tree2array(massTree, branches=wrMassBranch)
     	SRmassArray = tree2array(massTree, branches=SRmassBranch)
     	RmassArray = tree2array(massTree, branches=RmassBranch)
@@ -84,7 +100,7 @@ def main():
     	weightArray = tree2array(massTree, branches=weightBranch)
     	weightArray2 = weightArray*xSec/count2
     	weightArray = weightArray*xSec/counts
-    	
+
     	print(WRmassArray.shape)
     	print(WRmassArray.shape[0])
     	for i in range(WRmassArray.shape[0]):
@@ -98,8 +114,11 @@ def main():
     		leadNMass[0] = leadMassArray[i]
     		subNMass[0] = subleadMassArray[i]
     		tree.Fill()
-    
-     
+
+        # fill bgRecoMass Ntuple
+        recoMassNtuple = rootfile.Get(analysisFolder+recoMassNtupleName)
+
+
     # write the tree into the output file and close the file
     file.Write()
     file.Close()
