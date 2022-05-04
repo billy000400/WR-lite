@@ -2,7 +2,7 @@
 # @Date:   04-23-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 05-03-2022
+# @Last modified time: 05-04-2022
 
 
 
@@ -117,6 +117,11 @@ def main():
 
         # fill bgRecoMass Ntuple
         recoMassNtuple = rootfile.Get(analysisFolder+recoMassNtupleName)
+        lljjArray = tree2array(recoMassNtuple, branches=lljjBranch)
+        ljjResArray = tree2array(recoMassNtuple, branches=ljjResBranch)
+        ljjSpResArray = tree2array(recoMassNtuple, branches=ljjSpResBranch)
+        for i in range(lljjArray.shape[0]):
+            ntuple.Fill(lljjArray[i], ljjResArray[i], ljjSpResArray[i])
 
 
     # write the tree into the output file and close the file
