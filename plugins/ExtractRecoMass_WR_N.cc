@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 04-13-2022
+ * @Last modified time: 05-04-2022
  */
 
 
@@ -193,7 +193,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		std::vector<double> lepton1_pts;
 
 		// Billy's root objects
-    TNtuple* WR_GenMass;
+    	TNtuple* WR_GenMass;
 		TNtuple* WR_RecoMass_ee;
 		TNtuple* WR_RecoMass_mumu;
 
@@ -203,6 +203,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* N_RecoMass_NN_mu;
 
 		TNtuple* bgRecoMass;
+
+		TNtuple* eventWeight;
 
 		TNtuple* debug_muon1GENvsMatch;
 		TNtuple* debug_pfVsTuneP;
@@ -1146,8 +1148,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
 		}
+		eventWeight->Fill((float) eventInfo->weight()/fabs(eventInfo->weight()) );
   } else if (background && goodReco){
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
+		eventWeight->Fill((float) eventInfo->weight()/fabs(eventInfo->weight()) );
 	}
 
 }
@@ -1312,6 +1316,8 @@ ExtractRecoMass_WR_N::beginJob() {
 	bgRecoMass = fs->make<TNtuple>("bgRecoMass",
 																	"Reconstructed invm for bkg",
 																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes");
+
+	eventWeight = fs->make<TNtuple>("eventWeight", "event weight", "eventWeight");
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
