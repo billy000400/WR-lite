@@ -1,46 +1,46 @@
-
-cd /data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/DYJetsToLL_M-50_HT-100to200
-
-rm DY100to200.root
-hadd DY100to200.root *.root
-
-cd ../DYJetsToLL_M-50_HT-1200to2500
-rm DY1200to2500.root
-hadd DY1200to2500.root *.root
-
-cd ../DYJetsToLL_M-50_HT-200to400
-rm DY200to400.root
-hadd DY200to400.root *.root
-
-cd ../DYJetsToLL_M-50_HT-2500toInf
-rm DY2500toInf.root
-hadd DY2500toInf.root *.root
-
-cd ../DYJetsToLL_M-50_HT-400to600
-rm DY400to600.root
-hadd DY400to600.root *.root
-
-cd ../DYJetsToLL_M-50_HT-600to800
-rm DY600to800.root
-hadd DY600to800.root *.root
-
-cd ../DYJetsToLL_M-50_HT-800to1200
-rm DY800to1200.root
-hadd DY800to1200.root *.root
-
-cd ../TTTo2L2Nu
-rm TTTo2L2Nu.root
-hadd TTTo2L2Nu.root *.root
-
-cd ..
-scp -r DY*/DY*.root /home/kronh006
-scp -r TT*/TT*.root /home/kronh006
-
-cd ..
-cd ..
-cd ..
-cd ..
-cd ..
+# 
+# cd /data/cmszfs1/user/li000400/CMSSW_10_4_0_patch1/src/ExoAnalysis/WR_lite/DYJetsToLL_M-50_HT-100to200
+#
+# rm DY100to200.root
+# hadd DY100to200.root *.root
+#
+# cd ../DYJetsToLL_M-50_HT-1200to2500
+# rm DY1200to2500.root
+# hadd DY1200to2500.root *.root
+#
+# cd ../DYJetsToLL_M-50_HT-200to400
+# rm DY200to400.root
+# hadd DY200to400.root *.root
+#
+# cd ../DYJetsToLL_M-50_HT-2500toInf
+# rm DY2500toInf.root
+# hadd DY2500toInf.root *.root
+#
+# cd ../DYJetsToLL_M-50_HT-400to600
+# rm DY400to600.root
+# hadd DY400to600.root *.root
+#
+# cd ../DYJetsToLL_M-50_HT-600to800
+# rm DY600to800.root
+# hadd DY600to800.root *.root
+#
+# cd ../DYJetsToLL_M-50_HT-800to1200
+# rm DY800to1200.root
+# hadd DY800to1200.root *.root
+#
+# cd ../TTTo2L2Nu
+# rm TTTo2L2Nu.root
+# hadd TTTo2L2Nu.root *.root
+#
+# cd ..
+# scp -r DY*/DY*.root /home/kronh006
+# scp -r TT*/TT*.root /home/kronh006
+#
+# cd ..
+# cd ..
+# cd ..
+# cd ..
+# cd ..
 
 
 
