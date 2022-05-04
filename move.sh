@@ -1,3 +1,5 @@
+mv WR1000_N200 analysis/allEvents/.
+mv WR1000_N400 analysis/allEvents/.
 mv WR1000_N600 analysis/allEvents/.
 mv WR1000_N800 analysis/allEvents/.
 mv WR1000_N900 analysis/allEvents/.
