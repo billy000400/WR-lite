@@ -6,7 +6,6 @@ mv WR1200_N1100 analysis/allEvents/.
 mv WR1200_N400 analysis/allEvents/.
 mv WR1200_N600 analysis/allEvents/.
 mv WR1200_N800 analysis/allEvents/.
-mv WR1200_N800 analysis/allEvents/.
 mv WR1400_N1000 analysis/allEvents/.
 mv WR1400_N1200 analysis/allEvents/.
 mv WR1400_N1300 analysis/allEvents/.
