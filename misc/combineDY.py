@@ -49,7 +49,7 @@ def main():
     # make new root file with new tree
     file = ROOT.TFile("fullDY.root", 'recreate')
     tree = ROOT.TTree("fullDY", "fullDY")
-    ntuple = ROOT.TNtuple("bgRecoMass", "bgRecoMass", f"{lljjBranch}:{ljjResBranch}:{ljjSpResBranch}")
+    ntuple = ROOT.TNtuple("bgRecoMass", "bgRecoMass", "lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes")
 
     # create 1 dimensional float arrays as fill variables, in this way the float
     # array serves as a pointer which can be passed to the branch
