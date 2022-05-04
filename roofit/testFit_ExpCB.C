@@ -66,8 +66,8 @@ void testFit_ExpCB(std::string filePath)
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(60), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(60), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(100), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(100), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   WR_ee_doubleCB->plotOn(eeFrame_doubleCB);
   WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB);
@@ -86,8 +86,8 @@ void testFit_ExpCB(std::string filePath)
   RooPlot* mumu2CBPullFrame = pullVar->frame(Title("mumu ExpCB pull Hist"));
   // plot pull histograms on frames
   std::cout << "Making the pull histograms" << std::endl;
-  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(30));
-  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(30));
+  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(15));
+  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(15));
 
   //// plot the errors of the fitted functions
   //// This needs to be done after the pulls was calculated
