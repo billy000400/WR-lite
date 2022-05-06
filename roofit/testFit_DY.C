@@ -52,7 +52,7 @@ void testFit_DY()
   RooExponential *model = new RooExponential("exponential DY", "exponential DY", *lljjRecoMass, *c);
 
   // fit model
-  RooFitResult *r = model->fitTo(ds_lljjRecoMass, Save(), Range(1000, 3000));
+  RooFitResult *r = model->fitTo(ds_lljjRecoMass, Save(), SumW2Error(kTRUE), Range(500, 3000));
 
   // prepare frames for plotting
   RooPlot *frame1 = lljjRecoMass->frame(Title("DY lljj Reco Mass (top 2 pT lepton)"));
