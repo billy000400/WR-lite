@@ -71,7 +71,8 @@ ClassImp(RooExpmCB);
       Double_t m_inv = 1/m;
       Double_t A = exp(absBeta*absBeta*(m_inv-0.5));
       Double_t omega = m_inv*TMath::Power(absBeta, 2-m);
-      return A*exp(-omega*TMath::Power(t,m));
+      Double_t abs_t = fabs(t);
+      return A*exp(-omega*TMath::Power(abs_t,m));
 
     } else if (t < absAlpha) {
 
