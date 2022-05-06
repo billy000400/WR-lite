@@ -91,8 +91,8 @@ void testFit_ExpmCB(std::string filePath)
 
 
   // chi2
-  double chi2_ee_ExpmCB = eeFrame_ExpmCB->chiSquare();
-  double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare();
+  double chi2_ee_ExpmCB = eeFrame_ExpmCB->chiSquare(6);
+  double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare(6);
   std::cout << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
   std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
 
