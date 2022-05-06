@@ -74,6 +74,12 @@ void testFit_ExpmCB(std::string filePath)
   WR_ee_ExpCB->plotOn(eeFrame_ExpCB);
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
 
+  // chi2
+  double chi2_ee_ExpCB = eeFrame_ExpCB->chiSquare(5);
+  double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare(6);
+  std::cout << "chi2_ee_ExpCB: " << chi2_ee_ExpCB <<std::endl;
+  std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
+
   //// pull related
   // Prepare pulls
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
@@ -90,13 +96,6 @@ void testFit_ExpmCB(std::string filePath)
   std::cout << "Making the pull histograms" << std::endl;
   ee_ExpCBPulls.plotOn(ee_ExpCBPullFrame, Binning(15));
   mumu_ExpmCBPulls.plotOn(mumu_ExpmCBPullFrame, Binning(15));
-
-
-  // chi2
-  double chi2_ee_ExpCB = eeFrame_ExpCB->chiSquare(5);
-  double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare(6);
-  std::cout << "chi2_ee_ExpCB: " << chi2_ee_ExpCB <<std::endl;
-  std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
 
 
   //// plot the errors of the fitted functions
