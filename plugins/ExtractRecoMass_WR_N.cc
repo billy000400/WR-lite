@@ -204,8 +204,6 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 
 		TNtuple* bgRecoMass;
 
-		TNtuple* eventWeight;
-
 		TNtuple* debug_muon1GENvsMatch;
 		TNtuple* debug_pfVsTuneP;
 
@@ -1148,10 +1146,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
 		}
-		eventWeight->Fill((float) eventInfo->weight()/fabs(eventInfo->weight()) );
   } else if (background && goodReco){
-		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i);
-		eventWeight->Fill((float) eventInfo->weight()/fabs(eventInfo->weight()) );
+		auto eventWeight_i = eventInfo->weight()/fabs(eventInfo->weight());
+		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
 	}
 
 }
@@ -1315,9 +1312,7 @@ ExtractRecoMass_WR_N::beginJob() {
 
 	bgRecoMass = fs->make<TNtuple>("bgRecoMass",
 																	"Reconstructed invm for bkg",
-																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes");
-
-	eventWeight = fs->make<TNtuple>("eventWeight", "event weight", "eventWeight");
+																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes:eventWeight");
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
