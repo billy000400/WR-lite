@@ -41,8 +41,8 @@ void testFit_ExpmCB(std::string filePath)
 
 
   std::string prefix = "../analysis/allEvents/";
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.5, WRGenMean*1.45);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.5, WRGenMean*1.45);
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.5, WRGenMean*1.4);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.5, WRGenMean*1.4);
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
                 ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_ee"));
@@ -95,7 +95,7 @@ void testFit_ExpmCB(std::string filePath)
   double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare();
   std::cout << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
   std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
-  
+
 
   //// plot the errors of the fitted functions
   //// This needs to be done after the pulls was calculated
