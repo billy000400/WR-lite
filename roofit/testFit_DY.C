@@ -51,7 +51,7 @@ void testFit_DY()
 
 
   // declare model
-  RooRealVar *c = new RooRealVar("c", "c", -1, 10, -10);
+  RooRealVar *c = new RooRealVar("c", "c", -5e-2, -1e-1, -1e-7);
   RooExponential *model = new RooExponential("exponential DY", "exponential DY", *lljjRecoMass, *c);
 
   // fit model
