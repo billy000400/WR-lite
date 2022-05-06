@@ -30,9 +30,6 @@ void testFit_DY()
 
   // importing ntuples into RooDataSet
   std::string prefix = "../analysis/allEvents/";
-  RooDataSet dsWeight("dsWeight", "dsWeight",
-                    RooArgSet(*rowWeight),
-                    ImportFromFile((prefix+"fullDY.root").c_str(), "fullRowWeight"));
 
   RooDataSet ds_lljjRecoMass("ds_lljjRecoMass", "ds_lljjRecoMass",
                 RooArgSet(*lljjRecoMass),
