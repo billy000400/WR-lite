@@ -32,17 +32,17 @@ void testFit_DY()
   std::string prefix = "../analysis/allEvents/";
 
   RooDataSet ds_lljjRecoMass("ds_lljjRecoMass", "ds_lljjRecoMass",
-                RooArgSet(*lljjRecoMass),
+                RooArgSet(*lljjRecoMass, *rowWeight),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
                 WeightVar(*rowWeight));
 
   RooDataSet ds_ljjRecoMass_Res("ds_ljjRecoMass_Res", "ds_ljjRecoMass_Res",
-                RooArgSet(*ljjRecoMass_Res),
+                RooArgSet(*ljjRecoMass_Res, *rowWeight),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
                 WeightVar(*rowWeight));
 
   RooDataSet ds_ljjRecoMass_SpRes("ds_ljjRecoMass_SpRes", "ds_ljjRecoMass_SpRes",
-                RooArgSet(*ljjRecoMass_SpRes),
+                RooArgSet(*ljjRecoMass_SpRes, *rowWeight),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
                 WeightVar(*rowWeight));
 
