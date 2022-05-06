@@ -2,7 +2,7 @@
 # @Date:   04-23-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 05-04-2022
+# @Last modified time: 05-05-2022
 
 
 """
@@ -81,6 +81,7 @@ def main():
     tree.Branch("weight2", treeWeight2, "weight2/D")
 
     for fileName, xSec, count2 in zip(fileNames, crossSections, counts2):
+        print(fileName)
         rootfile = ROOT.TFile.Open(fileName, "read")
 
         massTree = rootfile.Get(treeFolder+treeName)
