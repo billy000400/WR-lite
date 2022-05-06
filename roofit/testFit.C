@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 04-26-2022
+ * @Last modified time: 05-05-2022
  */
 
 
@@ -55,7 +55,7 @@ void testFit(std::string filePath)
   }
 
   //// importing TNtuples from root files
-  std::string prefix = "../";
+  std::string prefix = "../analysis/allEvents/";
   RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45);
   RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45);
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
