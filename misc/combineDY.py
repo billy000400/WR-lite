@@ -2,7 +2,7 @@
 # @Date:   04-23-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 05-05-2022
+# @Last modified time: 05-06-2022
 
 
 """
@@ -53,7 +53,7 @@ def main():
     file = ROOT.TFile("fullDY.root", 'recreate')
     tree = ROOT.TTree("fullDY", "fullDY")
     massNtuple = ROOT.TNtuple("fullBgRecoMass", "fullBgRecoMass", "lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes")
-    weightNtuple = ROOT.TNtuple("fullEventWeight", "fullEventWeight", "eventWeight")
+    weightNtuple = ROOT.TNtuple("fullRowWeight", "fullRowWeight", "rowWeight")
 
     # create 1 dimensional float arrays as fill variables, in this way the float
     # array serves as a pointer which can be passed to the branch

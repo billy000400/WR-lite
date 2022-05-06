@@ -1,3 +1,13 @@
+/**
+ * @Author: Billy Li <billyli>
+ * @Date:   05-03-2022
+ * @Email:  li000400@umn.edu
+ * @Last modified by:   billyli
+ * @Last modified time: 05-06-2022
+ */
+
+
+
 #include "RooRealVar.h"
 #include "RooDataSet.h"
 #include "RooDataHist.h"
@@ -9,7 +19,6 @@
 #include "TRandom.h"
 using namespace RooFit;
 
-RooAddPdf* DoubleCB(RooRealVar* rrv_x);
 
 void testFit_DY()
 {
@@ -17,36 +26,25 @@ void testFit_DY()
   RooRealVar* lljjRecoMass = new RooRealVar("lljjRecoMass", "lljjRecoMass", 0, 3000);
   RooRealVar* ljjRecoMass_Res = new RooRealVar("ljjRecoMass_Res", "ljjRecoMass_Res", 0, 2500);
   RooRealVar* ljjRecoMass_SpRes = new RooRealVar("ljjRecoMass_SpRes", "ljjRecoMass_SpRes", 0, 2500);
+  RooRealVar* rowWeight = new RooRealVar("rowWeight", "rowWeight", -1.5, 1.5);
 
   // importing ntuples into RooDataSet
-  std::string prefix = "../";
-  std::vector<std::string> folders;
-  folders.push_back((prefix+"DYJetsToLL_M-50_HT-100to200/").c_str());
-  folders.push_back((prefix+"DYJetsToLL_M-50_HT-100to200/").c_str());
-  folders.push_back((prefix+"DYJetsToLL_M-50_HT-100to200/").c_str());
-  folders.push_back((prefix+"DYJetsToLL_M-50_HT-100to200/").c_str());
-  folders.push_back((prefix+"DYJetsToLL_M-50_HT-100to200/").c_str());
-  RooDataSet ds1("ds1", "ds1",
+  std::string prefix = "../analysis/allEvents";
+  RooDataSet dsWeight("dsWeight", "dsWeight",
+                    RooArgSet(*rowWeight),
+                    ImportFromFile((prefix+"fullDY.root").c_str(), "analysis/fullRowWeight"));
+  RooDataSet dsDY("dsDY", "dsDY",
                 RooArgSet(*lljjRecoMass, *ljjRecoMass_Res, *ljjRecoMass_SpRes),
-                ImportFromFile(prefix"dyTest.root","analysis/bgRecoMass"));
+                ImportFromFile((prefix+"fullDY.root").c_str(), "analysis/bgRecoMass"),
+                WeightVar(*rowWeight));
 
 
   RooPlot *frame1 = lljjRecoMass->frame(Title("DY lljj Reco Mass (top 2 pT lepton)"));
-  ds1.plotOn(frame1, Binning(128));
+  dsDY.plotOn(frame1, Binning(128));
   RooPlot *frame2 = ljjRecoMass_Res->frame(Title("DY ljj Mass, Reco by Resolved NN"));
-  ds1.plotOn(frame2, Binning(128));
+  dsDY.plotOn(frame2, Binning(128));
   RooPlot *frame3 = ljjRecoMass_SpRes->frame(Title("DY ljj Mass, Reco by SuperResolved NN"));
-  ds1.plotOn(frame3, Binning(128));
-
-  // preparing the background distribution
-  RooAddPdf* WR_pdf = DoubleCB(lljjRecoMass);
-
-  // fit distribution to data
-  WR_pdf->fitTo(ds1);
-
-  // Draw ntuples
-  WR_pdf->plotOn(frame1);
-
+  dsDY.plotOn(frame3, Binning(128));
 
 
 
