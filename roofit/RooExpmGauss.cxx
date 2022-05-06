@@ -31,15 +31,13 @@ ClassImp(RooExpmGauss);
                         RooAbsReal& _mu,
                         RooAbsReal& _sigma,
                         RooAbsReal& _beta,
-                        RooAbsReal& _m,
-                        RooAbsReal& _alpha) :
+                        RooAbsReal& _m) :
    RooAbsPdf(name,title),
    x("x","x",this,_x),
    mu("mu","mu",this,_mu),
    sigma("sigma","sigma",this,_sigma),
    beta("beta","beta",this,_beta),
-   m("m","m",this,_m),
-   alpha("alpha","alpha",this,_alpha)
+   m("m","m",this,_m)
  {
  }
 
@@ -50,8 +48,7 @@ ClassImp(RooExpmGauss);
    mu("mu",this,other.mu),
    sigma("sigma",this,other.sigma),
    beta("beta",this,other.beta),
-   m("m",this,other.m),
-   alpha("alpha",this,other.alpha)
+   m("m",this,other.m)
  {
  }
 
@@ -61,7 +58,6 @@ ClassImp(RooExpmGauss);
  {
      Double_t t = (x-mu)/sigma;
 
-     Double_t absAlpha = fabs((Double_t)alpha);
      Double_t absBeta = fabs((Double_t)beta);
 
      if (t < -absBeta){

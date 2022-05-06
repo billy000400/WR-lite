@@ -21,8 +21,7 @@ public:
 	      RooAbsReal& _mu,
 	      RooAbsReal& _sigma,
 	      RooAbsReal& _beta,
-	      RooAbsReal& _m,
-	      RooAbsReal& _alpha);
+	      RooAbsReal& _m);
   RooExpmGauss(const RooExpmGauss& other, const char* name=0) ;
   virtual TObject* clone(const char* newname) const { return new RooExpmGauss(*this,newname); }
   inline virtual ~RooExpmGauss() { }
@@ -34,7 +33,6 @@ protected:
   RooRealProxy sigma ;
   RooRealProxy beta ;
   RooRealProxy m ;
-  RooRealProxy alpha ;
   
   Double_t evaluate() const ;
 
