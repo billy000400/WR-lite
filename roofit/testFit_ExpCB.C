@@ -40,7 +40,7 @@ void testFit_ExpCB(std::string filePath)
   std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
 
 
-  std::string prefix = "../analysis/allEvents";
+  std::string prefix = "../analysis/allEvents/";
   RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.45, WRGenMean*1.45);
   RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.45, WRGenMean*1.45);
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
