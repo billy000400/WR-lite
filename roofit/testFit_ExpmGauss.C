@@ -171,7 +171,7 @@ void testFit_ExpmGauss(std::string filePath)
 RooExpmGauss* ExpmGauss_init(RooRealVar* rrv_x, double mean, std::string label)
 {
  RooRealVar* rrv_mean_Gauss = new RooRealVar((std::string("rrv_mean_ExpmGauss_")+label).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_Gauss = new RooRealVar((std::string("rrv_sigma_ExpmGauss_")+label).c_str(), label.c_str(), 0.01*mean, 0.0001*mean, 0.5*mean);
+ RooRealVar* rrv_sigma_Gauss = new RooRealVar((std::string("rrv_sigma_ExpmGauss_")+label).c_str(), label.c_str(), 0.1*mean, 0.001*mean, 0.5*mean);
  RooRealVar* rrv_beta_Gauss = new RooRealVar((std::string("rrv_beta_ExpmGauss_")+label).c_str(), label.c_str(), 1e-2, 1e-4, 1.);
  RooRealVar* rrv_m_Gauss = new RooRealVar((std::string("rrv_m_ExpmGauss_")+label).c_str(), label.c_str(), 1., 1e-4, 5.);
 
