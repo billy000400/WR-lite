@@ -48,8 +48,8 @@ void testFit_DY()
 
 
 
-  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  c->Divide(2,2);
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1500, 500);
+  c->Divide(1,3);
   c->cd(1);
   frame1->Draw();
   c->cd(2);
