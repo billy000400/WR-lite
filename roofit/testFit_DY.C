@@ -33,19 +33,43 @@ void testFit_DY()
   RooDataSet dsWeight("dsWeight", "dsWeight",
                     RooArgSet(*rowWeight),
                     ImportFromFile((prefix+"fullDY.root").c_str(), "fullRowWeight"));
-  RooDataSet dsDY("dsDY", "dsDY",
-                RooArgSet(*lljjRecoMass, *ljjRecoMass_Res, *ljjRecoMass_SpRes),
+
+  RooDataSet ds_lljjRecoMass("ds_lljjRecoMass", "ds_lljjRecoMass",
+                RooArgSet(*lljjRecoMass),
+                ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
+                WeightVar(*rowWeight));
+
+  RooDataSet ds_ljjRecoMass_Res("ds_ljjRecoMass_Res", "ds_ljjRecoMass_Res",
+                RooArgSet(*ljjRecoMass_Res),
+                ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
+                WeightVar(*rowWeight));
+
+  RooDataSet ds_ljjRecoMass_SpRes("ds_ljjRecoMass_SpRes", "ds_ljjRecoMass_SpRes",
+                RooArgSet(*ljjRecoMass_SpRes),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
                 WeightVar(*rowWeight));
 
 
-  RooPlot *frame1 = lljjRecoMass->frame(Title("DY lljj Reco Mass (top 2 pT lepton)"));
-  dsDY.plotOn(frame1, Binning(128));
-  RooPlot *frame2 = ljjRecoMass_Res->frame(Title("DY ljj Mass, Reco by Resolved NN"));
-  dsDY.plotOn(frame2, Binning(128));
-  RooPlot *frame3 = ljjRecoMass_SpRes->frame(Title("DY ljj Mass, Reco by SuperResolved NN"));
-  dsDY.plotOn(frame3, Binning(128));
+  // declare model
+  RooRealVar *c = newRooRealVar("c", "c", -1, 10, -10);
+  RooExponential *model = new RooExponential("exponential DY", "exponential DY", *lljjRecoMass, *c);
 
+  // fit model
+  RooFitResult *r = model->fitTo(ds_lljjRecoMass, Save(), Range(1000, 3000));
+
+  // prepare frames for plotting
+  RooPlot *frame1 = lljjRecoMass->frame(Title("DY lljj Reco Mass (top 2 pT lepton)"));
+  RooPlot *frame2 = ljjRecoMass_Res->frame(Title("DY ljj Mass, Reco by Resolved NN"));
+  RooPlot *frame3 = ljjRecoMass_SpRes->frame(Title("DY ljj Mass, Reco by SuperResolved NN"));
+
+
+  //// Plot on frames
+  // plot data on frames
+  ds_lljjRecoMass.plotOn(frame1, Binning(128));
+  ds_ljjRecoMass_Res.plotOn(frame2, Binning(128));
+  ds_ljjRecoMass_SpRes.plotOn(frame3, Binning(128));
+  // plot fitted pdfs on frames
+  model->plotOn(frame1);
 
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1500, 500);
