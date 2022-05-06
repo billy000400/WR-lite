@@ -51,7 +51,7 @@ void testFit_DY()
 
 
   // declare model
-  RooRealVar *c = newRooRealVar("c", "c", -1, 10, -10);
+  RooRealVar *c = new RooRealVar("c", "c", -1, 10, -10);
   RooExponential *model = new RooExponential("exponential DY", "exponential DY", *lljjRecoMass, *c);
 
   // fit model
@@ -72,12 +72,12 @@ void testFit_DY()
   model->plotOn(frame1);
 
 
-  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1500, 500);
-  c->Divide(3,1);
-  c->cd(1);
+  TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1500, 500);
+  canvas->Divide(3,1);
+  canvas->cd(1);
   frame1->Draw();
-  c->cd(2);
+  canvas->cd(2);
   frame2->Draw();
-  c->cd(3);
+  canvas->cd(3);
   frame3->Draw();
 }
