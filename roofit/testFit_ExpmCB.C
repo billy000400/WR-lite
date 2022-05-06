@@ -52,60 +52,69 @@ void testFit_ExpmCB(std::string filePath)
 
   //// Preparing probability distirbution functions for fitting
   // preparing the double CB distributions
-  RooExpmCB* WR_ee_doubleCB = ExpmCB_init(WR_RecoMass_ee, WRGenMean, "eejj");
-  RooExpmCB* WR_mumu_doubleCB = ExpmCB_init(WR_RecoMass_mumu, WRGenMean, "mumujj");
+  RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(WR_RecoMass_ee, WRGenMean, "eejj");
+  RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(WR_RecoMass_mumu, WRGenMean, "mumujj");
 
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_doubleCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
-  RooFitResult *r2 = WR_mumu_doubleCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
 
   //// Prepare frames for plotting
-  RooPlot *eeFrame_doubleCB = WR_RecoMass_ee->frame(Title("eejj ExpmCB"));
-  RooPlot *mumuFrame_doubleCB = WR_RecoMass_mumu->frame(Title("mumujj ExpmCB"));
+  RooPlot *eeFrame_ExpmCB = WR_RecoMass_ee->frame(Title("eejj ExpmCB"));
+  RooPlot *mumuFrame_ExpmCB = WR_RecoMass_mumu->frame(Title("mumujj ExpmCB"));
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_RecoMass_ee.plotOn(eeFrame_doubleCB, Binning(300), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_doubleCB, Binning(300), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_ExpmCB, Binning(300), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(300), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
-  WR_ee_doubleCB->plotOn(eeFrame_doubleCB);
-  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB);
+  WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
+  WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
 
   //// pull related
   // Prepare pulls
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
   std::cout << "Making the pull plots" << std::endl;
-  RooHist *eeHist_doubleCBPull = eeFrame_doubleCB->pullHist();
-  RooHist *mumuHist_doubleCBPull = mumuFrame_doubleCB->pullHist();
+  RooHist *eeHist_ExpmCBPull = eeFrame_ExpmCB->pullHist();
+  RooHist *mumuHist_ExpmCBPull = mumuFrame_ExpmCB->pullHist();
   // Extract pulls from RooHist
-  RooDataSet ee2CBPulls = Hist2Pulls(eeHist_doubleCBPull,"eejj", true);
-  RooDataSet mumu2CBPulls = Hist2Pulls(mumuHist_doubleCBPull, "mumujj", true);
+  RooDataSet ee_ExpmCBPulls = Hist2Pulls(eeHist_ExpmCBPull,"eejj", true);
+  RooDataSet mumu_ExpmCBPulls = Hist2Pulls(mumuHist_ExpmCBPull, "mumujj", true);
   // Prepare frame for the pull histograms
-  RooPlot* ee2CBPullFrame = pullVar->frame(Title("ee ExpmCB Pull Hist"));
-  RooPlot* mumu2CBPullFrame = pullVar->frame(Title("mumu ExpmCB pull Hist"));
+  RooPlot* ee_ExpmCBPullFrame = pullVar->frame(Title("ee ExpmCB Pull Hist"));
+  RooPlot* mumu_ExpmCBPullFrame = pullVar->frame(Title("mumu ExpmCB pull Hist"));
   // plot pull histograms on frames
   std::cout << "Making the pull histograms" << std::endl;
-  ee2CBPulls.plotOn(ee2CBPullFrame, Binning(15));
-  mumu2CBPulls.plotOn(mumu2CBPullFrame, Binning(15));
+  ee_ExpmCBPulls.plotOn(ee_ExpmCBPullFrame, Binning(15));
+  mumu_ExpmCBPulls.plotOn(mumu_ExpmCBPullFrame, Binning(15));
+
+
+  // chi2
+  double chi2_ee_ExpmCB = eeFrame_ExpmCB->chiSquare();
+  double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare();
+  std::cout << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
+  std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
+  
 
   //// plot the errors of the fitted functions
   //// This needs to be done after the pulls was calculated
   //// otherwise it will interfer the pull calculations
-  WR_ee_doubleCB->plotOn(eeFrame_doubleCB, VisualizeError(*r1, 1, kFALSE));
-  WR_mumu_doubleCB->plotOn(mumuFrame_doubleCB, VisualizeError(*r2, 1, kFALSE));
+  WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB, VisualizeError(*r1, 1, kFALSE));
+  WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB, VisualizeError(*r2, 1, kFALSE));
 
   //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
   c->Divide(2,2);
   c->cd(1);
-  eeFrame_doubleCB->Draw();
+  eeFrame_ExpmCB->Draw();
   c->cd(2);
-  mumuFrame_doubleCB->Draw();
+  mumuFrame_ExpmCB->Draw();
   c->cd(3);
-  ee2CBPullFrame->Draw();
+  ee_ExpmCBPullFrame->Draw();
   c->cd(4);
-  mumu2CBPullFrame->Draw();
+  mumu_ExpmCBPullFrame->Draw();
+
 
   //// old code
   // importing ntuples into RooDataSet
