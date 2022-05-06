@@ -1130,7 +1130,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i);
 			N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
 			N_RecoMass_NN_e->Fill((float)N_RecoMass_NN_e_i);
-		}else{
+		}else if (myRECOevent.passedMuonReco){
 			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i);
 			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
 			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
@@ -1148,6 +1148,12 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		}
   } else if (background && goodReco){
 		auto eventWeight_i = eventInfo->weight()/fabs(eventInfo->weight());
+		if (myRECOevent.passedElectronReco){
+
+		}else if (myRECOevent.passedMuonReco){
+
+		}
+
 		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
 	}
 
@@ -1310,9 +1316,11 @@ ExtractRecoMass_WR_N::beginJob() {
 																					"N invm reconstructed from 2 jets and an muon selected by a neural net",\
 																				"N_RecoMass_NN_mu");
 
-	bgRecoMass = fs->make<TNtuple>("bgRecoMass",
+	bg_mumujjRecoMass = fs->make<TNtuple>("bgRecoMass",
 																	"Reconstructed invm for bkg",
 																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes:eventWeight");
+	bg_eejjRecoMass = fs->make<TNtuple>();
+	bg_
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
