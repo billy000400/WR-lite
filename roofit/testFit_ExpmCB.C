@@ -66,8 +66,8 @@ void testFit_ExpmCB(std::string filePath)
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_RecoMass_ee.plotOn(eeFrame_ExpmCB, Binning(300), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(300), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
