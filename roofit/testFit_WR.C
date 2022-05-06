@@ -27,7 +27,7 @@ RooExpCBShape* ExpCB_init(RooRealVar* rrv_x, double mean, std::string label);
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label);
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
 
-void testFit_ExpmCB(std::string filePath)
+void testFit_WR(std::string filePath)
 {
   //// Extract useful information and set fitting parameters
   // Extract WR and N mean value via the file name
@@ -68,8 +68,8 @@ void testFit_ExpmCB(std::string filePath)
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_RecoMass_ee.plotOn(eeFrame_ExpCB, Binning(30), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_ee.plotOn(eeFrame_ExpCB, Binning(300), DataError(RooAbsData::SumW2));
+  ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(300), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   WR_ee_ExpCB->plotOn(eeFrame_ExpCB);
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
