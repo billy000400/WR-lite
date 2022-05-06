@@ -2,7 +2,7 @@
 # @Date:   05-03-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 05-03-2022
+# @Last modified time: 05-05-2022
 
 
 
@@ -38,16 +38,11 @@ hadd DY800to1200.root *.root
 cd ../TTTo2L2Nu
 rm TTTo2L2Nu.root
 hadd TTTo2L2Nu.root *.root
-#
-# cd ..
-# scp -r DY*/DY*.root /home/kronh006
-# scp -r TT*/TT*.root /home/kronh006
-#
-# cd ..
-# cd ..
-# cd ..
-# cd ..
-# cd ..
+
+
+cd ..
+scp -r DY*/DY*.root analysis/allEvents
+scp -r TT*/TT*.root analysis/allEvents
 
 
 
@@ -226,11 +221,4 @@ hadd WR800N700.root *.root
 cd ..
 
 
-# scp -r WR*/WR*.root /home/kronh006
-# scp WR2000_N1900/WR2000N1900.root /home/kronh006
-#
-# cd ..
-# cd ..
-# cd ..
-# cd ..
-# cd ..
+scp -r WR*/WR*.root analysis/allEvents
