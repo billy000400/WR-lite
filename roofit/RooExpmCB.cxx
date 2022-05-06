@@ -62,31 +62,32 @@ ClassImp(RooExpmCB);
 
  Double_t RooExpmCB::evaluate() const
  {
-     Double_t t = (x-mu)/sigma;
+    Double_t t = (x-mu)/sigma;
 
-     Double_t absAlpha = fabs((Double_t)alpha);
-     Double_t absBeta = fabs((Double_t)beta);
+    Double_t absAlpha = fabs((Double_t)alpha);
+    Double_t absBeta = fabs((Double_t)beta);
 
-     if (t < -absBeta){
-       Double_t m_inv = 1/m;
-       Double_t A = exp(absBeta*absBeta*(m_inv-0.5));
-       Double_t omega = m_inv*TMath::Power(absBeta, 2-m);
-       return A*exp(-omega*TMath::Power(t,m));
+    if (t < -absBeta){
+      Double_t m_inv = 1/m;
+      Double_t A = exp(absBeta*absBeta*(m_inv-0.5));
+      Double_t omega = m_inv*TMath::Power(absBeta, 2-m);
+      return A*exp(-omega*TMath::Power(t,m));
 
-     } else if (t < absAlpha) {
+    } else if (t < absAlpha) {
 
-       return exp(-0.5*t*t);
+      return exp(-0.5*t*t);
 
-     }
-     else {
-       // Double_t a =  TMath::Power(n/absAlpha,n)*exp(-0.5*absAlpha*absAlpha);
-       // Double_t b= n/absAlpha - absAlpha;
+    }
+    else {
+      // Double_t a =  TMath::Power(n/absAlpha,n)*exp(-0.5*absAlpha*absAlpha);
+      // Double_t b= n/absAlpha - absAlpha;
 
-       // return a/TMath::Power(b - t, n);
+      // return a/TMath::Power(b - t, n);
 
-       Double_t exp_part = exp(-0.5*absAlpha*absAlpha);
-       Double_t D = (n-absAlpha*absAlpha+absAlpha*t);
-       Double_t arg = n/D;
+      Double_t exp_part = exp(-0.5*absAlpha*absAlpha);
+      Double_t D = (n-absAlpha*absAlpha+absAlpha*t);
+      Double_t arg = n/D;
 
-       return TMath::Power(arg, n)*exp_part;
+      return TMath::Power(arg, n)*exp_part;
+   }
  }
