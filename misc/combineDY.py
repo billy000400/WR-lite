@@ -116,7 +116,6 @@ def main():
 
         # fill bgRecoMass Ntuple
         recoMassNtuple = rootfile.Get(analysisFolder+recoMassNtupleName)
-        eventWeightNtuple = rootfile.Get(analysisFolder+eventWeightNtupleName)
 
         lljjArray = tree2array(recoMassNtuple, branches=lljjBranch)
         ljjResArray = tree2array(recoMassNtuple, branches=ljjResBranch)
