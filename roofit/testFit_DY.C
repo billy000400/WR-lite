@@ -23,19 +23,19 @@ using namespace RooFit;
 void testFit_DY()
 {
   // Preparing RooRealVars
-  RooRealVar* lljjRecoMass = new RooRealVar("lljjRecoMass", "lljjRecoMass", 0, 3000);
-  RooRealVar* ljjRecoMass_Res = new RooRealVar("ljjRecoMass_Res", "ljjRecoMass_Res", 0, 2500);
-  RooRealVar* ljjRecoMass_SpRes = new RooRealVar("ljjRecoMass_SpRes", "ljjRecoMass_SpRes", 0, 2500);
+  RooRealVar* lljjRecoMass = new RooRealVar("lljjRecoMass", "lljjRecoMass", 400, 3000);
+  RooRealVar* ljjRecoMass_Res = new RooRealVar("ljjRecoMass_Res", "ljjRecoMass_Res", 50, 3000);
+  RooRealVar* ljjRecoMass_SpRes = new RooRealVar("ljjRecoMass_SpRes", "ljjRecoMass_SpRes", 50, 3000);
   RooRealVar* rowWeight = new RooRealVar("rowWeight", "rowWeight", -1.5, 1.5);
 
   // importing ntuples into RooDataSet
-  std::string prefix = "../analysis/allEvents";
+  std::string prefix = "../analysis/allEvents/";
   RooDataSet dsWeight("dsWeight", "dsWeight",
                     RooArgSet(*rowWeight),
-                    ImportFromFile((prefix+"fullDY.root").c_str(), "analysis/fullRowWeight"));
+                    ImportFromFile((prefix+"fullDY.root").c_str(), "fullRowWeight"));
   RooDataSet dsDY("dsDY", "dsDY",
                 RooArgSet(*lljjRecoMass, *ljjRecoMass_Res, *ljjRecoMass_SpRes),
-                ImportFromFile((prefix+"fullDY.root").c_str(), "analysis/bgRecoMass"),
+                ImportFromFile((prefix+"fullDY.root").c_str(), "fullBgRecoMass"),
                 WeightVar(*rowWeight));
 
 
@@ -49,7 +49,7 @@ void testFit_DY()
 
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1500, 500);
-  c->Divide(1,3);
+  c->Divide(3,1);
   c->cd(1);
   frame1->Draw();
   c->cd(2);
