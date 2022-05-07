@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-04-2022
+ * @Last modified time: 05-06-2022
  */
 
 
@@ -202,7 +202,12 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* N_RecoMass_Match_mu;
 		TNtuple* N_RecoMass_NN_mu;
 
-		TNtuple* bgRecoMass;
+		TNtuple* bg_mumujjRecoMass;
+		TNtuple* bg_eejjRecoMass;
+		TNtuple* bg_mujjRecoMass_Res;
+		TNtuple* bg_mujjRecoMass_SpRes;
+		TNtuple* bg_ejjRecoMass_Res;
+		TNtuple* bg_ejjRecoMass_SpRes;
 
 		TNtuple* debug_muon1GENvsMatch;
 		TNtuple* debug_pfVsTuneP;
@@ -1122,15 +1127,15 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
   m_allEvents.fill(myRECOevent);
 
 	// Check if good reco
-	bool goodReco = (myRECOevent.passedElectronReco || myRECOevent.passedMuonReco);
+	bool goodReco = (myRECOevent.passedElectronReco ^ myRECOevent.passedMuonReco);
 
 	// if good reco, fill the ntuple and the 2d mass histogram
-  if (!background && allLargeDR2 && goodReco){
+ 	if (!background && allLargeDR2 && goodReco){
 		if (myRECOevent.passedElectronReco){
 			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i);
 			N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
 			N_RecoMass_NN_e->Fill((float)N_RecoMass_NN_e_i);
-		}else if (myRECOevent.passedMuonReco){
+		}else{
 			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i);
 			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
 			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
@@ -1146,15 +1151,17 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
 		}
-  } else if (background && goodReco){
+ 	} else if (background && goodReco){
 		auto eventWeight_i = eventInfo->weight()/fabs(eventInfo->weight());
 		if (myRECOevent.passedElectronReco){
-
-		}else if (myRECOevent.passedMuonReco){
-
+			bg_eejjRecoMass->Fill((float)lljjRecoMass_i, (float)eventWeight_i);
+			bg_ejjRecoMass_Res->Fill((float)ljjRecoMass_Res_i, (float)eventWeight_i);
+			bg_ejjRecoMass_SpRes->Fill((float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
+		}else{
+			bg_mumujjRecoMass->Fill((float)lljjRecoMass_i, (float)eventWeight_i);
+			bg_mujjRecoMass_Res->Fill((float)ljjRecoMass_Res_i, (float)eventWeight_i);
+			bg_mujjRecoMass_SpRes->Fill((float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
 		}
-
-		bgRecoMass->Fill((float)lljjRecoMass_i, (float)ljjRecoMass_Res_i, (float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
 	}
 
 }
@@ -1289,38 +1296,55 @@ ExtractRecoMass_WR_N::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
 
 	WR_GenMass = fs->make<TNtuple>("WR_GenMass",
-	 																	"Generated WR invm",
-																		"WR_GenMass");
+	 								"Generated WR invm",
+									"WR_GenMass");
 
-  WR_RecoMass_ee = fs->make<TNtuple>("WR_RecoMass_ee",
-	 																	"WR invm reconstructed from 2 jets and 2 electrons",
-																		"WR_RecoMass_ee");
+    WR_RecoMass_ee = fs->make<TNtuple>("WR_RecoMass_ee",
+	 									"WR invm reconstructed from 2 jets and 2 electrons",
+										"WR_RecoMass_ee");
 
 	WR_RecoMass_mumu = fs->make<TNtuple>("WR_RecoMass_mumu",
-																			"WR invm reconstructed from 2 jets and 2 muons",
-																			"WR_RecoMass_mumu");
+										"WR invm reconstructed from 2 jets and 2 muons",
+										"WR_RecoMass_mumu");
 
 	N_RecoMass_Match_e = fs->make<TNtuple>("N_RecoMass_Match_e",
-																					"N invm reconstructed from 2 jets and an electron selected by gen matching",\
-																				"N_RecoMass_Match_e");
+											"N invm reconstructed from 2 jets and an electron selected by gen matching",\
+											"N_RecoMass_Match_e");
 
 	N_RecoMass_NN_e = fs->make<TNtuple>("N_RecoMass_NN_e",
-																					"N invm reconstructed from 2 jets and an electron selected by a neural net",\
-																				"N_RecoMass_NN_e");
+										"N invm reconstructed from 2 jets and an electron selected by a neural net",\
+										"N_RecoMass_NN_e");
 
 	N_RecoMass_Match_mu = fs->make<TNtuple>("N_RecoMass_Match_mu",
-																					"N invm reconstructed from 2 jets and an muon selected by gen matching",\
-																				"N_RecoMass_Match_mu");
+											"N invm reconstructed from 2 jets and an muon selected by gen matching",\
+											"N_RecoMass_Match_mu");
 
 	N_RecoMass_NN_mu = fs->make<TNtuple>("N_RecoMass_NN_mu",
-																					"N invm reconstructed from 2 jets and an muon selected by a neural net",\
-																				"N_RecoMass_NN_mu");
+											"N invm reconstructed from 2 jets and an muon selected by a neural net",\
+											"N_RecoMass_NN_mu");
 
-	bg_mumujjRecoMass = fs->make<TNtuple>("bgRecoMass",
-																	"Reconstructed invm for bkg",
-																	"lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes:eventWeight");
-	bg_eejjRecoMass = fs->make<TNtuple>();
-	bg_
+	bg_mumujjRecoMass = fs->make<TNtuple>("bg_mumujjRecoMass",
+											"mumujj reco invm for bg",
+											"bg_mumujjRecoMass:eventWeight");
+	bg_eejjRecoMass = fs->make<TNtuple>("bg_eejjRecoMass",
+											"eejj reco invm for bg"，
+											"bg_eejjRecoMass:eventWeight");
+
+	bg_mujjRecoMass_Res = fs->make<TNtuple>("bg_mujjRecoMass_Res",
+											"mujj reco invm for bg, mu was picked by Res NN",
+											"bg_mujjRecoMass_Res:eventWeight");
+
+	bg_mujjRecoMass_SpRes = fs->make<TNtuple>("bg_mujjRecoMass_SpRes",
+											"mujj reco invm for bg, mu was picked by SpRes NN",
+											"bg_mujjRecoMass_SpRes:eventWeight");
+
+	bg_ejjRecoMass_Res = fs->make<TNtuple>("bg_ejjRecoMass_Res",
+											"ejj reco invm for bg, e was picked by Res NN",
+											"bg_ejjRecoMass_Res:eventWeight");
+
+	bg_ejjRecoMass_SpRes = fs->make<TNtuple>("bg_ejjRecoMass_SpRes",
+											"ejj reco invm for bg, e was picked by SpRes NN",
+											"bg_ejjRecoMass_SpRes:eventWeight");
 
 	debug_muon1GENvsMatch = fs->make<TNtuple>("debug_muon1GENvsMatch",
 																							"debug inforamtion: Gen muon1 match vs its matched reco muon",
