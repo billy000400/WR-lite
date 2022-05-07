@@ -1327,7 +1327,7 @@ ExtractRecoMass_WR_N::beginJob() {
 											"mumujj reco invm for bg",
 											"bg_mumujjRecoMass:eventWeight");
 	bg_eejjRecoMass = fs->make<TNtuple>("bg_eejjRecoMass",
-											"eejj reco invm for bg"，
+											"eejj reco invm for bg",
 											"bg_eejjRecoMass:eventWeight");
 
 	bg_mujjRecoMass_Res = fs->make<TNtuple>("bg_mujjRecoMass_Res",
