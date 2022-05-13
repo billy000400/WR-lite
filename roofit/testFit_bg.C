@@ -49,10 +49,12 @@ void testFit_bg()
                 ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_mumujj"),
                 WeightVar(*mumujjRowWeight_ttbar));
 
+  ds_DY_mumujj.append(ds_ttbar_mumujj);
+  RooDataSet ds_bg = ds_DY_mumujj;
 
-  // // declare model
+  // declare model
   // RooRealVar *c = new RooRealVar("c", "c", -5e-2, -1e-1, -1e-7);
-  // RooExponential *model = new RooExponential("exponential DY", "exponential DY", *lljjRecoMass, *c);
+  // RooExponential *model = new RooExponential("exponential bg", "exponential bg", *lljjRecoMass, *c);
   //
   // // fit model
   // RooFitResult *r = model->fitTo(ds_lljjRecoMass, Save(), SumW2Error(kTRUE), Range(500, 3000));
