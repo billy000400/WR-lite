@@ -56,9 +56,9 @@ void testFit_WR_bg()
   RooRealVar* mumujjRowWeight_ttbar = new RooRealVar("rowWeight",\
                             "row weight for ttbar ntuple mumujj rows", -1.5, 1.5);
 
-  RooRealVar* mumujjMass_total = new RooRealVar("invm_mumujj",\
+  RooRealVar* mumujjMass_all = new RooRealVar("invm_mumujj",\
                             "invm reco from all mumujj", 400, 3000);
-  RooRealVar* mumujjRowWeight_total = new RooRealVar("rowWeight",\
+  RooRealVar* mumujjRowWeight_all = new RooRealVar("rowWeight",\
                             "row weight for all ntuple mumujj rows", -1.5, 1.5);
 
   //// load dataset
@@ -79,13 +79,13 @@ void testFit_WR_bg()
                 ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_mumujj"),
                 WeightVar(*mumujjRowWeight_ttbar));
 
-  RooDataSet ds_bg_mumujj("ds_bg_mumujj", "ds_bg_mumujj",
-                RooArgSet(*mumujjMass_bg, *mumujjRowWeight_bg),
-                WeightVar(*mumujjRowWeight_bg));
+  RooDataSet ds_all_mumujj("ds_all_mumujj", "ds_all_mumujj",
+                RooArgSet(*mumujjMass_all, *mumujjRowWeight_all),
+                WeightVar(*mumujjRowWeight_all));
 
-  ds_bg_mumujj.append(ds_WR_mumujj);
-  ds_bg_mumujj.append(ds_DY_mumujj);
-  ds_bg_mumujj.append(ds_ttbar_mumujj);
+  ds_all_mumujj.append(ds_WR_mumujj);
+  ds_all_mumujj.append(ds_DY_mumujj);
+  ds_all_mumujj.append(ds_ttbar_mumujj);
 
 
   // //// Preparing probability distirbution functions for fitting
