@@ -71,9 +71,9 @@ void testFit_bg()
   RooRealVar *b2 = new RooRealVar("b2", "b2", -5e-2, -1e-1, -1e-7);
   RooRealVar *b3 = new RooRealVar("b3", "b3", -5e-2, -1e-1, -1e-7);
 
-  RooExponential *model1 = new RooExpm("exponential bg DY", "exponential bg", *mumujjMass_DY, *a1, *b1);
-  RooExponential *model2 = new RooExpm("exponential bg ttbar", "exponential bg", *mumujjMass_ttbar, *a2, *b2);
-  RooExponential *model3 = new RooExpm("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *a3, *b3);
+  RooExpm *model1 = new RooExpm("exponential bg DY", "exponential bg", *mumujjMass_DY, *a1, *b1);
+  RooExpm *model2 = new RooExpm("exponential bg ttbar", "exponential bg", *mumujjMass_ttbar, *a2, *b2);
+  RooExpm *model3 = new RooExpm("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *a3, *b3);
 
   // fit model
   RooFitResult *r1 = model1->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
