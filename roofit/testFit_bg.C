@@ -70,7 +70,7 @@ void testFit_bg()
   RooFitResult *r = model->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
 
   // prepare frames for plotting
-  RooPlot *frame1 = lljjRecoMass->frame(Title("DY+TTbar mumujj Reco Mass"));
+  RooPlot *frame1 = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
 
 
 
