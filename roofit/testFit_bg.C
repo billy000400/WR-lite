@@ -47,7 +47,7 @@ void testFit_bg()
   RooDataSet ds_ttbar_mumujj("ds_ttbar_mumujj", "ds_ttbar_mumujj",
                 RooArgSet(*mumujjMass_ttbar, *mumujjRowWeight_ttbar),
                 ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_mumujj"),
-                WeightVar(*mumujjRowWeight));
+                WeightVar(*mumujjRowWeight_ttbar));
 
 
   // // declare model
