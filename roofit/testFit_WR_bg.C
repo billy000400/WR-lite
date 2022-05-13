@@ -22,7 +22,8 @@
 #include "RooExpmCB.h"
 using namespace RooFit;
 
-RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label);
+RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label);
+RooExpm* Expm_init(RooRealVar* x, std::string label);
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
 
 // void testFit_ExpmCB(std::string filePath)
@@ -42,24 +43,44 @@ void testFit_WR_bg()
 
   // Preparing RooRealVars
   RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
-                            "invm reco from WR mumujj", 400, 3000);
+                            "invm reco from WR mumujj", 500, 3000);
   RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
                             "row weight for WR ntuple mumujj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_DY = new RooRealVar("invm_mumujj",\
-                            "invm reco from DY mumujj", 400, 3000);
+                            "invm reco from DY mumujj", 500, 3000);
   RooRealVar* mumujjRowWeight_DY = new RooRealVar("rowWeight",\
                             "row weight for DY ntuple mumujj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_ttbar = new RooRealVar("invm_mumujj",\
-                            "invm reco from ttbar mumujj", 400, 3000);
+                            "invm reco from ttbar mumujj", 500, 3000);
   RooRealVar* mumujjRowWeight_ttbar = new RooRealVar("rowWeight",\
                             "row weight for ttbar ntuple mumujj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_all = new RooRealVar("invm_mumujj",\
-                            "invm reco from all mumujj", 400, 3000);
+                            "invm reco from all mumujj", 500, 3000);
   RooRealVar* mumujjRowWeight_all = new RooRealVar("rowWeight",\
                             "row weight for all ntuple mumujj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",\
+                              "invm reco from WR eejj", 500, 3000);
+  RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",\
+                              "row weight for WR ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_DY = new RooRealVar("invm_eejj",\
+                              "invm reco from DY eejj", 500, 3000);
+  RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight",\
+                              "row weight for DY ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_ttbar = new RooRealVar("invm_eejj",\
+                              "invm reco from ttbar eejj", 500, 3000);
+  RooRealVar* eejjRowWeight_ttbar = new RooRealVar("rowWeight",\
+                              "row weight for ttbar ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_all = new RooRealVar("invm_eejj",\
+                              "invm reco from all eejj", 500, 3000);
+  RooRealVar* eejjRowWeight_all = new RooRealVar("rowWeight",\
+                              "row weight for all ntuple eejj rows", -1.5, 1.5);
 
   //// load dataset
   std::string prefix = "../analysis/allEvents/";
@@ -87,24 +108,49 @@ void testFit_WR_bg()
   ds_all_mumujj.append(ds_DY_mumujj);
   ds_all_mumujj.append(ds_ttbar_mumujj);
 
+  RooDataSet ds_WR_eejj("ds_WR_eejj", "ds_WR_eejj",
+                RooArgSet(*eejjMass_WR, *eejjRowWeight_WR),
+                ImportFromFile((prefix+"fullWR1600N1000.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_WR));
 
-  // //// Preparing probability distirbution functions for fitting
-  // // preparing the signal distributions
-  // RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(WR_RecoMass_ee, WRGenMean, "eejj");
-  // RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(WR_RecoMass_mumu, WRGenMean, "mumujj");
-  // // preparing the background model
-  // RooRealVar *c_ee = new RooRealVar("c_ee", "c_ee", -5e-2, -1e-1, -1e-7);
-  // RooExponential *DY_ee = new RooExponential("exponential DY", "exponential DY", *lljjRecoMass, *c_ee);
-  // // add model
-  // RooRealVar *fsig = new RooRealVar("fsig", "signal fraction", 0.5, 0., 1.);
-  // RooAddPdf *model = new RooAddPdf("model", "model", RooArgList(WR_ee_ExpmCB, fsig), *fsig);
-  //
-  //
-  // //// fit distribution to data
-  // RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
-  // RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
-  //
-  // //// Prepare frames for plotting
+  RooDataSet ds_DY_eejj("ds_DY_eejj", "ds_DY_eejj",
+                RooArgSet(*eejjMass_DY, *eejjRowWeight_DY),
+                ImportFromFile((prefix+"fullDY.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_DY));
+
+  RooDataSet ds_ttbar_eejj("ds_ttbar_eejj", "ds_ttbar_eejj",
+                RooArgSet(*eejjMass_ttbar, *eejjRowWeight_ttbar),
+                ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_ttbar));
+
+  RooDataSet ds_all_eejj("ds_all_eejj", "ds_all_eejj",
+                RooArgSet(*eejjMass_all, *eejjRowWeight_all),
+                WeightVar(*eejjRowWeight_all));
+
+  ds_all_eejj.append(ds_WR_eejj);
+  ds_all_eejj.append(ds_DY_eejj);
+  ds_all_eejj.append(ds_ttbar_eejj);
+
+
+  //// Preparing probability distirbution functions for fitting
+  // preparing the signal distributions
+  RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(eejjMass_all, "eejj");
+  RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(mumujjMass_all, "mumujj");
+  // preparing the background model
+  RooExpm* bg_ee = Expm_init(eejjMass_all, "eejj");
+  RooExpm* bg_mumu = Expm_init(mumujjMass_all, "mumujj");
+  // add model
+  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 0.5, 0., 1.);
+  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 0.5, 0., 1.);
+  RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(WR_ee_ExpmCB, bg_ee), *fsig_ee);
+  RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(WR_mumu_ExpmCB, bg_mumu), *fsig_mumu);
+
+
+  //// fit distribution to data
+  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), Range(500,3000));
+  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), Range(500,3000));
+
+  //// Prepare frames for plotting
   // RooPlot *eeFrame_ExpmCB = WR_RecoMass_ee->frame(Title("eejj ExpmCB"));
   // RooPlot *mumuFrame_ExpmCB = WR_RecoMass_mumu->frame(Title("mumujj ExpmCB"));
   //
@@ -160,10 +206,10 @@ void testFit_WR_bg()
   // mumu_ExpmCBPullFrame->Draw();
 }
 
-RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label)
+RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
 {
- RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
+ RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), 1400., 600., 2000.);
+ RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 100., 30., 800.);
  RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 1, 0., 5.0);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 5, 0., 100.);
  RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 1., 1e-4, 5.);
@@ -171,6 +217,14 @@ RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label)
 
 
  return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
+}
+
+RooExpm* Expm_init(RooRealVar* x, std::string label)
+{
+    RooRealVar* a = new RooRealVar((std::string("a")+label).c_str(), label.c_str(), -5e-2, -1e-1, -1e-7);
+    RooRealVar* b = new RooRealVar((std::string("b")+label).c_str(), label.c_str(), 1, 1e-2, 1.2);
+
+    return new RooExpm((std::string("Expm")+label).c_str(), label.c_str(), *x, *a, *b);
 }
 
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
