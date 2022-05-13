@@ -142,8 +142,8 @@ void testFit_WR_bg()
   // add model
   RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 0.5, 0., 1.);
   RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 0.5, 0., 1.);
-  RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(WR_ee_ExpmCB, bg_ee), *fsig_ee);
-  RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(WR_mumu_ExpmCB, bg_mumu), *fsig_mumu);
+  RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_ee_ExpmCB, *bg_ee), *fsig_ee);
+  RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumu_ExpmCB, *bg_mumu), *fsig_mumu);
 
 
   //// fit distribution to data
