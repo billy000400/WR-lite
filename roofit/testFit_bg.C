@@ -33,6 +33,11 @@ void testFit_bg()
   RooRealVar* mumujjRowWeight_ttbar = new RooRealVar("rowWeight",\
                             "row weight for ttbar ntuple mumujj rows", -1.5, 1.5);
 
+  RooRealVar* mumujjMass_bg = new RooRealVar("invm_mumujj",\
+                            "invm reco from bg mumujj", 400, 3000);
+  RooRealVar* mumujjRowWeight_bg = new RooRealVar("rowWeight",\
+                            "row weight for bg ntuple mumujj rows", -1.5, 1.5);
+
   // RooRealVar* eejjMass_DY = new RooRealVar();
   // RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight", "rowWeight", -1.5, 1.5);
 
@@ -49,8 +54,13 @@ void testFit_bg()
                 ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_mumujj"),
                 WeightVar(*mumujjRowWeight_ttbar));
 
-  ds_DY_mumujj.append(ds_ttbar_mumujj);
-  RooDataSet ds_bg = ds_DY_mumujj;
+  RooDataSet ds_bg_mumujj("ds_bg_mumujj", "ds_bg_mumujj",
+                RooArgSet(*mumujjMass_bg, *mumujjRowWeight_bg),
+                WeightVar(*mumujjRowWeight_bg));
+
+  ds_bg_mumujj.append(ds_DY_mumujj);
+  ds_bg_mumujj.append(ds_ttbar_mumujj);
+
 
   // declare model
   // RooRealVar *c = new RooRealVar("c", "c", -5e-2, -1e-1, -1e-7);
