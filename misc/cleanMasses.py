@@ -124,11 +124,11 @@ def main():
 
         mumujjMassArray = tree2array(mumujjNtuple, branches=mumujjMassBranch)
         mumujjEventWeightArray = tree2array(mumujjNtuple, branches=mumujjEventWeightBranch)
-        mumujjRowWeightArray = mumujjEventWeightArray*xSec/count2
+        mumujjRowWeightArray = mumujjEventWeightArray*xSec/counts
 
         eejjMassArray = tree2array(eejjNtuple, branches=eejjMassBranch)
         eejjEventWeightArray = tree2array(eejjNtuple, branches=eejjEventWeightBranch)
-        eejjRowWeightArray = eejjEventWeightArray*xSec/count2
+        eejjRowWeightArray = eejjEventWeightArray*xSec/counts
 
         for i in range(mumujjMassArray.shape[0]):
             mumujjNtuple_new.Fill(mumujjMassArray[i], mumujjRowWeightArray[i])
