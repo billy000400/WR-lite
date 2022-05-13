@@ -125,11 +125,11 @@ def main():
         eejjNtuple = rootfile.Get(analysisFolder+eejjNtupleName)
 
         mumujjMassArray = tree2array(mumujjNtuple, branches=mumujjMassBranch)
-        mumujjEventWeightArray = tree2array(mumujjNtuple, branches=mumujjWeightBranch)
+        mumujjEventWeightArray = tree2array(mumujjNtuple, branches=mumujjEventWeightBranch)
         mumujjRowWeightArray = mumujjEventWeightArray*xSec/count2
 
         eejjMassArray = tree2array(eejjNtuple, branches=eejjMassBranch)
-        eejjEventWeightArray = tree2array(eejjNtuple, branches=eejjWeightBranch)
+        eejjEventWeightArray = tree2array(eejjNtuple, branches=eejjEventWeightBranch)
         eejjRowWeightArray = eejjEventWeightArray*xSec/count2
 
         for i in range(lljjArray.shape[0]):
