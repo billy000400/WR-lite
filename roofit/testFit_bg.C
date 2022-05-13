@@ -47,8 +47,7 @@ void testFit_bg()
   RooDataSet ds_DY_mumujj("ds_DY_mumujj", "ds_DY_mumujj",
                 RooArgSet(*mumujjMass_DY, *mumujjRowWeight_DY),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "invm_mumujj"),
-                WeightVar(*mumujjRowWeight_DY),
-                SumW2Error(kTRUE));
+                WeightVar(*mumujjRowWeight_DY));
 
   RooDataSet ds_ttbar_mumujj("ds_ttbar_mumujj", "ds_ttbar_mumujj",
                 RooArgSet(*mumujjMass_ttbar, *mumujjRowWeight_ttbar),
@@ -85,9 +84,9 @@ void testFit_bg()
 
   //// Plot on frames
   // plot data on frames
-  ds_DY_mumujj.plotOn(frame1, Binning(128));
-  ds_ttbar_mumujj.plotOn(frame2, Binning(128));
-  ds_bg_mumujj.plotOn(frame3, Binning(128));
+  ds_DY_mumujj.plotOn(frame1, Binning(128), SumW2Error(kTRUE));
+  ds_ttbar_mumujj.plotOn(frame2, Binning(128), SumW2Error(kTRUE));
+  ds_bg_mumujj.plotOn(frame3, Binning(128), SumW2Error(kTRUE));
 
   // plot fitted pdfs on frames
   model1->plotOn(frame1);
