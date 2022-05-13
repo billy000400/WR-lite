@@ -47,7 +47,8 @@ void testFit_bg()
   RooDataSet ds_DY_mumujj("ds_DY_mumujj", "ds_DY_mumujj",
                 RooArgSet(*mumujjMass_DY, *mumujjRowWeight_DY),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "invm_mumujj"),
-                WeightVar(*mumujjRowWeight_DY));
+                WeightVar(*mumujjRowWeight_DY),
+                SumW2Error(kTRUE));
 
   RooDataSet ds_ttbar_mumujj("ds_ttbar_mumujj", "ds_ttbar_mumujj",
                 RooArgSet(*mumujjMass_ttbar, *mumujjRowWeight_ttbar),
