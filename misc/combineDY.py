@@ -2,7 +2,7 @@
 # @Date:   04-23-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 05-06-2022
+# @Last modified time: 05-12-2022
 
 
 """
@@ -31,11 +31,15 @@ def main():
 
     # reco mass ntuples
     analysisFolder = "analysis/"
-    recoMassNtupleName = "bgRecoMass"
-    lljjBranch = "lljjRecoMass"
-    ljjResBranch = "ljjRecoMass_Res"
-    ljjSpResBranch = "ljjRecoMass_SpRes"
-    eventWeightBranch = "eventWeight"
+
+    mumujjNtupleName = "bg_mumujjRecoMass"
+    mumujjMassBranch = "bg_mumujjRecoMass"
+    mumujjEventWeightBranch = "eventWeight"
+
+    eejjNtupleName = "bg_eejjRecoMass"
+    eejjMassBranch = "bg_eejjRecoMass"
+    eejjEventWeightBranch = "eventWeight"
+
 
     # LOADING THE TTREE
     fileNames = ["DY100to200.root",
@@ -45,13 +49,15 @@ def main():
                  "DY800to1200.root",
                  "DY1200to2500.root",
                  "DY2500toInf.root"]
+
     crossSections = [147.4,  40.99, 5.678, 2.198, 0.6304, 0.1514, 0.003565]
     counts2 = [2751187, 962195, 1070454, 8292957, 2673066, 596079, 399492]
 
     # make new root file with new tree and new ntuples
     file = ROOT.TFile("fullDY.root", 'recreate')
     tree = ROOT.TTree("fullDY", "fullDY")
-    massNtuple = ROOT.TNtuple("fullBgRecoMass", "fullBgRecoMass", "lljjRecoMass:ljjRecoMass_Res:ljjRecoMass_SpRes:rowWeight")
+    mumujjNtuple_new = ROOT.TNtuple("invm_mumujj", "invm reco from DY mumujj", "invm_mumujj:rowWeight")
+    eejjNtuple_new = ROOT.TNtuple("invm_eejj", "invm reco from DY eejj", "invm_eejj:rowWeight")
 
     # create 1 dimensional float arrays as fill variables, in this way the float
     # array serves as a pointer which can be passed to the branch
@@ -115,16 +121,21 @@ def main():
             tree.Fill()
 
         # fill bgRecoMass Ntuple
-        recoMassNtuple = rootfile.Get(analysisFolder+recoMassNtupleName)
+        mumujjNtuple = rootfile.Get(analysisFolder+mumujjNtupleName)
+        eejjNtuple = rootfile.Get(analysisFolder+eejjNtupleName)
 
-        lljjArray = tree2array(recoMassNtuple, branches=lljjBranch)
-        ljjResArray = tree2array(recoMassNtuple, branches=ljjResBranch)
-        ljjSpResArray = tree2array(recoMassNtuple, branches=ljjSpResBranch)
-        eventWeightArray = tree2array(recoMassNtuple, branches=eventWeightBranch)
-        rowWeightArray = eventWeightArray*xSec/count2
+        mumujjMassArray = tree2array(mumujjNtuple, branches=mumujjMassBranch)
+        mumujjEventWeightArray = tree2array(mumujjNtuple, branches=mumujjWeightBranch)
+        mumujjRowWeightArray = mumujjEventWeightArray*xSec/count2
+
+        eejjMassArray = tree2array(eejjNtuple, branches=eejjMassBranch)
+        eejjEventWeightArray = tree2array(eejjNtuple, branches=eejjWeightBranch)
+        eejjRowWeightArray = eejjEventWeightArray*xSec/count2
 
         for i in range(lljjArray.shape[0]):
-            massNtuple.Fill(lljjArray[i], ljjResArray[i], ljjSpResArray[i], rowWeightArray[i])
+            mumujjNtuple_new.Fill(mumujjMassArray[i], mumujjRowWeightArray[i])
+            eejjNtuple_new.Fill(eejjMassArray[i], eejjRowWeightArray[i])
+
 
     # write the tree into the output file and close the file
     file.Write()
