@@ -193,7 +193,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		std::vector<double> lepton1_pts;
 
 		// Billy's root objects
-    	TNtuple* WR_GenMass;
+    TNtuple* WR_GenMass;
 		TNtuple* WR_RecoMass_ee;
 		TNtuple* WR_RecoMass_mumu;
 
@@ -1131,12 +1131,13 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	// if good reco, fill the ntuple and the 2d mass histogram
  	if (!background && allLargeDR2 && goodReco){
+		auto eventWeight_i = eventInfo->weight()/fabs(eventInfo->weight());
 		if (myRECOevent.passedElectronReco){
-			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i);
+			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i, (float)eventWeight_i);
 			N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
 			N_RecoMass_NN_e->Fill((float)N_RecoMass_NN_e_i);
 		}else{
-			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i);
+			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i, (float)eventWeight_i);
 			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
 			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
 
@@ -1301,11 +1302,11 @@ ExtractRecoMass_WR_N::beginJob() {
 
     WR_RecoMass_ee = fs->make<TNtuple>("WR_RecoMass_ee",
 	 									"WR invm reconstructed from 2 jets and 2 electrons",
-										"WR_RecoMass_ee");
+										"WR_RecoMass_ee:eventWeight");
 
 	WR_RecoMass_mumu = fs->make<TNtuple>("WR_RecoMass_mumu",
 										"WR invm reconstructed from 2 jets and 2 muons",
-										"WR_RecoMass_mumu");
+										"WR_RecoMass_mumu:eventWeight");
 
 	N_RecoMass_Match_e = fs->make<TNtuple>("N_RecoMass_Match_e",
 											"N invm reconstructed from 2 jets and an electron selected by gen matching",\
