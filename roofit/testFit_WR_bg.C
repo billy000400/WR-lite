@@ -150,18 +150,18 @@ void testFit_WR_bg()
   RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(500,3000));
   RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(500,3000));
 
-  //// Prepare frames for plotting
-  // RooPlot *eeFrame_ExpmCB = WR_RecoMass_ee->frame(Title("eejj ExpmCB"));
-  // RooPlot *mumuFrame_ExpmCB = WR_RecoMass_mumu->frame(Title("mumujj ExpmCB"));
-  //
-  // //// Plot on frames
-  // // plot data on frames
-  // ds_WR_RecoMass_ee.plotOn(eeFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
-  // ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
-  // // plot fitted pdfs on frames
-  // WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
-  // WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
-  //
+  // Prepare frames for plotting
+  RooPlot *eeFrame = eejjMass_all->frame(Title("eejj"));
+  RooPlot *mumuFrame  = mumujjMass_all->frame(Title("mumujj"));
+
+  //// Plot on frames
+  // plot data on frames
+  ds_all_eejj.plotOn(eeFramr, Binning(30), DataError(RooAbsData::SumW2));
+  ds_all_mumujj.plotOn(mumuFrame, Binning(30), DataError(RooAbsData::SumW2));
+  // plot fitted pdfs on frames
+  model_ee->plotOn(eeFrame);
+  model_mumu->plotOn(mumuFrame);
+
   // //// pull related
   // // Prepare pulls
   // RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
@@ -193,13 +193,13 @@ void testFit_WR_bg()
   // WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB, VisualizeError(*r1, 1, kFALSE));
   // WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB, VisualizeError(*r2, 1, kFALSE));
   //
-  // //// Draw Frames on TCanvas
-  // TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
-  // c->Divide(2,2);
-  // c->cd(1);
-  // eeFrame_ExpmCB->Draw();
-  // c->cd(2);
-  // mumuFrame_ExpmCB->Draw();
+  //// Draw Frames on TCanvas
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 300);
+  c->Divide(2,1);
+  c->cd(1);
+  eeFrame->Draw();
+  c->cd(2);
+  mumuFrame->Draw();
   // c->cd(3);
   // ee_ExpmCBPullFrame->Draw();
   // c->cd(4);
