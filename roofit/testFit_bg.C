@@ -94,14 +94,14 @@ void testFit_bg()
   model3->plotOn(frame3);
 
 
-  TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1500, 500);
-  canvas->Divide(3,1);
-  canvas->cd(1);
-  frame1->Draw();
-  canvas->cd(2);
-  frame2->Draw();
-  canvas->cd(3);
-  frame3->Draw();
+  // TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1500, 500);
+  // canvas->Divide(3,1);
+  // canvas->cd(1);
+  // frame1->Draw();
+  // canvas->cd(2);
+  // frame2->Draw();
+  // canvas->cd(3);
+  // frame3->Draw();
 
   TCanvas *logCanvas = new TCanvas("log", "log", 1500, 500);
   logCanvas->Divide(3,1);
