@@ -64,9 +64,9 @@ void testFit_bg_ExpPoly2()
 
 
   // declare model
-  RooExpPoly2 *model1 = new RooExpPoly2(mumujjMass_DY, "DY");
-  RooExpPoly2 *model2 = new RooExpPoly2(mumujjMass_ttbar, "TTbar");
-  RooExpPoly2 *model3 = new RooExpPoly2(mumujjMass_bg, "FullBg");
+  RooExpPoly2 *model1 = RooExpPoly2(mumujjMass_DY, "DY");
+  RooExpPoly2 *model2 = RooExpPoly2(mumujjMass_ttbar, "TTbar");
+  RooExpPoly2 *model3 = RooExpPoly2(mumujjMass_bg, "FullBg");
 
   // fit model
   RooFitResult *r1 = model1->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
@@ -77,8 +77,6 @@ void testFit_bg_ExpPoly2()
   RooPlot *frame1 = mumujjMass_DY->frame(Title("DY mumujj Reco Mass"));
   RooPlot *frame2 = mumujjMass_ttbar->frame(Title("TTbar mumujj Reco Mass"));
   RooPlot *frame3 = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
-
-
 
   //// Plot on frames
   // plot data on frames
@@ -116,7 +114,7 @@ void testFit_bg_ExpPoly2()
 
 RooExpPoly2* ExpPoly2_init(RooRealVar* x, std::string label)
 {
-    RooRealVar* a = new RooRealVar((std::string("a")+label).c_str(), label.c_str(), 1., 1e-7., 5.);
+    RooRealVar* a = new RooRealVar((std::string("a")+label).c_str(), label.c_str(), 1., 1e-7, 5.);
     RooRealVar* b = new RooRealVar((std::string("b")+label).c_str(), label.c_str(), -6000., -6e7, 6e7);
 
     return new RooExpPoly2((std::string("ExpPoly2_")+label).c_str(), label.c_str(), *x, *a, *b);
