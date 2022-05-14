@@ -64,9 +64,9 @@ void testFit_bg_ExpPoly2()
 
 
   // declare model
-  RooExpPoly2 *model1 = RooExpPoly2_init(mumujjMass_DY, "DY");
-  RooExpPoly2 *model2 = RooExpPoly2_init(mumujjMass_ttbar, "TTbar");
-  RooExpPoly2 *model3 = RooExpPoly2_init(mumujjMass_bg, "FullBg");
+  RooExpPoly2 *model1 = ExpPoly2_init(mumujjMass_DY, "DY");
+  RooExpPoly2 *model2 = ExpPoly2_init(mumujjMass_ttbar, "TTbar");
+  RooExpPoly2 *model3 = ExpPoly2_init(mumujjMass_bg, "FullBg");
 
   // fit model
   RooFitResult *r1 = model1->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
