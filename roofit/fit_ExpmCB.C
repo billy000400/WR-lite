@@ -118,7 +118,7 @@ void testFit_ExpmCB(std::string filePath)
   TFile f("fit_ExpmCB_result.root", "UPDATE");
   r1->Write("eejj_ExpmCB");
   r2->Write("mumujj_ExpmCB");
-  f.close();
+  f.Close();
   //// old code
   // importing ntuples into RooDataSet
   // RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);
