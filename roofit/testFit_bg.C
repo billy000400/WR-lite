@@ -3,7 +3,7 @@
  * @Date:   05-03-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-12-2022
+ * @Last modified time: 05-14-2022
  */
 
 
@@ -96,6 +96,16 @@ void testFit_bg()
 
   TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1500, 500);
   canvas->Divide(3,1);
+  canvas->cd(1);
+  frame1->Draw();
+  canvas->cd(2);
+  frame2->Draw();
+  canvas->cd(3);
+  frame3->Draw();
+
+  Tcanvas *logCanvas = new TCanvas("log". "log", 1500, 500);
+  canvas->Divide(3,1);
+  canvas->SetLogy();
   canvas->cd(1);
   frame1->Draw();
   canvas->cd(2);
