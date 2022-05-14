@@ -84,9 +84,9 @@ void testFit_logBg()
 
   //// Plot on frames
   // plot data on frames
-  ds_DY_mumujj.plotOn(frame1, Binning(128), SumW2Error(kTRUE));
-  ds_ttbar_mumujj.plotOn(frame2, Binning(128), SumW2Error(kTRUE));
-  ds_bg_mumujj.plotOn(frame3, Binning(128), SumW2Error(kTRUE));
+  ds_DY_mumujj.plotOn(frame1, Binning(20), SumW2Error(kTRUE));
+  ds_ttbar_mumujj.plotOn(frame2, Binning(20), SumW2Error(kTRUE));
+  ds_bg_mumujj.plotOn(frame3, Binning(20), SumW2Error(kTRUE));
 
   // plot fitted pdfs on frames
   // model1->plotOn(frame1);
