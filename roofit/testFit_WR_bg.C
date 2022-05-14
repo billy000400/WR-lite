@@ -147,8 +147,8 @@ void testFit_WR_bg()
 
 
   //// fit distribution to data
-  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(500,3000));
-  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(500,3000));
+  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(500,2500));
+  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(500,2500));
 
   // Prepare frames for plotting
   RooPlot *eeFrame = eejjMass_all->frame(Title("eejj"));
@@ -156,8 +156,8 @@ void testFit_WR_bg()
 
   //// Plot on frames
   // plot data on frames
-  ds_all_eejj.plotOn(eeFrame, Binning(30), DataError(RooAbsData::SumW2));
-  ds_all_mumujj.plotOn(mumuFrame, Binning(30), DataError(RooAbsData::SumW2));
+  ds_all_eejj.plotOn(eeFrame, Binning(150), DataError(RooAbsData::SumW2));
+  ds_all_mumujj.plotOn(mumuFrame, Binning(150), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   model_ee->plotOn(eeFrame);
   model_mumu->plotOn(mumuFrame);
@@ -210,7 +210,7 @@ RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), 1400., 600., 2000.);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 100., 30., 800.);
- RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 1, 0., 5.0);
+ RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 1.26, 0., 5.0);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 5, 0., 100.);
  RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 1., 1e-4, 5.);
  RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1., 1e-4, 5.);
