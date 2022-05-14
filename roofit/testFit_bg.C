@@ -106,12 +106,12 @@ void testFit_bg()
   TCanvas *logCanvas = new TCanvas("log", "log", 1500, 500);
   logCanvas->Divide(3,1);
   logCanvas->cd(1);
-  logCanvas->GetPad(1).SetLogy();
+  logCanvas->GetPad(1)->SetLogy();
   frame1->Draw();
   logCanvas->cd(2);
-  logCanvas->GetPad(2).SetLogy();
+  logCanvas->GetPad(2)->SetLogy();
   frame2->Draw();
   logCanvas->cd(3);
-  logCanvas->GetPad(3).SetLogy();
+  logCanvas->GetPad(3)->SetLogy();
   frame3->Draw();
 }
