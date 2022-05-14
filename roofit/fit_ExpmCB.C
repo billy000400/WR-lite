@@ -41,33 +41,43 @@ void testFit_ExpmCB(std::string filePath)
 
 
   std::string prefix = "../analysis/allEvents/";
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.5, WRGenMean*1.4);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.5, WRGenMean*1.4);
-  RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
-                RooArgSet(*WR_RecoMass_ee),
-                ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_ee"));
-  RooDataSet ds_WR_RecoMass_mumu("ds2", "ds2",
-                RooArgSet(*WR_RecoMass_mumu),
-                ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_mumu"));
+  RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",\
+                    "invm reco from eejj",WRGenMean*0.5, WRGenMean*1.4);
+  RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",\
+                    "row weight for WR ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
+                    "invm reco from mumujj",WRGenMean*0.5, WRGenMean*1.4);
+  RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
+                    "row weight for WR ntuple mumujj rows", -1.5, 1.5);
+
+  RooDataSet ds_WR_eejj("ds_WR_eejj", "ds_WR_eejj",
+                RooArgSet(*eejjMass_WR, *eejjRowWeight_WR),
+                ImportFromFile((prefix+filePath).c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_WR));
+  RooDataSet ds_WR_mumujj("ds_WR_mumujj", "ds_WR_mumujj",
+                RooArgSet(*mumujjMass_WR, *mumujjRowWeight_WR),
+                ImportFromFile((prefix+filePath).c_str(), "invm_mumujj"),
+                WeightVar(*mumujjRowWeight_WR));
 
   //// Preparing probability distirbution functions for fitting
   // preparing the double CB distributions
-  RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(WR_RecoMass_ee, WRGenMean, "eejj");
-  RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(WR_RecoMass_mumu, WRGenMean, "mumujj");
+  RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(eejjMass_WR, WRGenMean, "eejj");
+  RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(mumujjMass_WR, WRGenMean, "mumujj");
 
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_RecoMass_ee, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
-  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_RecoMass_mumu, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(), Range(WRGenMean*0.45,WRGenMean*1.45));
 
   //// Prepare frames for plotting
-  RooPlot *eeFrame_ExpmCB = WR_RecoMass_ee->frame(Title("eejj ExpmCB"));
-  RooPlot *mumuFrame_ExpmCB = WR_RecoMass_mumu->frame(Title("mumujj ExpmCB"));
+  RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
+  RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_RecoMass_ee.plotOn(eeFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
-  ds_WR_RecoMass_mumu.plotOn(mumuFrame_ExpmCB, Binning(30), DataError(RooAbsData::SumW2));
+  ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(50), DataError(RooAbsData::SumW2));
+  ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(50), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
@@ -199,7 +209,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
-  for (Int_t i=0; i<40; i++){
+  for (Int_t i=0; i<50; i++){
     Double_t binX;
     Double_t pull;
     pullPlot->GetPoint(i, binX, pull);
