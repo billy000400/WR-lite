@@ -221,10 +221,10 @@ RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
 
 RooExpm* Expm_init(RooRealVar* x, std::string label)
 {
-    RooRealVar* a = new RooRealVar((std::string("a")+label).c_str(), label.c_str(), -5e-2, -1e-1, -1e-7);
-    RooRealVar* b = new RooRealVar((std::string("b")+label).c_str(), label.c_str(), 1, 1e-2, 1.2);
+    RooRealVar* a = new RooRealVar((std::string("a_")+label).c_str(), label.c_str(), -6e-2, -14e-2, -1e-7);
+    RooRealVar* b = new RooRealVar((std::string("b_")+label).c_str(), label.c_str(), 6.5e-1, 0., 1.5);
 
-    return new RooExpm((std::string("Expm")+label).c_str(), label.c_str(), *x, *a, *b);
+    return new RooExpm((std::string("Expm_")+label).c_str(), label.c_str(), *x, *a, *b);
 }
 
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)

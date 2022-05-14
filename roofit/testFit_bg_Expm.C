@@ -63,13 +63,13 @@ void testFit_bg_Expm()
 
 
   // declare model
-  RooRealVar *a1 = new RooRealVar("a1", "a1", -5e-2, -1e-1, -1e-7);
-  RooRealVar *a2 = new RooRealVar("a2", "a2", -5e-2, -1e-1, -1e-7);
-  RooRealVar *a3 = new RooRealVar("a3", "a3", -5e-2, -1e-1, -1e-7);
+  RooRealVar *a1 = new RooRealVar("a1", "a1", -3e-2, -9e-2, -1e-7);
+  RooRealVar *a2 = new RooRealVar("a2", "a2", -1.7e-2, -8e-2, -1e-7);
+  RooRealVar *a3 = new RooRealVar("a3", "a3", -6e-2, -14e-2, -1e-7);
 
-  RooRealVar *b1 = new RooRealVar("b1", "b1", 1, 1e-2, 1.2);
-  RooRealVar *b2 = new RooRealVar("b2", "b2", 1, 1e-2, 1.2);
-  RooRealVar *b3 = new RooRealVar("b3", "b3", 1, 1e-2, 1.2);
+  RooRealVar *b1 = new RooRealVar("b1", "b1", 7.4e-1, 1e-1, 1.4);
+  RooRealVar *b2 = new RooRealVar("b2", "b2", 8.2e-1, 1e-1, 1.2);
+  RooRealVar *b3 = new RooRealVar("b3", "b3", 6.5e-1, 0., 1.4);
 
   RooExpm *model1 = new RooExpm("exponential bg DY", "exponential bg", *mumujjMass_DY, *a1, *b1);
   RooExpm *model2 = new RooExpm("exponential bg ttbar", "exponential bg", *mumujjMass_ttbar, *a2, *b2);
