@@ -76,8 +76,8 @@ void fit_ExpmCB(std::string filePath)
 
   //// Plot on frames
   // plot data on frames
-  ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(50), DataError(RooAbsData::SumW2));
-  ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(50), DataError(RooAbsData::SumW2));
+  ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
+  ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
@@ -209,7 +209,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
-  for (Int_t i=0; i<50; i++){
+  for (Int_t i=0; i<150; i++){
     Double_t binX;
     Double_t pull;
     pullPlot->GetPoint(i, binX, pull);
