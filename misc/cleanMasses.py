@@ -62,6 +62,8 @@ def main():
     	tree = ROOT.TTree("full"+files, "full"+files)
         mumujjNtuple_new = ROOT.TNtuple("invm_mumujj", "invm reco from WR mumujj", "invm_mumujj:rowWeight")
         eejjNtuple_new = ROOT.TNtuple("invm_eejj", "invm reco from WR eejj", "invm_eejj:rowWeight")
+        mumujjLogMassNtuple_new = ROOT.TNtuple("log(invm)_mumujj", "log invm reco from DY mumujj", "log_invm_mumujj:rowWeight")
+        eejjLogMassNtuple_new = ROOT.TNtuple("log(invm)_eejj", "log invm reco from DY eejj", "log_invm_eejj:rowWeight")
 
     	# create 1 dimensional float arrays as fill variables, in this way the float
     	# array serves as a pointer which can be passed to the branch
@@ -132,8 +134,10 @@ def main():
 
         for i in range(mumujjMassArray.shape[0]):
             mumujjNtuple_new.Fill(mumujjMassArray[i], mumujjRowWeightArray[i])
+            mumujjLogMassNtuple_new.Fill(np.log(mumujjMassArray[i]), mumujjRowWeightArray[i])
         for i in range(eejjMassArray.shape[0]):
             eejjNtuple_new.Fill(eejjMassArray[i], eejjRowWeightArray[i])
+            eejjLogMassNtuple_new.Fill(np.log(eejjMassArray[i]), eejjRowWeightArray[i])
 
 
     	# write the tree into the output file and close the file
