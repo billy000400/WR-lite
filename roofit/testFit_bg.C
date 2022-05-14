@@ -107,9 +107,12 @@ void testFit_bg()
   logCanvas->Divide(3,1);
   logCanvas->SetLogy();
   logCanvas->cd(1);
+  logCanvas->SetLogy();
   frame1->Draw();
   logCanvas->cd(2);
+  logCanvas->SetLogy();
   frame2->Draw();
   logCanvas->cd(3);
+  logCanvas->SetLogy();
   frame3->Draw();
 }
