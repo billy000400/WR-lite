@@ -115,7 +115,7 @@ void testFit_bg_ExpPoly2()
 RooExpPoly2* ExpPoly2_init(RooRealVar* x, std::string label)
 {
     RooRealVar* a = new RooRealVar((std::string("a")+label).c_str(), label.c_str(), 1., 1e-7, 5.);
-    RooRealVar* b = new RooRealVar((std::string("b")+label).c_str(), label.c_str(), -6e5., -6e7, 6e7);
+    RooRealVar* b = new RooRealVar((std::string("b")+label).c_str(), label.c_str(), -6e5, -6e7, 6e7);
 
     return new RooExpPoly2((std::string("ExpPoly2_")+label).c_str(), label.c_str(), *x, *a, *b);
 }
