@@ -20,7 +20,7 @@
 using namespace RooFit;
 
 
-void testFit_bg()
+void testFit_logBg()
 {
   // Preparing RooRealVars
   RooRealVar* mumujjMass_DY = new RooRealVar("log_invm_mumujj",\
