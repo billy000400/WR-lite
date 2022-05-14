@@ -156,7 +156,7 @@ void testFit_WR_bg()
 
   //// Plot on frames
   // plot data on frames
-  ds_all_eejj.plotOn(eeFramr, Binning(30), DataError(RooAbsData::SumW2));
+  ds_all_eejj.plotOn(eeFrame, Binning(30), DataError(RooAbsData::SumW2));
   ds_all_mumujj.plotOn(mumuFrame, Binning(30), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   model_ee->plotOn(eeFrame);
