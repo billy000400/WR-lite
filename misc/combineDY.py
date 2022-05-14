@@ -143,9 +143,9 @@ def main():
 
     mumujjMassArray_new = tree2array(mumujjNtuple_new, branches="invm_mumujj")
     mumujjRowWeightArray_new = tree2array(mumujjNtuple_new, branches="rowWeight")
-    np.save("python_analysis/DY_mumujjMassArray.npy", mumujjMassArray_new)
-    np.save("python_analysis/DY_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
-    
+    np.save("../../python_analysis/DY_mumujjMassArray.npy", mumujjMassArray_new)
+    np.save("../../python_analysis/DY_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
+
     # write the tree into the output file and close the file
     file.Write()
     file.Close()
