@@ -41,14 +41,14 @@ void testFit_ExpmCB(std::string filePath)
 
 
   std::string prefix = "../analysis/allEvents/";
-  RooRealVar* WR_RecoMass_ee = new RooRealVar("invm_eejj", "invm reco from eejj", WRGenMean*0.5, WRGenMean*1.4);
-  RooRealVar* WR_RecoMass_mumu = new RooRealVar("invm_mumujj", "invm reco from mumujj", WRGenMean*0.5, WRGenMean*1.4);
+  RooRealVar* WR_RecoMass_ee = new RooRealVar("WR_RecoMass_ee", "WR_RecoMass_ee", WRGenMean*0.5, WRGenMean*1.4);
+  RooRealVar* WR_RecoMass_mumu = new RooRealVar("WR_RecoMass_mumu", "WR_RecoMass_mumu", WRGenMean*0.5, WRGenMean*1.4);
   RooDataSet ds_WR_RecoMass_ee("ds1", "ds1",
                 RooArgSet(*WR_RecoMass_ee),
-                ImportFromFile((prefix+filePath).c_str(), "invm_eejj"));
+                ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_ee"));
   RooDataSet ds_WR_RecoMass_mumu("ds2", "ds2",
                 RooArgSet(*WR_RecoMass_mumu),
-                ImportFromFile((prefix+filePath).c_str(), "invm_mumujj"));
+                ImportFromFile((prefix+filePath).c_str(), "analysis/WR_RecoMass_mumu"));
 
   //// Preparing probability distirbution functions for fitting
   // preparing the double CB distributions
