@@ -88,6 +88,7 @@ void testFit_bg_Expm()
   std::cout << "BELOW IS THE RESULT" << std::endl;
   r1->Print();
   r2->Print();
+  r3->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
   //// Plot on frames
