@@ -42,44 +42,44 @@ void testFit_WR_bg()
   // std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
 
   // Preparing RooRealVars
-  RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
+  RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",
                             "invm reco from WR mumujj", 500, 3000);
-  RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
+  RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",
                             "row weight for WR ntuple mumujj rows", -1.5, 1.5);
 
-  RooRealVar* mumujjMass_DY = new RooRealVar("invm_mumujj",\
+  RooRealVar* mumujjMass_DY = new RooRealVar("invm_mumujj",
                             "invm reco from DY mumujj", 500, 3000);
-  RooRealVar* mumujjRowWeight_DY = new RooRealVar("rowWeight",\
+  RooRealVar* mumujjRowWeight_DY = new RooRealVar("rowWeight",
                             "row weight for DY ntuple mumujj rows", -1.5, 1.5);
 
-  RooRealVar* mumujjMass_ttbar = new RooRealVar("invm_mumujj",\
+  RooRealVar* mumujjMass_ttbar = new RooRealVar("invm_mumujj",
                             "invm reco from ttbar mumujj", 500, 3000);
-  RooRealVar* mumujjRowWeight_ttbar = new RooRealVar("rowWeight",\
+  RooRealVar* mumujjRowWeight_ttbar = new RooRealVar("rowWeight",
                             "row weight for ttbar ntuple mumujj rows", -1.5, 1.5);
 
-  RooRealVar* mumujjMass_all = new RooRealVar("invm_mumujj",\
+  RooRealVar* mumujjMass_all = new RooRealVar("invm_mumujj",
                             "invm reco from all mumujj", 500, 3000);
-  RooRealVar* mumujjRowWeight_all = new RooRealVar("rowWeight",\
+  RooRealVar* mumujjRowWeight_all = new RooRealVar("rowWeight",
                             "row weight for all ntuple mumujj rows", -1.5, 1.5);
 
-  RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",\
+  RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",
                               "invm reco from WR eejj", 500, 3000);
-  RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",\
+  RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",
                               "row weight for WR ntuple eejj rows", -1.5, 1.5);
 
-  RooRealVar* eejjMass_DY = new RooRealVar("invm_eejj",\
+  RooRealVar* eejjMass_DY = new RooRealVar("invm_eejj",
                               "invm reco from DY eejj", 500, 3000);
-  RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight",\
+  RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight",
                               "row weight for DY ntuple eejj rows", -1.5, 1.5);
 
-  RooRealVar* eejjMass_ttbar = new RooRealVar("invm_eejj",\
+  RooRealVar* eejjMass_ttbar = new RooRealVar("invm_eejj",
                               "invm reco from ttbar eejj", 500, 3000);
-  RooRealVar* eejjRowWeight_ttbar = new RooRealVar("rowWeight",\
+  RooRealVar* eejjRowWeight_ttbar = new RooRealVar("rowWeight",
                               "row weight for ttbar ntuple eejj rows", -1.5, 1.5);
 
-  RooRealVar* eejjMass_all = new RooRealVar("invm_eejj",\
+  RooRealVar* eejjMass_all = new RooRealVar("invm_eejj",
                               "invm reco from all eejj", 500, 3000);
-  RooRealVar* eejjRowWeight_all = new RooRealVar("rowWeight",\
+  RooRealVar* eejjRowWeight_all = new RooRealVar("rowWeight",
                               "row weight for all ntuple eejj rows", -1.5, 1.5);
 
   //// load dataset
@@ -161,8 +161,8 @@ void testFit_WR_bg()
 
   //// Plot on frames
   // plot data on frames
-  ds_all_eejj.plotOn(eeFrame, Binning(150), DataError(RooAbsData::SumW2));
-  ds_all_mumujj.plotOn(mumuFrame, Binning(150), DataError(RooAbsData::SumW2));
+  ds_all_eejj.plotOn(eeFrame, Binning(100), DataError(RooAbsData::SumW2));
+  ds_all_mumujj.plotOn(mumuFrame, Binning(100), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   model_ee->plotOn(eeFrame);
   model_mumu->plotOn(mumuFrame);
@@ -220,9 +220,6 @@ RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
  RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1.18);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 1.9);
 
-
-
-
  return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
 }
 
@@ -240,7 +237,7 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
   RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
   TH1* hist;
 
-  for (Int_t i=0; i<40; i++){
+  for (Int_t i=0; i<100; i++){
     Double_t binX;
     Double_t pull;
     pullPlot->GetPoint(i, binX, pull);
