@@ -71,9 +71,9 @@ void testFit_bg()
   RooExponential *model3 = new RooExponential("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *c3);
 
   // fit model
-  RooFitResult *r1 = model1->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
-  RooFitResult *r2 = model2->fitTo(ds_ttbar_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
-  RooFitResult *r3 = model3->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
+  RooFitResult *r1 = model1->fitTo(ds_DY_mumujj, Save(), SumW2Error(kFALSE), Range(500, 3000));
+  RooFitResult *r2 = model2->fitTo(ds_ttbar_mumujj, Save(), SumW2Error(kFALSE), Range(500, 3000));
+  RooFitResult *r3 = model3->fitTo(ds_bg_mumujj, Save(), SumW2Error(kFALSE), Range(500, 3000));
 
   // prepare frames for plotting
   RooPlot *frame1 = mumujjMass_DY->frame(Title("DY mumujj Reco Mass"));
