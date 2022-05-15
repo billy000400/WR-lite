@@ -85,7 +85,10 @@ void testFit_bg_Expm()
   RooPlot *frame2 = mumujjMass_ttbar->frame(Title("TTbar mumujj Reco Mass"));
   RooPlot *frame3 = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
 
-
+  std::cout << "BELOW IS THE RESULT" << std::endl;
+  r1->Print();
+  r2->Print();
+  std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
   //// Plot on frames
   // plot data on frames
