@@ -3,7 +3,7 @@
  * @Date:   05-03-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-12-2022
+ * @Last modified time: 05-14-2022
  */
 
 
@@ -89,9 +89,9 @@ void testFit_bg_Expm()
 
   //// Plot on frames
   // plot data on frames
-  ds_DY_mumujj.plotOn(frame1, Binning(128), SumW2Error(kTRUE));
-  ds_ttbar_mumujj.plotOn(frame2, Binning(128), SumW2Error(kTRUE));
-  ds_bg_mumujj.plotOn(frame3, Binning(128), SumW2Error(kTRUE));
+  ds_DY_mumujj.plotOn(frame1, Binning(128), DataError(RooAbsData::SumW2));
+  ds_ttbar_mumujj.plotOn(frame2, Binning(128), DataError(RooAbsData::SumW2));
+  ds_bg_mumujj.plotOn(frame3, Binning(128), DataError(RooAbsData::SumW2));
 
   // plot fitted pdfs on frames
   model1->plotOn(frame1);
