@@ -147,8 +147,8 @@ void testFit_WR_bg()
 
 
   //// fit distribution to data
-  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(1000,2000));
-  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(1000,2000));
+  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(500,3000));
+  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(500,3000));
 
   std::cout << "BELOW IS THE RESULT" << std::endl;
   r1->Print();
