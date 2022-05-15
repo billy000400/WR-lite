@@ -150,6 +150,11 @@ void testFit_WR_bg()
   RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(500,2500));
   RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(500,2500));
 
+  std::cout << "BELOW IS THE RESULT" << std::endl;
+  r1->Print();
+  r2->Print();
+  std::cout << "ABOVE IS THE RESULTS" << std::endl;
+
   // Prepare frames for plotting
   RooPlot *eeFrame = eejjMass_all->frame(Title("eejj"));
   RooPlot *mumuFrame  = mumujjMass_all->frame(Title("mumujj"));
@@ -209,11 +214,13 @@ void testFit_WR_bg()
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), 1400., 600., 2200.);
- RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 100., 30., 800.);
+ RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 100., 30., 300.);
  RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 1.448);
+ RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 3.7, 3., 4.2.);
+ RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1.18);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 1.9);
- RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 4., 3., 5.);
- RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1.19);
+
+
 
 
  return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
