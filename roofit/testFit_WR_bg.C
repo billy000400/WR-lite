@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-13-2022
+ * @Last modified time: 05-14-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -208,12 +208,12 @@ void testFit_WR_bg()
 
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
 {
- RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), 1400., 600., 2000.);
+ RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), 1400., 600., 2200.);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 100., 30., 800.);
- RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 1.26, 0., 5.0);
- RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 5, 0., 100.);
- RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 1., 1e-4, 5.);
- RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1., 1e-4, 5.);
+ RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 1.448);
+ RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 1.9);
+ RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 4., 3., 5.);
+ RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1.19);
 
 
  return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
@@ -221,8 +221,8 @@ RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, std::string label)
 
 RooExpm* Expm_init(RooRealVar* x, std::string label)
 {
-    RooRealVar* a = new RooRealVar((std::string("a_")+label).c_str(), label.c_str(), -8.6e-2);
-    RooRealVar* b = new RooRealVar((std::string("b_")+label).c_str(), label.c_str(), 6.5e-1);
+    RooRealVar* a = new RooRealVar((std::string("a_")+label).c_str(), label.c_str(), -9.4550e-2);
+    RooRealVar* b = new RooRealVar((std::string("b_")+label).c_str(), label.c_str(), 6.0258e-1);
 
     return new RooExpm((std::string("Expm_")+label).c_str(), label.c_str(), *x, *a, *b);
 }
