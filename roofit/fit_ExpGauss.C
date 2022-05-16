@@ -106,8 +106,8 @@ void fit_ExpmGauss(std::string filePath)
 
 
   // chi2
-  double chi2_ee_ExpmGauss = eeFrame_ExpmGauss->chiSquare(6);
-  double chi2_mumu_ExpmGauss = mumuFrame_ExpmGauss->chiSquare(6);
+  double chi2_ee_ExpmGauss = eeFrame_ExpmGauss->chiSquare(3);
+  double chi2_mumu_ExpmGauss = mumuFrame_ExpmGauss->chiSquare(3);
   std::cout << "chi2_ee_ExpmGauss: " << chi2_ee_ExpmGauss <<std::endl;
   std::cout << "chi2_mumu_ExpmGauss: " << chi2_mumu_ExpmGauss <<std::endl;
 

@@ -105,8 +105,8 @@ void fit_RooCBShape(std::string filePath)
 
 
   // chi2
-  double chi2_ee_RooCBShape = eeFrame_RooCBShape->chiSquare(6);
-  double chi2_mumu_RooCBShape = mumuFrame_RooCBShape->chiSquare(6);
+  double chi2_ee_RooCBShape = eeFrame_RooCBShape->chiSquare(4);
+  double chi2_mumu_RooCBShape = mumuFrame_RooCBShape->chiSquare(4);
   std::cout << "chi2_ee_RooCBShape: " << chi2_ee_RooCBShape <<std::endl;
   std::cout << "chi2_mumu_RooCBShape: " << chi2_mumu_RooCBShape <<std::endl;
 
