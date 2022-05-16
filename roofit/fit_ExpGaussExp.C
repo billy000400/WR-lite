@@ -22,7 +22,7 @@
 #include "RooExpGaussExp.h"
 using namespace RooFit;
 
-RooExpGaussExpShape* ExpGaussExp_init(RooRealVar* rrv_x, double mean, std::string label);
+RooExpGaussExp* ExpGaussExp_init(RooRealVar* rrv_x, double mean, std::string label);
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
 
 void fit_ExpGaussExp(std::string filePath)
@@ -193,14 +193,14 @@ void fit_ExpGaussExp(std::string filePath)
   // frame3->Draw();
 }
 
-RooExpGaussExpShape* ExpGaussExp_init(RooRealVar* rrv_x, double mean, std::string label)
+RooExpGaussExp* ExpGaussExp_init(RooRealVar* rrv_x, double mean, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpGaussExp_")+label).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpGaussExp_")+label).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
  RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpGaussExp_")+label).c_str(), label.c_str(), 1, 0., 5.0);
- RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpGaussExp_")+label).c_str(), label.c_str(), 1, 0., 5.)
+ RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpGaussExp_")+label).c_str(), label.c_str(), 1, 0., 5.);
 
- return new RooExpGaussExpShape((std::string("ExpGaussExp_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_m_CB,*rrv_n_CB);
+ return new RooExpGaussExp((std::string("ExpGaussExp_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_m_CB,*rrv_n_CB);
 }
 
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
