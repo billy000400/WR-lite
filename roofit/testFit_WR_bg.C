@@ -58,7 +58,7 @@ void testFit_WR_bg()
                             "row weight for ttbar ntuple mumujj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_all = new RooRealVar("invm_mumujj",
-                            "invm reco from all mumujj", 500, 3000);
+                            "invm reco from all mumujj (GeV)", 500, 3000);
   RooRealVar* mumujjRowWeight_all = new RooRealVar("rowWeight",
                             "row weight for all ntuple mumujj rows", -1.5, 1.5);
 
@@ -161,8 +161,8 @@ void testFit_WR_bg()
 
   //// Plot on frames
   // plot data on frames
-  ds_all_eejj.plotOn(eeFrame, Binning(100), DataError(RooAbsData::SumW2), Range(1000,2500));
-  ds_all_mumujj.plotOn(mumuFrame, Binning(100), DataError(RooAbsData::SumW2), Range(1000,2500));
+  ds_all_eejj.plotOn(eeFrame, Binning(100), DataError(RooAbsData::SumW2), Range(800,2000));
+  ds_all_mumujj.plotOn(mumuFrame, Binning(100), DataError(RooAbsData::SumW2), Range(800,2000));
   // plot fitted pdfs on frames
   model_ee->plotOn(eeFrame);
   model_mumu->plotOn(mumuFrame);
@@ -204,6 +204,9 @@ void testFit_WR_bg()
   c->cd(1);
   eeFrame->Draw();
   c->cd(2);
+  mumuFrame->Draw();
+
+  TCanvas *d = new TCanvas("composite", "composite", 1300, 1000);
   mumuFrame->Draw();
   // c->cd(3);
   // ee_ExpmCBPullFrame->Draw();
