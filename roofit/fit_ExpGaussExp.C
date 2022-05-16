@@ -19,7 +19,7 @@
 #include "TTree.h"
 #include "TH1D.h"
 #include "TRandom.h"
-#include "RooExpGaussExpShape.h"
+#include "RooExpGaussExp.h"
 using namespace RooFit;
 
 RooExpGaussExpShape* ExpGaussExp_init(RooRealVar* rrv_x, double mean, std::string label);
