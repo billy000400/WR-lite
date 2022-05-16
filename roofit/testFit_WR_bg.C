@@ -87,7 +87,7 @@ void testFit_WR_bg()
 
   RooDataSet ds_WR_mumujj("ds_WR_mumujj", "ds_WR_mumujj",
                 RooArgSet(*mumujjMass_WR, *mumujjRowWeight_WR),
-                ImportFromFile((prefix+"fullWR1600N00.root").c_str(), "invm_mumujj"),
+                ImportFromFile((prefix+"fullWR1600N800.root").c_str(), "invm_mumujj"),
                 WeightVar(*mumujjRowWeight_WR));
 
   RooDataSet ds_DY_mumujj("ds_DY_mumujj", "ds_DY_mumujj",
