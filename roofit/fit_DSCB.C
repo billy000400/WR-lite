@@ -130,10 +130,8 @@ void fit_DSCB(std::string filePath)
   c->cd(4);
   mumu_DSCBPullFrame->Draw();
 
-  TFile f("fit_DSCB_result.root", "UPDATE");
-  r1->Write("eejj_DSCB");
-  r2->Write("mumujj_DSCB");
-  f.Close();
+  TCanvas *d = new TCanvas("Test Fit", "Test Fit", 1000, 1000);
+  mumuFrame_DSCB->Draw();
   //// old code
   // importing ntuples into RooDataSet
   // RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);

@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-14-2022
+ * @Last modified time: 05-15-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -130,10 +130,8 @@ void fit_ExpmCB(std::string filePath)
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
 
-  TFile f("fit_ExpmCB_result.root", "UPDATE");
-  r1->Write("eejj_ExpmCB");
-  r2->Write("mumujj_ExpmCB");
-  f.Close();
+  TCanvas *d = new TCanvas("Test Fit", "Test Fit", 1000, 1000);
+  mumuFrame_DSCB->Draw();
   //// old code
   // importing ntuples into RooDataSet
   // RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);
