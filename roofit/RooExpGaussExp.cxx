@@ -73,6 +73,6 @@ ClassImp(RooExpGaussExp);
      }
      else {
          Double_t A = exp(0.5*absm*absm);
-         return A*exp(absm*t);
+         return A*exp(-absm*t);
      }
  }
