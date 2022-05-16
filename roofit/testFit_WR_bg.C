@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-15-2022
+ * @Last modified time: 05-16-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -87,7 +87,7 @@ void testFit_WR_bg()
 
   RooDataSet ds_WR_mumujj("ds_WR_mumujj", "ds_WR_mumujj",
                 RooArgSet(*mumujjMass_WR, *mumujjRowWeight_WR),
-                ImportFromFile((prefix+"fullWR1600N1000.root").c_str(), "invm_mumujj"),
+                ImportFromFile((prefix+"fullWR1600N800.root").c_str(), "invm_mumujj"),
                 WeightVar(*mumujjRowWeight_WR));
 
   RooDataSet ds_DY_mumujj("ds_DY_mumujj", "ds_DY_mumujj",
