@@ -127,6 +127,6 @@ void testFit_bg_Expm()
   logCanvas->GetPad(3)->SetLogy();
   frame3->Draw();
 
-  TCanvas *d = new TCanvas("final", "final" 1000, 1000)
+  TCanvas *d = new TCanvas("final", "final", 1000, 1000);
   frame3->Draw();
 }
