@@ -147,8 +147,8 @@ void testFit_WR_bg()
 
 
   //// fit distribution to data
-  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(1000,2500));
-  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(1000,2500));
+  RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
+  RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
 
   std::cout << "BELOW IS THE RESULT" << std::endl;
   r1->Print();
@@ -161,8 +161,8 @@ void testFit_WR_bg()
 
   //// Plot on frames
   // plot data on frames
-  ds_all_eejj.plotOn(eeFrame, Binning(100), DataError(RooAbsData::SumW2), Range(800,2000));
-  ds_all_mumujj.plotOn(mumuFrame, Binning(100), DataError(RooAbsData::SumW2), Range(800,2000));
+  ds_all_eejj.plotOn(eeFrame, Binning(100), DataError(RooAbsData::SumW2));
+  ds_all_mumujj.plotOn(mumuFrame, Binning(100), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
   model_ee->plotOn(eeFrame);
   model_mumu->plotOn(mumuFrame);
