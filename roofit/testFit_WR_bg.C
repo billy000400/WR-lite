@@ -157,7 +157,7 @@ void testFit_WR_bg()
 
   // Prepare frames for plotting
   RooPlot *eeFrame = eejjMass_all->frame(Title("eejj"));
-  RooPlot *mumuFrame  = mumujjMass_all->frame(Title("mumujj"));
+  RooPlot *mumuFrame  = mumujjMass_all->frame(Title("mumujj WR+bg"));
 
   //// Plot on frames
   // plot data on frames
