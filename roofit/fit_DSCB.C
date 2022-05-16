@@ -19,7 +19,7 @@
 #include "TTree.h"
 #include "TH1D.h"
 #include "TRandom.h"
-#include "RooDSCB.h"
+#include "RooDSCBShape.h"
 using namespace RooFit;
 
 RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean, std::string label);
