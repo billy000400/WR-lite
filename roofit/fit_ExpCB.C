@@ -131,7 +131,7 @@ void fit_ExpCB(std::string filePath)
   mumu_ExpCBPullFrame->Draw();
 
   TCanvas *d = new TCanvas("Test Fit", "Test Fit", 1000, 1000);
-  mumuFrame_DSCB->Draw();
+  mumuFrame_ExpCB->Draw();
   //// old code
   // importing ntuples into RooDataSet
   // RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);
