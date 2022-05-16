@@ -194,7 +194,7 @@ void fit_RooCBShape(std::string filePath)
 
 RooCBShape* RooCBShape_init(RooRealVar* rrv_x, double mean, std::string label)
 {
- RooRealVar* m0_mumu = new RooRealVar((std::string("m0_mumu")+label).c_str(), WRGenMean, 0.8*WRGenMean, 1.1*WRGenMean);
+ RooRealVar* m0_mumu = new RooRealVar((std::string("m0_mumu")+label).c_str(), mean, 0.8*mean, 1.1*mean);
  RooRealVar* sigma_mumu = new RooRealVar((std::string("sigma_mumu")+label).c_str(),label.c_str(), 800, 50, 2000);
  RooRealVar* alpha_mumu = new RooRealVar((std::string("alpha_mumu")+label).c_str(), label.c_str(), 2.0, 0., 200.0);
  RooRealVar* n_mumu = new RooRealVar((std::string("n_mumu")+label).c_str(),label.c_str(), 60.0, 0.0, 100.0);
