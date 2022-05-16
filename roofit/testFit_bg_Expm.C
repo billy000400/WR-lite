@@ -34,7 +34,7 @@ void testFit_bg_Expm()
                             "row weight for ttbar ntuple mumujj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_bg = new RooRealVar("invm_mumujj",\
-                            "invm reco from bg mumujj", 400, 3000);
+                            "invm reco from bg mumujj (GeV)", 400, 3000);
   RooRealVar* mumujjRowWeight_bg = new RooRealVar("rowWeight",\
                             "row weight for bg ntuple mumujj rows", -1.5, 1.5);
 
@@ -127,6 +127,6 @@ void testFit_bg_Expm()
   logCanvas->GetPad(3)->SetLogy();
   frame3->Draw();
 
-  TCanvas *d = new TCanvas("final", "final", 1000, 1000);
+  TCanvas *d = new TCanvas("final", "final", 1300, 1000);
   frame3->Draw();
 }
