@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-15-2022
+ * @Last modified time: 05-16-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -47,7 +47,7 @@ void fit_ExpmCB(std::string filePath)
                     "row weight for WR ntuple eejj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
-                    "invm reco from mumujj",WRGenMean*0.5, WRGenMean*1.4);
+                    "mumujj invm (GeV)",WRGenMean*0.5, WRGenMean*1.4);
   RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
                     "row weight for WR ntuple mumujj rows", -1.5, 1.5);
 
@@ -130,7 +130,7 @@ void fit_ExpmCB(std::string filePath)
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
 
-  TCanvas *d = new TCanvas("Test Fit", "Test Fit", 1000, 1000);
+  TCanvas *d = new TCanvas("ExpmCB_fit", "ExpmCB_fit", 1000, 1000);
   mumuFrame_ExpmCB->Draw();
   //// old code
   // importing ntuples into RooDataSet
