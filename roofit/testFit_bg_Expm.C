@@ -3,7 +3,7 @@
  * @Date:   05-03-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-14-2022
+ * @Last modified time: 05-16-2022
  */
 
 
@@ -102,6 +102,9 @@ void testFit_bg_Expm()
   model2->plotOn(frame2);
   model3->plotOn(frame3);
 
+  double chi2_mumu = frame3->chiSquare(2);
+  std::cout << "chi2_mumu_bg: " << chi2_mumu <<std::endl;
+
 
   TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1500, 500);
   canvas->Divide(3,1);
@@ -122,5 +125,8 @@ void testFit_bg_Expm()
   frame2->Draw();
   logCanvas->cd(3);
   logCanvas->GetPad(3)->SetLogy();
+  frame3->Draw();
+
+  TCanvas *d = new TCanvas("final", "final" 1000, 1000)
   frame3->Draw();
 }
