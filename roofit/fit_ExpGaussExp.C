@@ -47,7 +47,7 @@ void fit_ExpGaussExp(std::string filePath)
                     "row weight for WR ntuple eejj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
-                    "invm reco from mumujj",WRGenMean*0.5, WRGenMean*1.4);
+                    "mumujj invm (GeV)",WRGenMean*0.5, WRGenMean*1.4);
   RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
                     "row weight for WR ntuple mumujj rows", -1.5, 1.5);
 
@@ -130,7 +130,7 @@ void fit_ExpGaussExp(std::string filePath)
   c->cd(4);
   mumu_ExpGaussExpPullFrame->Draw();
 
-  TCanvas *d = new TCanvas("Test Fit", "Test Fit", 1000, 1000);
+  TCanvas *d = new TCanvas("ExpGaussExp_fit", "ExpGaussExp_fit", 1000, 1000);
   mumuFrame_ExpGaussExp->Draw();
   //// old code
   // importing ntuples into RooDataSet
