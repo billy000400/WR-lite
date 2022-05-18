@@ -231,3 +231,10 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
 
   return pulls;
 }
+
+int main(int argc, char** argv)
+{
+  std::vector<std::string> args(argv, argv + argc);
+  fit_ExpmCB(args[0]);
+  return 0;
+}
