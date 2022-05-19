@@ -80,11 +80,14 @@ void fit_ExpmCB(std::string filePath)
   r2->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
-  std::ofstream result(filePath+"_ExpmCB_result.txt");
-  result << WRGenMean << std::endl;
-  result << NGenMean << std::endl;
-  r1->printValue(result);
-  r2->printValue(result);
+  std::ofstream result1(filePath+"_ExpmCB_eejj_result.txt");
+  std::ofstream result2(filePath+"_ExpmCB_mumujj_result.txt");
+  result1 << WRGenMean << std::endl;
+  result1 << NGenMean << std::endl;
+  result2 << WRGenMean << std::endl;
+  result2 << NGenMean << std::endl;
+  r1->printMultiline(result1, 1, kTRUE, "");
+  r2->printMultiline(result2, 1, kTRUE, "");
 
 
   // Prepare frames for plotting
