@@ -80,6 +80,13 @@ void fit_ExpmCB(std::string filePath)
   r2->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
+  std::ofstream result(filePath+"_ExpmCB_result.txt");
+  ofstream << WRGenMean << std::endl;
+  ofstream << NGenMean << std::endl;
+  r1->printValue(result);
+  r2->printValue(result);
+
+
   // Prepare frames for plotting
   RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
   RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
