@@ -12,7 +12,8 @@ for recoMethod in recoMethods:
             "beta":[], "beta_err":[],\
             "m":[], "m_err":[],\
             "mean":[], "mean_err":[],\
-            "sigma":[], "sigma_err":[]
+            "sigma":[], "sigma_err":[],\
+            "chi2":[]
             }
 
     result_dir = Path.cwd().joinpath("results_"+dist+"_"+recoMethod)
@@ -85,6 +86,11 @@ for recoMethod in recoMethods:
         sigma_error, _ = sigma_errCorr.split("  ")
         data['sigma'].append(float(sigma_final))
         data['sigma_err'].append(float(sigma_error))
+
+        # extract chi2
+        line_chi2 = lines[16]
+        _, chi2 = line_chi2.split(": ")
+        data["chi2"].append(float(chi2))
 
     df = pd.DataFrame.from_dict(data)
     print(df)
