@@ -46,7 +46,8 @@ for recoMethod in recoMethods:
 
         # extract n
         line_n = lines[13]
-        _, name_n, n_init, n_result = line_n.split("    ")
+        name_n, n_values = line_n.split('jj    ')
+        n_init, n_result = n_values.split("    ")
         n_final, n_errCorr = n_result.split(" +/- ")
         n_error, _ = n_errCorr.split("  ")
         data['n'].append(float(n_final))
@@ -62,7 +63,8 @@ for recoMethod in recoMethods:
 
         # extract m
         line_m = lines[11]
-        _, name_m, m_init, m_result = line_m.split("    ")
+        name_m, m_values = line_m.split('jj    ')
+        m_init, m_result = m_values.split("    ")
         m_final, m_errCorr = m_result.split(" +/- ")
         m_error, _ = m_errCorr.split("  ")
         data['m'].append(float(m_final))
