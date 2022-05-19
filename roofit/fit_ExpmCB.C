@@ -84,30 +84,30 @@ void fit_ExpmCB(std::string filePath)
   RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
   RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
 
-  //// Plot on frames
-  // plot data on frames
-  // ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
-  // ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
-  // // plot fitted pdfs on frames
-  // WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
-  // WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
+  // Plot on frames
+  plot data on frames
+  ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
+  ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
+  // plot fitted pdfs on frames
+  WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
+  WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
 
-  //// pull related
-  // Prepare pulls
-  // RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
-  // std::cout << "Making the pull plots" << std::endl;
-  // RooHist *eeHist_ExpmCBPull = eeFrame_ExpmCB->pullHist();
-  // RooHist *mumuHist_ExpmCBPull = mumuFrame_ExpmCB->pullHist();
-  // // Extract pulls from RooHist
-  // RooDataSet ee_ExpmCBPulls = Hist2Pulls(eeHist_ExpmCBPull,"eejj", true);
-  // RooDataSet mumu_ExpmCBPulls = Hist2Pulls(mumuHist_ExpmCBPull, "mumujj", true);
-  // // Prepare frame for the pull histograms
-  // RooPlot* ee_ExpmCBPullFrame = pullVar->frame(Title("ee ExpmCB Pull Hist"));
-  // RooPlot* mumu_ExpmCBPullFrame = pullVar->frame(Title("mumu ExpmCB pull Hist"));
-  // // plot pull histograms on frames
-  // std::cout << "Making the pull histograms" << std::endl;
-  // ee_ExpmCBPulls.plotOn(ee_ExpmCBPullFrame, Binning(15));
-  // mumu_ExpmCBPulls.plotOn(mumu_ExpmCBPullFrame, Binning(15));
+  // pull related
+  Prepare pulls
+  RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
+  std::cout << "Making the pull plots" << std::endl;
+  RooHist *eeHist_ExpmCBPull = eeFrame_ExpmCB->pullHist();
+  RooHist *mumuHist_ExpmCBPull = mumuFrame_ExpmCB->pullHist();
+  // Extract pulls from RooHist
+  RooDataSet ee_ExpmCBPulls = Hist2Pulls(eeHist_ExpmCBPull,"eejj", true);
+  RooDataSet mumu_ExpmCBPulls = Hist2Pulls(mumuHist_ExpmCBPull, "mumujj", true);
+  // Prepare frame for the pull histograms
+  RooPlot* ee_ExpmCBPullFrame = pullVar->frame(Title("ee ExpmCB Pull Hist"));
+  RooPlot* mumu_ExpmCBPullFrame = pullVar->frame(Title("mumu ExpmCB pull Hist"));
+  // plot pull histograms on frames
+  std::cout << "Making the pull histograms" << std::endl;
+  ee_ExpmCBPulls.plotOn(ee_ExpmCBPullFrame, Binning(15));
+  mumu_ExpmCBPulls.plotOn(mumu_ExpmCBPullFrame, Binning(15));
 
 
   // chi2
