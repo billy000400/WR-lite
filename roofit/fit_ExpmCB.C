@@ -3,27 +3,32 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-16-2022
+ * @Last modified time: 05-18-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
 // Exponential (Exp) CB distribution. It will be put in testFit.C to compare the result
 // of ExpmCB and single CB
+// #include <iostream>
+#include <fstream>
 
+#include "TCanvas.h"
+#include "RooPlot.h"
+#include "RooHist.h"
+#include "TTree.h"
+#include "TH1D.h"
+#include "TRandom.h"
+#include "TApplication.h"
 #include "RooRealVar.h"
 #include "RooDataSet.h"
 #include "RooDataHist.h"
 #include "RooGaussian.h"
-#include "TCanvas.h"
-#include "RooPlot.h"
-#include "TTree.h"
-#include "TH1D.h"
-#include "TRandom.h"
+#include "RooFitResult.h"
 #include "RooExpmCB.h"
 using namespace RooFit;
 
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label);
-RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
+RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print);
 
 void fit_ExpmCB(std::string filePath)
 {
@@ -232,9 +237,16 @@ RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
   return pulls;
 }
 
-int main(int argc, char** argv)
-{
+void StandaloneApplication(int argc, char** argv) {
+  // eventually, evaluate the application parameters argc, argv
+  // ==>> here the ROOT macro is called
   std::vector<std::string> args(argv, argv + argc);
   fit_ExpmCB(args[0]);
-  return 0;
+}
+
+int main(int argc, char** argv) {
+   TApplication app("ROOT Application", &argc, argv);
+   StandaloneApplication(app.Argc(), app.Argv());
+   app.Run();
+   return 0;
 }
