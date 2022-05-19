@@ -6,7 +6,8 @@
 # @Last modified time: 05-19-2022
 # root -l -b RooExpmCB.cxx "fit_ExpmCB.C(\"fullWR800N200.root\")" -q
 
-fullFileDir="../analysis/allEvents/"
+fullFileDir="../analysis/allEvents"
 for i in $fullFileDir/fullWR*.root; do
-  echo $i
+  filename=$(basename $i)
+  echo $filename
 done
