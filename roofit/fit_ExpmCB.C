@@ -80,9 +80,9 @@ void fit_ExpmCB(std::string filePath)
   r2->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
-  //// Prepare frames for plotting
-  // RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
-  // RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
+  // Prepare frames for plotting
+  RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
+  RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
 
   //// Plot on frames
   // plot data on frames
