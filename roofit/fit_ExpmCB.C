@@ -147,9 +147,9 @@ void fit_ExpmCB(std::string filePath)
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
   std::string plot_file_prefix = "plots_ExpmCB/fullWR";
-  std::string N_str = "N";
-  std::string suffix = ".png";
-  std::string plotPath = plot_file_prefix+std::to_string(WRGenMean)+N_str+std::to_string(NGenMean)+suffix;
+  std::string plotPath = plot_file_prefix+filePath;
+  str::string plotPath = plotPath.erase(plotPath.length()-5); // remove .root
+  std::string plotPath += ".png";
   c->SaveAs((plotPath).c_str());
   c->Close();
 }
