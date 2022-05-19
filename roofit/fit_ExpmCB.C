@@ -149,7 +149,7 @@ void fit_ExpmCB(std::string filePath)
   std::string plot_file_prefix = "plots_ExpmCB/fullWR";
   std::string plotPath = plot_file_prefix+filePath;
   str::string plotPath = plotPath.erase(plotPath.length()-5); // remove .root
-  std::string plotPath += ".png";
+  std::string plotPath = plotPath+ ".png";
   c->SaveAs((plotPath).c_str());
   c->Close();
 }
