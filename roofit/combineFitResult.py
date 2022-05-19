@@ -94,3 +94,4 @@ for recoMethod in recoMethods:
 
     df = pd.DataFrame.from_dict(data)
     print(df)
+    df.to_csv("csv/"+dist+"_"+recoMethod+"_fitResult.csv")
