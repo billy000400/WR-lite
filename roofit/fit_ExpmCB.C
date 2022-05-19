@@ -146,7 +146,10 @@ void fit_ExpmCB(std::string filePath)
   ee_ExpmCBPullFrame->Draw();
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
-  c->Save(("plots_ExpmCB/fullWR"+WRGenMean+"N"+NGenMean+".png").c_str());
+  std::string plot_file_prefix = "plots_ExpmCB/fullWR";
+  std::string N_str = "N";
+  std::string suffix = ".png"
+  c->Save((plot_file_prefix+WRGenMean+N_str+NGenMean+suffix).c_str());
   c->Close();
 }
 
