@@ -147,9 +147,9 @@ void fit_ExpmCB(std::string filePath)
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
   std::string plot_file_prefix = "plots_ExpmCB/fullWR";
-  std::string plotPath = plot_file_prefix+filePath;
-  str::string plotPath = plotPath.erase(plotPath.length()-5); // remove .root
-  std::string plotPath = plotPath+ ".png";
+  plotPath = plot_file_prefix+filePath;
+  plotPath.erase(plotPath.length()-5); // remove .root
+  plotPath = plotPath+ ".png";
   c->SaveAs((plotPath).c_str());
   c->Close();
 }
