@@ -85,7 +85,7 @@ void fit_ExpmCB(std::string filePath)
   RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
 
   // Plot on frames
-  plot data on frames
+  // plot data on frames
   ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
   ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
   // plot fitted pdfs on frames
@@ -93,7 +93,7 @@ void fit_ExpmCB(std::string filePath)
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
 
   // pull related
-  Prepare pulls
+  // Prepare pulls
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
   std::cout << "Making the pull plots" << std::endl;
   RooHist *eeHist_ExpmCBPull = eeFrame_ExpmCB->pullHist();
