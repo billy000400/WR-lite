@@ -30,9 +30,9 @@ for recoMethod in recoMethods:
         data['WR'].append(WRMass)
 
         # extract N mass
-        if "N:" in line[1]:
+        if "N:" in lines[1]:
             NMass = int(lines[1][2:])
-        elif "N" in line[1]:
+        elif "N" in lines[1]:
             NMass = int(lines[1][1:])
         data['N'].append(NMass)
 
