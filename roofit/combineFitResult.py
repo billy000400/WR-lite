@@ -18,7 +18,7 @@ for recoMethod in recoMethods:
     result_dir = Path.cwd().joinpath("results_"+dist+"_"+recoMethod)
     files = result_dir.glob('*.txt')
     for file in files:
-        f = open('file', mode='r')
+        f = open(file, mode='r')
         lines = f.readlines()
         f.close()
 
