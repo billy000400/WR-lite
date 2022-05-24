@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-19-2022
+ * @Last modified time: 05-23-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -132,11 +132,11 @@ void fit_ExpmCB(std::string filePath)
   // plot the errors of the fitted functions
   // This needs to be done after the pulls was calculated
   // otherwise it will interfer the pull calculations
-  WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB, VisualizeError(*r1, 1, kFALSE));
-  WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB, VisualizeError(*r2, 1, kFALSE));
+  // WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB, VisualizeError(*r1, 1, kFALSE));
+  // WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB, VisualizeError(*r2, 1, kFALSE));
 
   // Draw Frames on TCanvas
-  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1500, 1500);
   c->Divide(2,2);
   c->cd(1);
   eeFrame_ExpmCB->Draw();
