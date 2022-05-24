@@ -83,9 +83,9 @@ void fit_ExpmCB(std::string filePath)
   std::ofstream result1("results_ExpmCB_ee/"+filePath+".txt");
   std::ofstream result2("results_ExpmCB_mumu/"+filePath+".txt");
   result1 << "WR:" << WRGenMean << std::endl;
-  result1 << "N" << NGenMean << std::endl;
-  result2 << "WR" << WRGenMean << std::endl;
-  result2 << "N" << NGenMean << std::endl;
+  result1 << "N:" << NGenMean << std::endl;
+  result2 << "WR:" << WRGenMean << std::endl;
+  result2 << "N:" << NGenMean << std::endl;
   r1->printMultiline(result1, 1, kTRUE, "");
   r2->printMultiline(result2, 1, kTRUE, "");
 
