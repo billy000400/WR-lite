@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-24-2022
+ * @Last modified time: 05-25-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -72,8 +72,8 @@ void fit_ExpmCB(std::string filePath)
 
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE));
-  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE));
+  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2));
+  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2));
 
   std::cout << "BELOW IS THE RESULT" << std::endl;
   r1->Print();
