@@ -72,8 +72,8 @@ void fit_ExpmCB(std::string filePath)
 
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45));
-  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45));
+  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE));
+  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE));
 
   std::cout << "BELOW IS THE RESULT" << std::endl;
   r1->Print();
