@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-16-2022
+ * @Last modified time: 05-25-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -75,6 +75,15 @@ void fit_DSCB(std::string filePath)
   r2->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
+  std::ofstream result1("results_DSCB_ee/"+filePath+".txt");
+  std::ofstream result2("results_DSCB_mumu/"+filePath+".txt");
+  result1 << "WR:" << WRGenMean << std::endl;
+  result1 << "N:" << NGenMean << std::endl;
+  result2 << "WR:" << WRGenMean << std::endl;
+  result2 << "N:" << NGenMean << std::endl;
+  r1->printMultiline(result1, 1, kTRUE, "");
+  r2->printMultiline(result2, 1, kTRUE, "");
+
   //// Prepare frames for plotting
   RooPlot *eeFrame_DSCB = eejjMass_WR->frame(Title(("eejj DSCB "+filePath).c_str()));
   RooPlot *mumuFrame_DSCB = mumujjMass_WR->frame(Title(("mumujj DSCB "+filePath).c_str()));
@@ -110,6 +119,8 @@ void fit_DSCB(std::string filePath)
   double chi2_mumu_DSCB = mumuFrame_DSCB->chiSquare(6);
   std::cout << "chi2_ee_DSCB: " << chi2_ee_DSCB <<std::endl;
   std::cout << "chi2_mumu_DSCB: " << chi2_mumu_DSCB <<std::endl;
+  result1 << "chi2_ee_DSCB: " << chi2_ee_DSCB <<std::endl;
+  result2 << "chi2_mumu_DSCB: " << chi2_mumu_DSCB <<std::endl;
 
 
   //// plot the errors of the fitted functions
@@ -119,7 +130,7 @@ void fit_DSCB(std::string filePath)
   // WR_mumu_DSCB->plotOn(mumuFrame_DSCB, VisualizeError(*r2, 1, kFALSE));
 
   //// Draw Frames on TCanvas
-  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 600, 600);
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1800, 1600);
   c->Divide(2,2);
   c->cd(1);
   eeFrame_DSCB->Draw();
@@ -129,68 +140,12 @@ void fit_DSCB(std::string filePath)
   ee_DSCBPullFrame->Draw();
   c->cd(4);
   mumu_DSCBPullFrame->Draw();
-
-  TCanvas *d = new TCanvas("DSCB_fit", "DSCB_fit", 1000, 1000);
-  mumuFrame_DSCB->Draw();
-  //// old code
-  // importing ntuples into RooDataSet
-  // RooRealVar* WR_RecoMass = new RooRealVar("WR_RecoMass", "WR_RecoMass", 0, 5000);
-  // RooRealVar* N_RecoMass_Match = new RooRealVar("N_RecoMass_Match", "N_RecoMass_Match", 0, 3000);
-  // RooRealVar* N_RecoMass_NN = new RooRealVar("N_RecoMass_NN", "N_RecoMass_NN", 0, 3000);
-  //
-  // RooDataSet ds1("ds1", "ds1",
-  //               RooArgSet(*WR_RecoMass, *N_RecoMass_Match, *N_RecoMass_NN),
-  //               ImportFromFile("../WR2000_N1900/out_WR2000N1900_4.root","analysis/WR_N_RecoMass"));
-  //
-  // RooPlot *frame1 = WR_RecoMass->frame(Title("1000 GeV WR Mass, Reco by Matching"));
-  // ds1.plotOn(frame1, Binning(128));
-  // RooPlot *frame2 = N_RecoMass_Match->frame(Title("400 GeV N Mass, Reco by Matching"));
-  // ds1.plotOn(frame2, Binning(128));
-  // RooPlot *frame3 = N_RecoMass_NN->frame(Title("400 GeV N Mass, Reco by NN"));
-  // ds1.plotOn(frame3, Binning(128));
-  //
-  // // preparing the signal distribution
-  // RooRealVar* rrv_mean_CB = new RooRealVar("rrv_mean_CB", "rrv_mean_CB", 2000, 1000, 3000);
-  // RooRealVar* rrv_sigma_CB = new RooRealVar("rrv_sigma_CB", "rrv_sigma_CB", 100, 50, 300);
-  // RooRealVar* rrv_tail_CB_I = new RooRealVar("rrv_tail_CB_I", "rrv_tail_CB_I", 2,0., 40);
-  // RooRealVar* rrv_tail_CB_II = new RooRealVar("rrv_tail_CB_II", "rrv_tail_CB_II", -2., -40., 0.);
-  //
-  // RooRealVar* rrv_normalization_CB_I = new RooRealVar("rrv_normalization_CB_I", "rrv_normalization_CB_I", 2, 0., 400);
-  // RooRealVar* rrv_frac_CB = new RooRealVar("rrv_frac_CB", "rrv_frac_CB", 0.5);
-  //
-  //
-  // RooCBShape* Crystal_Ball_I = new RooCBShape("CrystalBall_I", "CrystalBall_I",
-  //                                             *WR_RecoMass,
-  //                                             *rrv_mean_CB,*rrv_sigma_CB,*rrv_tail_CB_I,*rrv_normalization_CB_I);
-  //
-  // RooCBShape* Crystal_Ball_II = new RooCBShape("CrystalBall_II", "CrystalBall_II",
-  //                                             *WR_RecoMass,
-  //                                             *rrv_mean_CB,*rrv_sigma_CB,*rrv_tail_CB_II,*rrv_normalization_CB_I);
-  //
-  // RooAddPdf* WR_pdf = new RooAddPdf("model_pdf", "model_pdf",
-  //                                     RooArgList(*Crystal_Ball_I,*Crystal_Ball_II),
-  //                                     RooArgList(*rrv_frac_CB));
-  //
-  // // fit distribution to data
-  // RooFitResult *r = WR_pdf->fitTo(ds1, Save());
-  // r->Print();
-  //
-  // std::cout << "The value of rrv_frac_CB is " << rrv_frac_CB->getVal() << std::endl;
-  //
-  // // Draw ntuples
-  // WR_pdf->plotOn(frame1);
-  //
-  //
-  //
-  //
-  // TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 800);
-  // c->Divide(2,2);
-  // c->cd(1);
-  // frame1->Draw();
-  // c->cd(2);
-  // frame2->Draw();
-  // c->cd(3);
-  // frame3->Draw();
+  std::string plot_file_prefix = "plots_DSCB/fullWR";
+  std::string plotPath = plot_file_prefix+filePath;
+  plotPath.erase(plotPath.length()-5); // remove .root
+  plotPath = plotPath+ ".png";
+  c->SaveAs((plotPath).c_str());
+  c->Close();
 }
 
 RooDSCBShape* DSCB_init(RooRealVar* rrv_x, double mean, std::string label)
