@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-25-2022
+ * @Last modified time: 05-26-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -146,7 +146,7 @@ void fit_ExpmCB(std::string filePath)
   ee_ExpmCBPullFrame->Draw();
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
-  std::string plot_file_prefix = "plots_ExpmCB/fullWR";
+  std::string plot_file_prefix = "plots_ExpmCB/";
   std::string plotPath = plot_file_prefix+filePath;
   plotPath.erase(plotPath.length()-5); // remove .root
   plotPath = plotPath+ ".png";
