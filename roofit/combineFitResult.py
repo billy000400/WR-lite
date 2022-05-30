@@ -35,12 +35,13 @@ for dist in dists:
                 current_line_num=9 # RooFit record starts
                 while (len(lines[current_line_num]) > 1):
                     current_line = lines[current_line_num]
-                    varName = current_line.split(None,1)
+                    varName = current_line.split(None,1)[0]
                     varNames.append(varName)
                     current_line_num += 1
                     # print(current_line_num, lines[current_line_num], len(lines[current_line_num]))
 
                 for varName in varNames:
+                    print(varName)
                     data[varName] = []
                     data[f"{varName}_err"] = []
 
