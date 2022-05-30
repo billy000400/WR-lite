@@ -49,7 +49,12 @@ for dist in dists:
 
             # extract alpha
             line_alpha = lines[9]
-            name_alpha, alpha_init, alpha_result = line_alpha.split("    ")
+            try:
+                # parameter is positive
+                name_alpha, alpha_init, alpha_result = line_alpha.split("    ")
+            except:
+                # parameter is negative (will use a space to mark ""-"")
+                name_alpha, alpha_init, alpha_result = line_alpha.split("   ")
             alpha_final, alpha_errCorr = alpha_result.split(" +/- ")
             alpha_error, _ = alpha_errCorr.split("  ")
             data['alpha'].append(float(alpha_final))
