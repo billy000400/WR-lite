@@ -38,7 +38,7 @@ for dist in dists:
                     varName = current_line.split(None,1)
                     varNames.append(varName)
                     current_line_num += 1
-                    print(current_line_num)
+                    print(current_line_num, lines[current_line_num], len(lines[current_line_num]))
 
                 for varName in varNames:
                     data[varName] = []
