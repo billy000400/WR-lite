@@ -41,7 +41,6 @@ for dist in dists:
                     # print(current_line_num, lines[current_line_num], len(lines[current_line_num]))
 
                 for varName in varNames:
-                    print(varName)
                     data[varName] = []
                     data[f"{varName}_err"] = []
 
@@ -50,12 +49,12 @@ for dist in dists:
 
             # extract WR mass
             WR_line = lines[0]
-            WR_text = WR_line.split(":",2)
+            WR_text = WR_line.split(":")[1]
             data['WR'].append(float(WR_text))
 
             # extract N mass
             N_line = lines[1]
-            N_text = N_line.split(":",2)
+            N_text = N_line.split(":")[1]
             data['N'].append(float(N_text))
 
             # loop through variable names to extract final values and errs
