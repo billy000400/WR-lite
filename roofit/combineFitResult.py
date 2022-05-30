@@ -13,6 +13,7 @@ import pandas as pd
 dists = ["ExpmCB", "DSCB"]
 recoMethods = ['ee', 'mumu']
 for dist in dists:
+    print(f"[INFO]: Combining fit results for {dist}")
     for recoMethod in recoMethods:
         # dict for df
         data = {"WR":[], "N":[],\
