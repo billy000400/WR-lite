@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-26-2022
+ * @Last modified time: 05-30-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -169,15 +169,15 @@ void fit_ExpmCB(std::string filePath)
 
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label)
 {
- RooRealVar* rrv_mean_CB = new RooRealVar((std::string("rrv_mean_ExpmCB_")+label).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("rrv_sigma_ExpmCB_")+label).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
- RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("rrv_alpha_ExpmCB_")+label).c_str(), label.c_str(), 0.05, 1e-3, 10.0);
- RooRealVar* rrv_n_CB = new RooRealVar((std::string("rrv_n_ExpmCB_")+label).c_str(), label.c_str(), 1, 0., 5.);
- RooRealVar* rrv_beta_CB = new RooRealVar((std::string("rrv_beta_ExpmCB_")+label).c_str(), label.c_str(), 0.05, 1e-3, 3.);
- RooRealVar* rrv_m_CB = new RooRealVar((std::string("rrv_m_ExpmCB_")+label).c_str(), label.c_str(), 1.5, 1e-2, 2.);
+ RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
+ RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
+ RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), label.c_str(), 0.05, 1e-3, 10.0);
+ RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), label.c_str(), 1, 0., 5.);
+ RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), label.c_str(), 0.05, 1e-3, 3.);
+ RooRealVar* rrv_m_CB = new RooRealVar((std::string("m")).c_str(), label.c_str(), 1.5, 1e-2, 2.);
 
 
- return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
+ return new RooExpmCB((std::string("Expm_CB")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
 }
 
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
