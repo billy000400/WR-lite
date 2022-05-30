@@ -33,12 +33,12 @@ for dist in dists:
                 data["N"] = []
 
                 current_line_num=9 # RooFit record starts
-                while (len(lines[current_line_num]) != 0):
+                while (len(lines[current_line_num]) > 1):
                     current_line = lines[current_line_num]
                     varName = current_line.split(None,1)
                     varNames.append(varName)
                     current_line_num += 1
-                    print(current_line_num, lines[current_line_num], len(lines[current_line_num]))
+                    # print(current_line_num, lines[current_line_num], len(lines[current_line_num]))
 
                 for varName in varNames:
                     data[varName] = []
