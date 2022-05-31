@@ -172,7 +172,7 @@ RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label)
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
  RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), label.c_str(), 0.05, 1e-3, 10.0);
- RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), label.c_str(), 1, 0., 5.);
+ RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), label.c_str(), 1, 0.5, 2);
  RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), label.c_str(), 0.05, 1e-3, 3.);
  RooRealVar* rrv_m_CB = new RooRealVar((std::string("m")).c_str(), label.c_str(), 1.5, 1e-2, 2.);
 
