@@ -115,6 +115,11 @@ void fit_ExpmCB(std::string filePath)
   RooPlot *mumuFrame_1 = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
   RooPlot *mumuFrame_2 = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
 
+  ds_WR_eejj.plotOn(eeFrame_1, Binning(150), DataError(RooAbsData::SumW2));
+  ds_WR_mumujj.plotOn(mumuFrame_1, Binning(150), DataError(RooAbsData::SumW2));
+  ds_WR_eejj.plotOn(eeFrame_2, Binning(150), DataError(RooAbsData::SumW2));
+  ds_WR_mumujj.plotOn(mumuFrame_2, Binning(150), DataError(RooAbsData::SumW2));
+
   WR_ee_ExpmCB_1->plotOn(eeFrame_1);
   WR_ee_ExpmCB_2->plotOn(eeFrame_2);
   WR_mumu_ExpmCB_1->plotOn(mumuFrame_1);
