@@ -72,8 +72,12 @@ void fit_ExpmCB(std::string filePath)
 
 
   //// fit distribution to data
-  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2));
-  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2));
+  WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(kFALSE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "scan"), Verbose(kFALSE));
+  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "migrad"), Verbose(kFALSE));
+  
+  WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(kFALSE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "scan"), Verbose(kFALSE));
+  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(kTRUE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "migrad"), Verbose(kFALSE));
+  
 
   std::cout << "BELOW IS THE RESULT" << std::endl;
   r1->Print();
@@ -170,10 +174,10 @@ void fit_ExpmCB(std::string filePath)
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
- RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
- RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), label.c_str(), 0.05, 1e-3, 10.0);
+ RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.05*mean, 0.01*mean, 0.1*mean);
+ RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), label.c_str(), 2, 0.1, 10.0);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), label.c_str(), 1, 0.5, 2);
- RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), label.c_str(), 0.05, 1e-3, 3.);
+ RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), label.c_str(), 0.5, 0.01, 3.);
  RooRealVar* rrv_m_CB = new RooRealVar((std::string("m")).c_str(), label.c_str(), 1.5, 1e-2, 2.);
 
 
