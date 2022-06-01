@@ -27,8 +27,8 @@
 #include "RooExpmCB.h"
 using namespace RooFit;
 
-RooExpmCB* ExpmCB_init1(RooRealVar* rrv_x, double mean, std::string label);
-RooExpmCB* ExpmCB_init2(RooRealVar* rrv_x, double mean, std::string label);
+RooExpmCB* ExpmCB_init_1(RooRealVar* rrv_x, double mean, std::string label);
+RooExpmCB* ExpmCB_init_2(RooRealVar* rrv_x, double mean, std::string label);
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print);
 
 void fit_ExpmCB(std::string filePath)
@@ -145,7 +145,7 @@ void fit_ExpmCB(std::string filePath)
   }else{
     WR_mumu_ExpmCB = WR_mumu_ExpmCB_2;
     r_mumu = r_mumu_2;
-    chi2_mumu_ExpmCB = chi2_mumu_2
+    chi2_mumu_ExpmCB = chi2_mumu_2;
   }
 
   // save parameters
@@ -228,7 +228,7 @@ void fit_ExpmCB(std::string filePath)
 //  return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
 // }
 
-RooExpmCB* ExpmCB_init1(RooRealVar* rrv_x, double mean, std::string label)
+RooExpmCB* ExpmCB_init_1(RooRealVar* rrv_x, double mean, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.05*mean, 0.01*mean, 0.1*mean);
@@ -241,7 +241,7 @@ RooExpmCB* ExpmCB_init1(RooRealVar* rrv_x, double mean, std::string label)
  return new RooExpmCB((std::string("Expm_CB")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
 }
 
-RooExpmCB* ExpmCB_init2(RooRealVar* rrv_x, double mean, std::string label)
+RooExpmCB* ExpmCB_init_2(RooRealVar* rrv_x, double mean, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.15*mean, 0.01*mean, 0.5*mean);
