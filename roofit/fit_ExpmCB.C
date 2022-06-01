@@ -96,7 +96,7 @@ void fit_ExpmCB(std::string filePath)
                                   Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
                                   Strategy(2));
 
-  RooFitResult *r_ee_2 = WR_ee_ExpmCB_1->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE),\
+  RooFitResult *r_ee_2 = WR_ee_ExpmCB_2->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE),\
                                   Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
                                   Strategy(2));
 
