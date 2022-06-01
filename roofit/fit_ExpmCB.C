@@ -27,7 +27,8 @@
 #include "RooExpmCB.h"
 using namespace RooFit;
 
-RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label);
+RooExpmCB* ExpmCB_init1(RooRealVar* rrv_x, double mean, std::string label);
+RooExpmCB* ExpmCB_init2(RooRealVar* rrv_x, double mean, std::string label);
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print);
 
 void fit_ExpmCB(std::string filePath)
@@ -65,23 +66,92 @@ void fit_ExpmCB(std::string filePath)
                 ImportFromFile((prefix+filePath).c_str(), "invm_mumujj"),
                 WeightVar(*mumujjRowWeight_WR));
 
+
+  //// Prepare frames for plotting
+  RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
+  RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
+
+  // Plot on frames
+  // plot data on frames
+  ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
+  ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
+
   //// Preparing probability distirbution functions for fitting
-  // preparing the double CB distributions
-  RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(eejjMass_WR, WRGenMean, "eejj");
-  RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(mumujjMass_WR, WRGenMean, "mumujj");
+  // preparing the ExpmCB distributions
+  RooExpmCB* WR_ee_ExpmCB; // placeholder
+  RooExpmCB* WR_mumu_ExpmCB; //placeholder
+
+  RooExpmCB* WR_ee_ExpmCB_1 = ExpmCB_init_1(eejjMass_WR, WRGenMean, "eejj");
+  RooExpmCB* WR_ee_ExpmCB_2 = ExpmCB_init_2(eejjMass_WR, WRGenMean, "eejj");
+
+  RooExpmCB* WR_mumu_ExpmCB_1 = ExpmCB_init_1(mumujjMass_WR, WRGenMean, "mumujj");
+  RooExpmCB* WR_mumu_ExpmCB_2 = ExpmCB_init_2(mumujjMass_WR, WRGenMean, "mumujj");
 
 
   //// fit distribution to data
-  WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(kFALSE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "scan"), Verbose(kFALSE));
-  RooFitResult *r1 = WR_ee_ExpmCB->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "migrad"), Verbose(kFALSE));
-  
-  WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(kFALSE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "scan"), Verbose(kFALSE));
-  RooFitResult *r2 = WR_mumu_ExpmCB->fitTo(ds_WR_mumujj, Save(kTRUE), SumW2Error(kTRUE), Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE), Strategy(2), Minimizer("Minuit", "migrad"), Verbose(kFALSE));
-  
+  RooFitResult *r_ee; // placeholder
+  RooFitResult *r_mumu; // placeholder
 
+  RooFitResult *r_ee_1 = WR_ee_ExpmCB_1->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Strategy(2));
+
+  RooFitResult *r_ee_2 = WR_ee_ExpmCB_1->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Strategy(2));
+
+  RooFitResult *r_mumu_1 = WR_mumu_ExpmCB_1->fitTo(ds_WR_mumujj, Save(kTRUE), SumW2Error(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Strategy(2));
+
+  RooFitResult *r_mumu_2 = WR_mumu_ExpmCB_2->fitTo(ds_WR_mumujj, Save(kTRUE), SumW2Error(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Strategy(2));
+
+  //// compare which initialization gives the lowest chi2
+  // calculate chi2
+  RooPlot *eeFrame_1 = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
+  RooPlot *eeFrame_2 = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
+  RooPlot *mumuFrame_1 = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
+  RooPlot *mumuFrame_2 = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
+
+  WR_ee_ExpmCB_1->plotOn(eeFrame_1);
+  WR_ee_ExpmCB_2->plotOn(eeFrame_2);
+  WR_mumu_ExpmCB_1->plotOn(mumuFrame_1);
+  WR_mumu_ExpmCB_2->plotOn(mumuFrame_2);
+
+  double chi2_ee_ExpmCB; //placeholder
+  double chi2_mumu_ExpmCB; //placeholder
+  double chi2_ee_1 = eeFrame_1->chiSquare(6);
+  double chi2_ee_2 = eeFrame_2->chiSquare(6);
+  double chi2_mumu_1 = mumuFrame_1->chiSquare(6);
+  double chi2_mumu_2 = mumuFrame_2->chiSquare(6);
+
+  // pick the best fit
+  if (chi2_ee_1 < chi2_ee_2){
+    WR_ee_ExpmCB = WR_ee_ExpmCB_1;
+    r_ee = r_ee_1;
+    chi2_ee_ExpmCB = chi2_ee_1;
+  }else{
+    WR_ee_ExpmCB = WR_ee_ExpmCB_2;
+    r_ee = r_ee_2;
+    chi2_ee_ExpmCB = chi2_ee_2;
+  }
+
+  if (chi2_mumu_1 < chi2_mumu_2){
+    WR_mumu_ExpmCB = WR_mumu_ExpmCB_1;
+    r_mumu = r_mumu_1;
+    chi2_mumu_ExpmCB = chi2_mumu_1;
+  }else{
+    WR_mumu_ExpmCB = WR_mumu_ExpmCB_2;
+    r_mumu = r_mumu_2;
+    chi2_mumu_ExpmCB = chi2_mumu_2
+  }
+
+  // save parameters
   std::cout << "BELOW IS THE RESULT" << std::endl;
-  r1->Print();
-  r2->Print();
+  r_ee->Print();
+  r_mumu->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
   std::ofstream result1("results_ExpmCB_ee/"+filePath+".txt");
@@ -90,23 +160,20 @@ void fit_ExpmCB(std::string filePath)
   result1 << "N:" << NGenMean << std::endl;
   result2 << "WR:" << WRGenMean << std::endl;
   result2 << "N:" << NGenMean << std::endl;
-  r1->printMultiline(result1, 1, kTRUE, "");
-  r2->printMultiline(result2, 1, kTRUE, "");
+  r_ee->printMultiline(result1, 1, kTRUE, "");
+  r_mumu->printMultiline(result2, 1, kTRUE, "");
 
+  // save chi2
+  std::cout << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
+  std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
+  result1 << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
+  result2 << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
 
-  // Prepare frames for plotting
-  RooPlot *eeFrame_ExpmCB = eejjMass_WR->frame(Title(("eejj ExpmCB "+filePath).c_str()));
-  RooPlot *mumuFrame_ExpmCB = mumujjMass_WR->frame(Title(("mumujj ExpmCB "+filePath).c_str()));
-
-  // Plot on frames
-  // plot data on frames
-  ds_WR_eejj.plotOn(eeFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
-  ds_WR_mumujj.plotOn(mumuFrame_ExpmCB, Binning(150), DataError(RooAbsData::SumW2));
-  // plot fitted pdfs on frames
+  // plot picked pdfs on frames
   WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB);
   WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB);
 
-  // pull related
+  //// pull related
   // Prepare pulls
   RooRealVar* pullVar = new RooRealVar("pullVar", "pull value", -6, 6);
   std::cout << "Making the pull plots" << std::endl;
@@ -123,23 +190,13 @@ void fit_ExpmCB(std::string filePath)
   ee_ExpmCBPulls.plotOn(ee_ExpmCBPullFrame, Binning(15));
   mumu_ExpmCBPulls.plotOn(mumu_ExpmCBPullFrame, Binning(15));
 
-
-  // chi2
-  double chi2_ee_ExpmCB = eeFrame_ExpmCB->chiSquare(6);
-  double chi2_mumu_ExpmCB = mumuFrame_ExpmCB->chiSquare(6);
-  std::cout << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
-  std::cout << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
-  result1 << "chi2_ee_ExpmCB: " << chi2_ee_ExpmCB <<std::endl;
-  result2 << "chi2_mumu_ExpmCB: " << chi2_mumu_ExpmCB <<std::endl;
-
-
-  // plot the errors of the fitted functions
+  //// plot the errors of the fitted functions
   // This needs to be done after the pulls was calculated
   // otherwise it will interfer the pull calculations
   // WR_ee_ExpmCB->plotOn(eeFrame_ExpmCB, VisualizeError(*r1, 1, kFALSE));
   // WR_mumu_ExpmCB->plotOn(mumuFrame_ExpmCB, VisualizeError(*r2, 1, kFALSE));
 
-  // Draw Frames on TCanvas
+  //// Draw Frames on TCanvas
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1800, 1600);
   c->Divide(2,2);
   c->cd(1);
@@ -171,13 +228,26 @@ void fit_ExpmCB(std::string filePath)
 //  return new RooExpmCB((std::string("Exp(-omega*t^m)CrystallBall_")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
 // }
 
-RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label)
+RooExpmCB* ExpmCB_init1(RooRealVar* rrv_x, double mean, std::string label)
 {
  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.05*mean, 0.01*mean, 0.1*mean);
  RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), label.c_str(), 2, 0.1, 10.0);
  RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), label.c_str(), 1, 0.5, 2);
  RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), label.c_str(), 0.5, 0.01, 3.);
+ RooRealVar* rrv_m_CB = new RooRealVar((std::string("m")).c_str(), label.c_str(), 1.5, 1e-2, 2.);
+
+
+ return new RooExpmCB((std::string("Expm_CB")+label).c_str(), label.c_str(), *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
+}
+
+RooExpmCB* ExpmCB_init2(RooRealVar* rrv_x, double mean, std::string label)
+{
+ RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), label.c_str(), mean, 0.8*mean, 1.1*mean);
+ RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), label.c_str(), 0.05*mean, 0.01*mean, 0.1*mean);
+ RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), label.c_str(), 0.5, 0.1, 10.0);
+ RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), label.c_str(), 1, 0.5, 2);
+ RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), label.c_str(), 0.05, 0.01, 3.);
  RooRealVar* rrv_m_CB = new RooRealVar((std::string("m")).c_str(), label.c_str(), 1.5, 1e-2, 2.);
 
 
