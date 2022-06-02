@@ -88,6 +88,6 @@ ClassImp(RooExpCBShape);
      result = TMath::Power(arg, n)*exp_part;
    }
 
-   result += 1e-38;
+   result += 2e-38;
    return result
  }
