@@ -63,15 +63,16 @@ ClassImp(RooExpCBShape);
 
    Double_t absAlpha = fabs((Double_t)alpha);
    Double_t absBeta = fabs((Double_t)beta);
+   Double_t result = 0;
 
    if (t < -absBeta){
 
      Double_t A = exp(0.5*absBeta*absBeta);
-     return A*exp(absBeta*t);
+     result = A*exp(absBeta*t);
 
    } else if (t < absAlpha) {
 
-     return exp(-0.5*t*t);
+     result = exp(-0.5*t*t);
 
    }
    else {
@@ -84,6 +85,9 @@ ClassImp(RooExpCBShape);
      Double_t D = (n-absAlpha*absAlpha+absAlpha*t);
      Double_t arg = n/D;
 
-     return TMath::Power(arg, n)*exp_part;
+     result = TMath::Power(arg, n)*exp_part;
    }
+
+   result += 1e-38;
+   return result
  }
