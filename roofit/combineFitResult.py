@@ -2,7 +2,7 @@
 # @Date:   05-23-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 05-30-2022
+# @Last modified time: 06-01-2022
 
 
 
@@ -64,6 +64,7 @@ for dist in dists:
                 _,_,final,_,err,_=current_line.split()
                 data[varName].append(final)
                 data[f"{varName}_err"].append(err)
+                current_line_num += 1
 
             # extract chi2
             line_chi2 = lines[-1]
