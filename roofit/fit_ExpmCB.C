@@ -48,12 +48,12 @@ void fit_ExpmCB(std::string filePath)
 
   std::string prefix = "../analysis/allEvents/";
   RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",\
-                    "invm reco from eejj",WRGenMean*0.45, WRGenMean*1.45);
+                    "invm reco from eejj",WRGenMean*0.45, WRGenMean*1.5);
   RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",\
                     "row weight for WR ntuple eejj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
-                    "mumujj invm (GeV)",WRGenMean*0.45, WRGenMean*1.45);
+                    "mumujj invm (GeV)",WRGenMean*0.45, WRGenMean*1.5);
   RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
                     "row weight for WR ntuple mumujj rows", -1.5, 1.5);
 
@@ -93,19 +93,19 @@ void fit_ExpmCB(std::string filePath)
   RooFitResult *r_mumu; // placeholder
 
   RooFitResult *r_ee_1 = WR_ee_ExpmCB_1->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE),\
-                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.5), Offset(kTRUE),\
                                   Strategy(2));
 
   RooFitResult *r_ee_2 = WR_ee_ExpmCB_2->fitTo(ds_WR_eejj, Save(kTRUE), SumW2Error(kTRUE),\
-                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.5), Offset(kTRUE),\
                                   Strategy(2));
 
   RooFitResult *r_mumu_1 = WR_mumu_ExpmCB_1->fitTo(ds_WR_mumujj, Save(kTRUE), SumW2Error(kTRUE),\
-                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.5), Offset(kTRUE),\
                                   Strategy(2));
 
   RooFitResult *r_mumu_2 = WR_mumu_ExpmCB_2->fitTo(ds_WR_mumujj, Save(kTRUE), SumW2Error(kTRUE),\
-                                  Range(WRGenMean*0.45,WRGenMean*1.45), Offset(kTRUE),\
+                                  Range(WRGenMean*0.45,WRGenMean*1.5), Offset(kTRUE),\
                                   Strategy(2));
 
   //// compare which initialization gives the lowest chi2
