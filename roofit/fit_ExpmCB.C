@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-30-2022
+ * @Last modified time: 06-03-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -48,12 +48,12 @@ void fit_ExpmCB(std::string filePath)
 
   std::string prefix = "../analysis/allEvents/";
   RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",\
-                    "invm reco from eejj",WRGenMean*0.5, WRGenMean*1.4);
+                    "invm reco from eejj",WRGenMean*0.45, WRGenMean*1.45);
   RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",\
                     "row weight for WR ntuple eejj rows", -1.5, 1.5);
 
   RooRealVar* mumujjMass_WR = new RooRealVar("invm_mumujj",\
-                    "mumujj invm (GeV)",WRGenMean*0.5, WRGenMean*1.4);
+                    "mumujj invm (GeV)",WRGenMean*0.45, WRGenMean*1.45);
   RooRealVar* mumujjRowWeight_WR = new RooRealVar("rowWeight",\
                     "row weight for WR ntuple mumujj rows", -1.5, 1.5);
 
