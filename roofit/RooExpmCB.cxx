@@ -94,5 +94,5 @@ ClassImp(RooExpmCB);
       result = TMath::Power(arg, n)*exp_part;
    }
    result += 1e-28;
-   return result
+   return result;
  }
