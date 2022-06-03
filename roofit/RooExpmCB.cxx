@@ -3,7 +3,7 @@
  * @Date:   05-05-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-05-2022
+ * @Last modified time: 06-03-2022
  */
 
 
@@ -67,16 +67,18 @@ ClassImp(RooExpmCB);
     Double_t absAlpha = fabs((Double_t)alpha);
     Double_t absBeta = fabs((Double_t)beta);
 
+    Double_t result =0;
+
     if (t < -absBeta){
       Double_t m_inv = 1/m;
       Double_t A = exp(absBeta*absBeta*(m_inv-0.5));
       Double_t omega = m_inv*TMath::Power(absBeta, 2-m);
       Double_t abs_t = fabs(t);
-      return A*exp(-omega*TMath::Power(abs_t,m));
+      result = A*exp(-omega*TMath::Power(abs_t,m));
 
     } else if (t < absAlpha) {
 
-      return exp(-0.5*t*t);
+      result = exp(-0.5*t*t);
 
     }
     else {
@@ -89,6 +91,8 @@ ClassImp(RooExpmCB);
       Double_t D = (n-absAlpha*absAlpha+absAlpha*t);
       Double_t arg = n/D;
 
-      return TMath::Power(arg, n)*exp_part;
+      result = TMath::Power(arg, n)*exp_part;
    }
+   result += 1e-28;
+   return result
  }
