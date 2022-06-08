@@ -76,7 +76,7 @@ ClassImp(RooExpmCB_f0);
       Double_t abs_t = fabs(t);
       result = A*exp(-omega*TMath::Power(abs_t,m));
 
-      handle nan (assume exp gives a near 0 number)
+      // handle nan (assume exp gives a near 0 number)
       if (result != result){
           result = 0.;
       }
