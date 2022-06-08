@@ -28,7 +28,7 @@ using namespace RooFit;
 RooExpmCB* ExpmCB_init(RooRealVar* rrv_x, double mean, std::string label);
 RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print);
 
-void ref(std::string filePath)
+void simple(std::string filePath)
 {
   //// Extract useful information and set fitting parameters
   // Extract WR and N mean value via the file name

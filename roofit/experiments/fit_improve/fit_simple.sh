@@ -8,5 +8,5 @@
 fullFileDir="../../../analysis/allEvents"
 for i in $fullFileDir/fullWR*.root; do
   filename=$(basename $i)
-  root -l -b RooExpmCB.cxx "ref.C(\"$filename\")" -q
+  root -l -b RooExpmCB.cxx "simple.C(\"$filename\")" -q
 done
