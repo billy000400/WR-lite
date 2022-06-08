@@ -133,8 +133,8 @@ void simple(std::string filePath)
   RooHist *eeHist_ExpmCBPull = eeFrame_ExpmCB->pullHist();
   RooHist *mumuHist_ExpmCBPull = mumuFrame_ExpmCB->pullHist();
   // Extract pulls from RooHist
-  RooDataSet ee_ExpmCBPulls = Hist2Pulls(eeHist_ExpmCBPull,"eejj", true);
-  RooDataSet mumu_ExpmCBPulls = Hist2Pulls(mumuHist_ExpmCBPull, "mumujj", true);
+  RooDataSet ee_ExpmCBPulls = Hist2Pulls(eeHist_ExpmCBPull,"eejj", false);
+  RooDataSet mumu_ExpmCBPulls = Hist2Pulls(mumuHist_ExpmCBPull, "mumujj", false);
   // Prepare frame for the pull histograms
   RooPlot* ee_ExpmCBPullFrame = pullVar->frame(Title("ee ExpmCB Pull Hist"));
   RooPlot* mumu_ExpmCBPullFrame = pullVar->frame(Title("mumu ExpmCB pull Hist"));
