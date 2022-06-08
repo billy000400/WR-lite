@@ -43,7 +43,7 @@ void ref(std::string filePath)
   std::cout << "Target WR: " << WRGenMean << ", Target N" << NGenMean << std::endl;
 
 
-  std::string prefix = "../analysis/allEvents/";
+  std::string prefix = "../../../analysis/allEvents/";
   RooRealVar* eejjMass_WR = new RooRealVar("invm_eejj",\
                     "invm reco from eejj",WRGenMean*0.45, WRGenMean*1.55);
   RooRealVar* eejjRowWeight_WR = new RooRealVar("rowWeight",\
