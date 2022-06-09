@@ -5,7 +5,7 @@
 # @Last modified by:   billyli
 # @Last modified time: 05-19-2022
 
-fullFileDir="../../../analysis/allEvents"
+fullFileDir="../../../../analysis/allEvents"
 for i in $fullFileDir/fullWR*.root; do
   filename=$(basename $i)
   root -l -b RooExpmCB_f0.cxx "f0.C(\"$filename\")" -q
