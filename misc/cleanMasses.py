@@ -1,3 +1,11 @@
+# @Author: Billy Li <billyli>
+# @Date:   05-14-2022
+# @Email:  li000400@umn.edu
+# @Last modified by:   billyli
+# @Last modified time: 06-09-2022
+
+
+
 """
 Creates new root files containing just the TTrees with output data
 """
@@ -138,6 +146,16 @@ def main():
         for i in range(eejjMassArray.shape[0]):
             eejjNtuple_new.Fill(eejjMassArray[i], eejjRowWeightArray[i])
             eejjLogMassNtuple_new.Fill(np.log(eejjMassArray[i]), eejjRowWeightArray[i])
+
+        eejjMassArray_new = tree2array(eejjNtuple_new, branches="invm_eejj")
+        eejjRowWeightArray_new = tree2array(eejjNtuple_new, branches="rowWeight")
+        np.save("../../python_analysis/"+files+"_eejjMassArray.npy", eejjMassArray_new)
+        np.save("../../python_analysis/"+files+"_eejjRowWeightArray.npy", eejjRowWeightArray_new)
+
+        mumujjMassArray_new = tree2array(mumujjNtuple_new, branches="invm_mumujj")
+        mumujjRowWeightArray_new = tree2array(mumujjNtuple_new, branches="rowWeight")
+        np.save("../../python_analysis/"+files+"_mumujjMassArray.npy", mumujjMassArray_new)
+        np.save("../../python_analysis/"+files+"_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
 
 
     	# write the tree into the output file and close the file
