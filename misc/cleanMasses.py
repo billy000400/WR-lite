@@ -149,13 +149,13 @@ def main():
 
         eejjMassArray_new = tree2array(eejjNtuple_new, branches="invm_eejj")
         eejjRowWeightArray_new = tree2array(eejjNtuple_new, branches="rowWeight")
-        np.save("../../python_analysis/"+files+"_eejjMassArray.npy", eejjMassArray_new)
-        np.save("../../python_analysis/"+files+"_eejjRowWeightArray.npy", eejjRowWeightArray_new)
+        np.save("../../python_analysis/data/"+files+"_eejjMassArray.npy", eejjMassArray_new)
+        np.save("../../python_analysis/data/"+files+"_eejjRowWeightArray.npy", eejjRowWeightArray_new)
 
         mumujjMassArray_new = tree2array(mumujjNtuple_new, branches="invm_mumujj")
         mumujjRowWeightArray_new = tree2array(mumujjNtuple_new, branches="rowWeight")
-        np.save("../../python_analysis/"+files+"_mumujjMassArray.npy", mumujjMassArray_new)
-        np.save("../../python_analysis/"+files+"_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
+        np.save("../../python_analysis/data/"+files+"_mumujjMassArray.npy", mumujjMassArray_new)
+        np.save("../../python_analysis/data/"+files+"_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
 
 
     	# write the tree into the output file and close the file
