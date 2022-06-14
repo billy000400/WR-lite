@@ -433,7 +433,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			martin->Fill((float)lepton2->pt());
 		}
 
-		if (!background && (abs(myRECOevent.lepton1ID)==abs(myRECOevent.lepton2ID))){
+		if (!background && (abs(myRECOevent.lepton1Id)==abs(myRECOevent.lepton2Id))){
 			WR_GenMass_i = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
 			WR_GenMass->Fill((float)WR_GenMass_i);
 
