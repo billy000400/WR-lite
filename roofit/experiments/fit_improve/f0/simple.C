@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 06-03-2022
+ * @Last modified time: 06-13-2022
  */
 
 // A sample fit using simple initialization and trivial numerical stability
@@ -106,6 +106,11 @@ void simple(std::string filePath)
   r_ee->Print();
   r_mumu->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
+
+  std::cout << "BELOW IS THE CORRELATION MATRIX" << std::endl;
+  r_ee->correlationMatrix()->Print();
+  r_mumu->correlationMatrix()->Print();
+  std::cout << "ABOVE IS THE CORRELATION MATRIX" << std::endl;
 
   std::ofstream result1("results_simple_ee/"+filePath+".txt");
   std::ofstream result2("results_simple_mumu/"+filePath+".txt");
