@@ -170,7 +170,11 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 
 		// Billy's global variable
 		bool resolved;
+		double WR_GenMass_sim_i;				// an instance of WR gen mass from simulation
+		double N_GenMass_sim_i;					// an instance of N gen mass from simulation
+
 		double WR_GenMass_i; 						// an instance of WR gen mass
+		double N_GenMass_i;							// an instance of NR gen mass
 		double WR_RecoMass_ee_i;				// an instance of WR mass reco from eejj
 		double WR_RecoMass_mumu_i;		  // an instance of WR mass reco from mumujj
 
@@ -193,7 +197,12 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		std::vector<double> lepton1_pts;
 
 		// Billy's root objects
+		TNtuple* WR_GenMass_sim;
+		TNtuple* N_GenMass_sim;
+
     TNtuple* WR_GenMass;
+		TNtuple* N_GenMass;
+
 		TNtuple* WR_RecoMass_ee;
 		TNtuple* WR_RecoMass_mumu;
 
@@ -266,7 +275,12 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 	eventInfo myEvent;
 
 	// negatively initialization for debugging
+	WR_GenMass_sim_i=-1e3;
+	N_GenMass_sim_i=-1e3;
+
 	WR_GenMass_i=-1e3;
+	N_GenMass_i=-1e3;
+
 	WR_RecoMass_ee_i=-1e3;
 	WR_RecoMass_mumu_i=-1e3;
 
@@ -320,6 +334,19 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			// Pythia8: at the disposal of each model builder equivalent to a null line
 			if( iParticle->status() == 21 ) continue;
 				    std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
+			// Is A WR
+			if (abs(iParticle->pdgId())==9900024)
+			{
+				WR_GenMass_sim_i = iParticle->p4().mass();
+				WR_GenMass_sim->Fill((float)WR_GenMass_sim_i);
+			}
+			// Is a NR
+			if( (abs( iParticle->pdgId() ) == 9900014)
+			 || (abs( iParticle->pdgId() ) == 9900012)
+		 	){
+				N_GenMass_sim_i = iParticle->p4().mass();
+				N_GenMass_sim->Fill((float)N_GenMass_sim_i);
+		 	}
 			// CAME FROM A QUARK(VIRTUAL WR) OR A WR OR A HEAVY W
 			if( abs( iParticle->mother()->pdgId() ) <= 6 || abs( iParticle->mother()->pdgId() ) == 9900024 || abs( iParticle->mother()->pdgId()) == 34)
 			{
@@ -406,8 +433,13 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			martin->Fill((float)lepton2->pt());
 		}
 
-		WR_GenMass_i = myRECOevent.WRMass;
-		WR_GenMass->Fill((float)WR_GenMass_i);
+		if (!background && (abs(myRECOevent.lepton1ID)==abs(myRECOevent.lepton2ID))){
+			WR_GenMass_i = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()+ lepton1->p4()).mass();
+			WR_GenMass->Fill((float)WR_GenMass_i);
+
+			N_GenMass_i = (decayQuarks[0]->p4()+decayQuarks[1]->p4()+lepton2->p4()).mass();
+			N_GenMass->Fill((float)N_GenMass_i);
+		}
 
 		if (myRECOevent.NMass/myRECOevent.WRMass < 0.75){
 			resolved=true;
@@ -1296,13 +1328,21 @@ void
 ExtractRecoMass_WR_N::beginJob() {
   m_allEvents.book((fs->mkdir("allEvents")));
 
+	WR_GenMass_sim = fs->make<TNtuple>("WR_GenMass_sim", "WR GenMass from simulation", "WR_GenMass_sim");
+
+	N_GenMass_sim = fs->make<TNtuple>("N_GenMass_sim", "NR GenMass from simulation", "N_GenMass_sim");
+
 	WR_GenMass = fs->make<TNtuple>("WR_GenMass",
 	 								"Generated WR invm",
 									"WR_GenMass");
 
-    WR_RecoMass_ee = fs->make<TNtuple>("WR_RecoMass_ee",
-	 									"WR invm reconstructed from 2 jets and 2 electrons",
-										"WR_RecoMass_ee:eventWeight");
+	N_GenMass = fs->make<TNtuple>("N_GenMass",
+									"Generated N invm",
+									"N_GenMass");
+
+  WR_RecoMass_ee = fs->make<TNtuple>("WR_RecoMass_ee",
+ 									"WR invm reconstructed from 2 jets and 2 electrons",
+									"WR_RecoMass_ee:eventWeight");
 
 	WR_RecoMass_mumu = fs->make<TNtuple>("WR_RecoMass_mumu",
 										"WR invm reconstructed from 2 jets and 2 muons",
