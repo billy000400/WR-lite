@@ -108,8 +108,8 @@ void simple(std::string filePath)
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
   std::cout << "BELOW IS THE CORRELATION MATRIX" << std::endl;
-  r_ee->correlationMatrix()->Print();
-  r_mumu->correlationMatrix()->Print();
+  r_ee->correlationMatrix().Print();
+  r_mumu->correlationMatrix().Print();
   std::cout << "ABOVE IS THE CORRELATION MATRIX" << std::endl;
 
   std::ofstream result1("results_simple_ee/"+filePath+".txt");
