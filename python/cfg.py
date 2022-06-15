@@ -164,7 +164,7 @@ def setupVIDForHEEPV70(process,useMiniAOD=True):
                    #add them to the VID producer
     for idmod in my_id_modules:
         setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
-        
+
 def addHEEPV70ElesMiniAOD(process,useStdName=True):
 
     setupVIDForHEEPV70(process,useMiniAOD=True)
@@ -272,7 +272,7 @@ elif options.era == '2018':
 
 
 
-#process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
-#                           * process.muonSelectionSeq * process.analysis )#* process.printTree)
+process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
+                          * process.muonSelectionSeq * process.analysis )#* process.printTree)
 process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
                            * process.muonSelectionSeq * process.prefiringweight * process.analysis )#* process.printTree)
