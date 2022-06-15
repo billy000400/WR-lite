@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-06-2022
+ * @Last modified time: 06-14-2022
  */
 
 
@@ -335,8 +335,9 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			if( iParticle->status() == 21 ) continue;
 				    std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
 			// Is A WR
-			if (abs(iParticle->pdgId())==9900024)
+			if( abs( iParticle->pdgId() ) == 9900024)
 			{
+				std::cout << "We have WR!" << std::endl;
 				WR_GenMass_sim_i = iParticle->p4().mass();
 				WR_GenMass_sim->Fill((float)WR_GenMass_sim_i);
 			}
