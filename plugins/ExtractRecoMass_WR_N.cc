@@ -335,9 +335,10 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			if( iParticle->status() == 21 ) continue;
 			std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
 			// Is A WR
-			if( abs( iParticle->pdgId() ) == 34)
+			bool isHeavyW = ( abs( iParticle->pdgId() ) == 34);
+			bool is1stHeavyW = (abs(iParticle->mother()->pdgId())<=6);
+			if(isHeavyW && is1stHeavyW)
 			{
-				std::cout << "We have WR!" << std::endl;
 				WR_GenMass_sim_i = iParticle->p4().mass();
 				WR_GenMass_sim->Fill((float)WR_GenMass_sim_i);
 			}
