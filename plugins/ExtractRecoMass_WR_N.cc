@@ -341,6 +341,11 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				WR_GenMass_sim_i = iParticle->p4().mass();
 				WR_GenMass_sim->Fill((float)WR_GenMass_sim_i);
 			}
+
+			if( abs( iParticle->mother()->pdgId() ) == 9900024)
+			{
+				std::cout << "We have WR's children!" << std::endl;
+			}
 			// Is a NR
 			if( (abs( iParticle->pdgId() ) == 9900014)
 			 || (abs( iParticle->pdgId() ) == 9900012)
