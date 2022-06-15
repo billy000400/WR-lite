@@ -272,7 +272,7 @@ elif options.era == '2018':
 
 
 
+# process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
+#                           * process.muonSelectionSeq * process.analysis )#* process.printTree)
 process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
-                          * process.muonSelectionSeq * process.analysis )#* process.printTree)
-process.totalPath = cms.Path(process.selectedElectrons * process.heepSequence
-                           * process.muonSelectionSeq * process.prefiringweight * process.analysis )#* process.printTree)
+                           * process.muonSelectionSeq * process.prefiringweight * process.analysis * process.printTree)
