@@ -333,7 +333,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			if( ! iParticle->isHardProcess() ) continue;
 			// Pythia8: at the disposal of each model builder equivalent to a null line
 			if( iParticle->status() == 21 ) continue;
-				    std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
+			std::cout << "STATUS: " << iParticle->status() << " PDGID: " << iParticle->pdgId() << " MOTHER: " << iParticle->mother()->pdgId() << std::endl;
 			// Is A WR
 			if( abs( iParticle->pdgId() ) == 34)
 			{
