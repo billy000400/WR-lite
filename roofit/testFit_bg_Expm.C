@@ -22,7 +22,8 @@ using namespace RooFit;
 
 void testFit_bg_Expm()
 {
-  // Preparing RooRealVars
+  //// Preparing RooRealVars
+  // mumujj
   RooRealVar* mumujjMass_DY = new RooRealVar("invm_mumujj",\
                             "invm reco from DY mumujj", 400, 3000);
   RooRealVar* mumujjRowWeight_DY = new RooRealVar("rowWeight",\
@@ -38,12 +39,28 @@ void testFit_bg_Expm()
   RooRealVar* mumujjRowWeight_bg = new RooRealVar("rowWeight",\
                             "row weight for bg ntuple mumujj rows", -1.5, 1.5);
 
+  // eejj
+  RooRealVar* eejjMass_DY = new RooRealVar("invm_eejj",\
+                            "invm reco from DY eejj", 400, 3000);
+  RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight",\
+                            "row weight for DY ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_ttbar = new RooRealVar("invm_eejj",\
+                            "invm reco from ttbar eejj", 400, 3000);
+  RooRealVar* eejjRowWeight_ttbar = new RooRealVar("rowWeight",\
+                            "row weight for ttbar ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_bg = new RooRealVar("invm_eejj",\
+                            "invm reco from bg eejj (GeV)", 400, 3000);
+  RooRealVar* eejjRowWeight_bg = new RooRealVar("rowWeight",\
+                            "row weight for bg ntuple eejj rows", -1.5, 1.5);
+
   // RooRealVar* eejjMass_DY = new RooRealVar();
   // RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight", "rowWeight", -1.5, 1.5);
 
-  // importing ntuples into RooDataSet
+  //// importing ntuples into RooDataSet
   std::string prefix = "../analysis/allEvents/";
-
+  // mumujj
   RooDataSet ds_DY_mumujj("ds_DY_mumujj", "ds_DY_mumujj",
                 RooArgSet(*mumujjMass_DY, *mumujjRowWeight_DY),
                 ImportFromFile((prefix+"fullDY.root").c_str(), "invm_mumujj"),
@@ -60,73 +77,66 @@ void testFit_bg_Expm()
 
   ds_bg_mumujj.append(ds_DY_mumujj);
   ds_bg_mumujj.append(ds_ttbar_mumujj);
+  // eejj
+  RooDataSet ds_DY_eejj("ds_DY_eejj", "ds_DY_eejj",
+                RooArgSet(*eejjMass_DY, *eejjRowWeight_DY),
+                ImportFromFile((prefix+"fullDY.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_DY));
 
+  RooDataSet ds_ttbar_eejj("ds_ttbar_eejj", "ds_ttbar_eejj",
+                RooArgSet(*eejjMass_ttbar, *eejjRowWeight_ttbar),
+                ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_ttbar));
 
-  // declare model
-  RooRealVar *a1 = new RooRealVar("a1", "a1", -3e-2, -9e-2, -1e-7);
-  RooRealVar *a2 = new RooRealVar("a2", "a2", -1.7e-2, -8e-2, -1e-7);
-  RooRealVar *a3 = new RooRealVar("a3", "a3", -6e-2, -14e-2, -1e-7);
+  RooDataSet ds_bg_eejj("ds_bg_eejj", "ds_bg_eejj",
+                RooArgSet(*eejjMass_bg, *eejjRowWeight_bg),
+                WeightVar(*eejjRowWeight_bg));
 
-  RooRealVar *b1 = new RooRealVar("b1", "b1", 7.4e-1, 1e-1, 1.4);
-  RooRealVar *b2 = new RooRealVar("b2", "b2", 8.2e-1, 1e-1, 1.2);
-  RooRealVar *b3 = new RooRealVar("b3", "b3", 6.5e-1, 0., 1.4);
+  ds_bg_eejj.append(ds_DY_eejj);
+  ds_bg_eejj.append(ds_ttbar_eejj);
 
-  RooExpm *model1 = new RooExpm("exponential bg DY", "exponential bg", *mumujjMass_DY, *a1, *b1);
-  RooExpm *model2 = new RooExpm("exponential bg ttbar", "exponential bg", *mumujjMass_ttbar, *a2, *b2);
-  RooExpm *model3 = new RooExpm("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *a3, *b3);
+  //// declare model
+  // mumujj
+  RooRealVar *a_mm = new RooRealVar("a_mm", "a_mm", -6e-2, -14e-2, -1e-7);
+  RooRealVar *b_mm = new RooRealVar("b_mm", "b_mm", 6.5e-1, 0., 1.4);
+  RooExpm *model_mm = new RooExpm("mumujj bg from DY+ttbar ", "exponential bg", *mumujjMass_bg, *a_mm, *b_mm);
+  // eejj
+  RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -6e-2, -14e-2, -1e-7);
+  RooRealVar *b_ee = new RooRealVar("b_ee", "b_ee", 6.5e-1, 0., 1.4);
+  RooExpm *model_ee = new RooExpm("eejj bg from DY+ttbar ", "exponential bg", *eejjMass_bg, *a_ee, *b_ee);
 
-  // fit model
-  RooFitResult *r1 = model1->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
-  RooFitResult *r2 = model2->fitTo(ds_ttbar_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
-  RooFitResult *r3 = model3->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
+  //// fit model
+  RooFitResult *r_mm = model_mm->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000));
+  RooFitResult *r_ee = model_ee->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(500, 3000));
 
-  // prepare frames for plotting
-  RooPlot *frame1 = mumujjMass_DY->frame(Title("DY mumujj Reco Mass"));
-  RooPlot *frame2 = mumujjMass_ttbar->frame(Title("TTbar mumujj Reco Mass"));
-  RooPlot *frame3 = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
+  //// prepare frames for plotting
+  RooPlot *frame_mm = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
+  RooPlot *frame_ee = eejjMass_bg->frame(Title("DY+TTbar eejj Reco Mass"));
 
   std::cout << "BELOW IS THE RESULT" << std::endl;
-  r1->Print();
-  r2->Print();
-  r3->Print();
+  r_mm->Print();
+  r_ee->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
   //// Plot on frames
   // plot data on frames
-  ds_DY_mumujj.plotOn(frame1, Binning(128), DataError(RooAbsData::SumW2));
-  ds_ttbar_mumujj.plotOn(frame2, Binning(128), DataError(RooAbsData::SumW2));
-  ds_bg_mumujj.plotOn(frame3, Binning(128), DataError(RooAbsData::SumW2));
+  ds_bg_mumujj.plotOn(frame_mm, Binning(128), DataError(RooAbsData::SumW2));
+  ds_bg_eejj.plotOn(frame_ee, Binning(128), DataError(RooAbsData::SumW2));
 
   // plot fitted pdfs on frames
-  model1->plotOn(frame1);
-  model2->plotOn(frame2);
-  model3->plotOn(frame3);
+  model_mm->plotOn(frame_mm);
+  model_ee->plotOn(frame_ee);
 
-  double chi2_mumu = frame3->chiSquare(2);
+  double chi2_mumu = frame_mm->chiSquare(2);
+  double chi2_ee = frame_ee->chiSquare(2);
   std::cout << "chi2_mumu_bg: " << chi2_mumu <<std::endl;
+  std::cout << "chi2_ee_bg: " << chi2_ee <<std::endl;
 
 
-  TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1500, 500);
-  canvas->Divide(3,1);
+  TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1000, 500);
+  canvas->Divide(2,1);
   canvas->cd(1);
-  frame1->Draw();
+  frame_mm->Draw();
   canvas->cd(2);
-  frame2->Draw();
-  canvas->cd(3);
-  frame3->Draw();
-
-  TCanvas *logCanvas = new TCanvas("log", "log", 1500, 500);
-  logCanvas->Divide(3,1);
-  logCanvas->cd(1);
-  logCanvas->GetPad(1)->SetLogy();
-  frame1->Draw();
-  logCanvas->cd(2);
-  logCanvas->GetPad(2)->SetLogy();
-  frame2->Draw();
-  logCanvas->cd(3);
-  logCanvas->GetPad(3)->SetLogy();
-  frame3->Draw();
-
-  TCanvas *d = new TCanvas("final", "final", 1300, 1000);
-  frame3->Draw();
+  frame_ee->Draw();
 }
