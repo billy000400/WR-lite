@@ -33,7 +33,7 @@ def main():
     counts2 = [2751187, 962195, 1070454, 8292957, 2673066, 596079, 399492, 79140880]
     lumi = 137 #/fb
 
-    sampleNum = 0
+    sampleNum = 0.0
     for fileName, xSec, count2 in zip(fileNames, crossSections, counts2):
     	rootfile= ROOT.TFile.Open(fileName, "read")
 
@@ -43,6 +43,7 @@ def main():
 
         allInteractionNum = xSec*lumi
         recoRatio = weightArray.sum()/count2
+        print allInteractionNum, recoRatio, recoRatio*allInteractionNum
         sampleNum += recoRatio*allInteractionNum
 
     sampleNum = int(sampleNum)
