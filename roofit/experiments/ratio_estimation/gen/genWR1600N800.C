@@ -11,20 +11,58 @@ using namespace RooFit;
 
 void genWR1600N800()
 {
-  // set data dir
+  //// set data dir
   std::string prefix = "../../../data/WR1600N800/";
 
-  double mean = 1600.0;
+  //// init WR distribution
+  double alpha_mm_val = 1.4021e+00;
+  double alpha_mm_err = 5.36e-02;
+  double beta_mm_val = 4.0786e-01;
+  double beta_mm_err = 4.31e-02;
+  double m_mm_val = 1.1626e+00;
+  double m_mm_error = 3.15e-02;
+  double mu_mm_val = 1.5965e+03;
+  double mu_mm_err = 2.42e+00;
+  double n_mm_val = 1.6055e+00;
+  double n_mm_err = 1.14e-01;
+  double sigma_mm_val = 8.0404e+01;
+  double sigma_mm_err = 2.71e+00;
 
-  // init WR distribution
-  RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), "mu", mean, 0.8*mean, 1.1*mean);
-  RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), "sigma", 0.05*mean, 0.01*mean, 0.1*mean);
-  RooRealVar* rrv_alpha_CB = new RooRealVar((std::string("alpha")).c_str(), "alpha", 2, 0.1, 10.0);
-  RooRealVar* rrv_n_CB = new RooRealVar((std::string("n")).c_str(), "n", 1, 0.5, 2);
-  RooRealVar* rrv_beta_CB = new RooRealVar((std::string("beta")).c_str(), "beta", 0.5, 0.01, 3.);
-  RooRealVar* rrv_m_CB = new RooRealVar((std::string("m")).c_str(), "m", 1.5, 1e-2, 2.);
 
-  RooExpmCB* WR = new RooExpmCB((std::string("Expm_CB")).c_str(), "WR", *rrv_x, *rrv_mean_CB,*rrv_sigma_CB,*rrv_beta_CB,*rrv_m_CB,*rrv_alpha_CB,*rrv_n_CB);
+  RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 800, 2000);
+  RooRealVar* mu_mm= new RooRealVar("mu", "mu mumujj", mu_mm_val, mu_mm_val-mu_mm_err, mu_mm_val+mu_mm_err);
+  RooRealVar* sigma_mm = new RooRealVar("sigma", "sigma mumujj", sigma_mm_val, sigma_mm_val-sigma_mm_err, sigma_mm_val+sigma_mm_err);
+  RooRealVar* alpha_mm = new RooRealVar("alpha", "alpha mumujj", alpha_mm_val, alpha_mm_val-alpha_mm_err, alpha_mm_val+alpha_mm_err);
+  RooRealVar* n_mm = new RooRealVar("n", "n mumujj", n_mm_val, n_mm_val-n_mm_err, n_mm_val+n_mm_err);
+  RooRealVar* beta_mm = new RooRealVar("beta", "beta", beta_mm_val, beta_mm_val-beta_mm_err, beta_mm_val+beta_mm_err);
+  RooRealVar* m_mm = new RooRealVar("m", "m mumujj", m_mm_val, m_mm_val-m_mm_err, m_mm_val+m_mm_err);
+
+  RooExpmCB* WR_mumujj = new RooExpmCB("WR mumujj", "WR mumujj",\
+          *mumujjMass, *mu_mm,*sigma_mm,*beta_mm,*m_mm,*alpha_mm,*n_mm);
+
+
+  double alpha_ee_val = 1.3094;
+  double alpha_ee_err =3.56e-02;
+  double beta_ee_val = 2.6121e-01;
+  double beta_ee_err = 3.08e-02;
+  double m_ee_val = 1.2494;
+  double m_ee_error = 2.88e-02;
+  double mu_ee_val = 1.6053e+03;
+  double mu_ee_err = 2.49e+00;
+  double n_ee_val = 1.6276e+00;
+  double n_ee_err = 8.19e-02;
+  double sigma_ee_val = 6.7117e+01;
+
+  RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 800, 2000);
+  RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_val, mu_ee_val-mu_ee_err, mu_ee_val+mu_ee_err);
+  RooRealVar* sigma_ee = new RooRealVar("sigma", "sigma eejj", sigma_ee_val, sigma_ee_val-sigma_ee_err, sigma_ee_val+sigma_ee_err);
+  RooRealVar* alpha_ee = new RooRealVar("alpha", "alpha eejj", alpha_ee_val, alpha_ee_val-alpha_ee_err, alpha_ee_val+alpha_ee_err);
+  RooRealVar* n_ee = new RooRealVar("n", "n eejj", n_ee_val, n_ee_val-n_ee_err, n_ee_val+n_ee_err);
+  RooRealVar* beta_ee = new RooRealVar("beta", "beta", beta_ee_val, beta_ee_val-beta_ee_err, beta_ee_val+beta_ee_err);
+  RooRealVar* m_ee = new RooRealVar("m", "m eejj", m_ee_val, m_ee_val-m_ee_err, m_ee_val+m_ee_err);
+
+  RooExpmCB* WR_eejj = new RooExpmCB("WR eejj", "WR eejj",\
+          *eejjMass, *mu_ee,*sigma_ee,*beta_ee,*m_ee,*alpha_ee,*n_ee);
 
   // init bg distribution
 
