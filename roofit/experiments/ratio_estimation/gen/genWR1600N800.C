@@ -7,6 +7,7 @@
 #include "TTree.h"
 #include "TH1D.h"
 #include "TRandom.h"
+#include <sys/stat.h>
 using namespace RooFit;
 
 void genWR1600N800()
@@ -15,6 +16,7 @@ void genWR1600N800()
   std::string prefix = "../../../data/WR1600N800/";
 
   //// init WR distribution
+  // mumujj WR
   double alpha_mm_val = 1.4021e+00;
   double alpha_mm_err = 5.36e-02;
   double beta_mm_val = 4.0786e-01;
@@ -40,7 +42,7 @@ void genWR1600N800()
   RooExpmCB* WR_mumujj = new RooExpmCB("WR mumujj", "WR mumujj",\
           *mumujjMass, *mu_mm,*sigma_mm,*beta_mm,*m_mm,*alpha_mm,*n_mm);
 
-
+  // eejj WR
   double alpha_ee_val = 1.3094;
   double alpha_ee_err =3.56e-02;
   double beta_ee_val = 2.6121e-01;
@@ -65,7 +67,28 @@ void genWR1600N800()
   RooExpmCB* WR_eejj = new RooExpmCB("WR eejj", "WR eejj",\
           *eejjMass, *mu_ee,*sigma_ee,*beta_ee,*m_ee,*alpha_ee,*n_ee);
 
-  // init bg distribution
+  //// init bg distribution
+  // mumu
+  double a_mm_val = -1.4000e-01;
+  double a_mm_err = 1.76e-02;
+  double b_mm_val =  5.5761e-01;
+  double b_mm_err = 3.22e-01;
+
+  RooRealVar* a_mm = new RooRealVar("a_mm", "a_mm", a_mm_val, a_mm_val-a_mm_err, a_mm_val+a_mm_err);
+  RooRealVar* b_mm = new RooRealVar("b_mm", "b_mm", b_mm_val, b_mm_val-b_mm_err, b_mm_val+b_mm_err);
+
+  RooExpm* bg_mumujj = new RooExpm("bg mumujj", "Expm Bg", *mumujjMass, *a_mm, *b_mm);
+  // ee
+  double a_ee_val = -1.3995e-01;
+  double a_ee_err = 6.32e-02;
+  double b_ee_val =  5.6057e-01;
+  double b_ee_err = 3.65e-01;
+
+  RooRealVar* a_ee = new RooRealVar("a_ee", "a_ee", a_ee_val, a_ee_val-a_ee_err, a_ee_val+a_ee_err);
+  RooRealVar* b_ee = new RooRealVar("b_ee", "b_ee", b_ee_val, b_ee_val-b_ee_err, b_ee_val+b_ee_err);
+
+  RooExpm* bg_eejj = new RooExpm("bg eejj", "Expm Bg", *eejjMass, *a_ee, *b_ee);
+
 
   // add distribution
 
