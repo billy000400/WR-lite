@@ -70,5 +70,4 @@ void genWR1600N800()
   // add distribution
 
   // generate sample
-  return
 }
