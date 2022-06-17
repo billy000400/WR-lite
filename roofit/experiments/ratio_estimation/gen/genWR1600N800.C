@@ -20,7 +20,7 @@ void genWR1600N800()
   double beta_mm_val = 4.0786e-01;
   double beta_mm_err = 4.31e-02;
   double m_mm_val = 1.1626e+00;
-  double m_mm_error = 3.15e-02;
+  double m_mm_err = 3.15e-02;
   double mu_mm_val = 1.5965e+03;
   double mu_mm_err = 2.42e+00;
   double n_mm_val = 1.6055e+00;
@@ -46,7 +46,7 @@ void genWR1600N800()
   double beta_ee_val = 2.6121e-01;
   double beta_ee_err = 3.08e-02;
   double m_ee_val = 1.2494;
-  double m_ee_error = 2.88e-02;
+  double m_ee_err = 2.88e-02;
   double mu_ee_val = 1.6053e+03;
   double mu_ee_err = 2.49e+00;
   double n_ee_val = 1.6276e+00;
