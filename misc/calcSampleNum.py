@@ -47,7 +47,7 @@ def main():
 
     sampleNum = int(sampleNum)
 
-    print(f"You should generate {sampleNum} samples")
+    print("You should generate "+sampleNum+" samples")
 
 if(__name__=="__main__"):
     main()
