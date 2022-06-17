@@ -14,6 +14,8 @@ void genWR1600N800()
   // set data dir
   std::string prefix = "../../../data/WR1600N800/";
 
+  double mean = 1600.0;
+
   // init WR distribution
   RooRealVar* rrv_mean_CB = new RooRealVar((std::string("mu")).c_str(), "mu", mean, 0.8*mean, 1.1*mean);
   RooRealVar* rrv_sigma_CB = new RooRealVar((std::string("sigma")).c_str(), "sigma", 0.05*mean, 0.01*mean, 0.1*mean);
