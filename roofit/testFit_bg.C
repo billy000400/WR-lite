@@ -22,7 +22,8 @@ using namespace RooFit;
 
 void testFit_bg()
 {
-  // Preparing RooRealVars
+  //// Preparing RooRealVars
+  // mumujj
   RooRealVar* mumujjMass_DY = new RooRealVar("invm_mumujj",\
                             "invm reco from DY mumujj", 400, 3000);
   RooRealVar* mumujjRowWeight_DY = new RooRealVar("rowWeight",\
@@ -38,10 +39,27 @@ void testFit_bg()
   RooRealVar* mumujjRowWeight_bg = new RooRealVar("rowWeight",\
                             "row weight for bg ntuple mumujj rows", -1.5, 1.5);
 
+  // eejj
+  RooRealVar* eejjMass_DY = new RooRealVar("invm_eejj",\
+                            "invm reco from DY eejj", 400, 3000);
+  RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight",\
+                            "row weight for DY ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_ttbar = new RooRealVar("invm_eejj",\
+                            "invm reco from ttbar eejj", 400, 3000);
+  RooRealVar* eejjRowWeight_ttbar = new RooRealVar("rowWeight",\
+                            "row weight for ttbar ntuple eejj rows", -1.5, 1.5);
+
+  RooRealVar* eejjMass_bg = new RooRealVar("invm_eejj",\
+                            "invm reco from bg eejj", 400, 3000);
+  RooRealVar* eejjRowWeight_bg = new RooRealVar("rowWeight",\
+                            "row weight for bg ntuple eejj rows", -1.5, 1.5);
+
   // RooRealVar* eejjMass_DY = new RooRealVar();
   // RooRealVar* eejjRowWeight_DY = new RooRealVar("rowWeight", "rowWeight", -1.5, 1.5);
 
-  // importing ntuples into RooDataSet
+  //// importing ntuples into RooDataSet
+  // mumujj
   std::string prefix = "../analysis/allEvents/";
 
   RooDataSet ds_DY_mumujj("ds_DY_mumujj", "ds_DY_mumujj",
@@ -61,6 +79,23 @@ void testFit_bg()
   ds_bg_mumujj.append(ds_DY_mumujj);
   ds_bg_mumujj.append(ds_ttbar_mumujj);
 
+  // eejj
+  RooDataSet ds_DY_eejj("ds_DY_eejj", "ds_DY_eejj",
+                RooArgSet(*eejjMass_DY, *eejjRowWeight_DY),
+                ImportFromFile((prefix+"fullDY.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_DY));
+
+  RooDataSet ds_ttbar_eejj("ds_ttbar_eejj", "ds_ttbar_eejj",
+                RooArgSet(*eejjMass_ttbar, *eejjRowWeight_ttbar),
+                ImportFromFile((prefix+"fullttbar.root").c_str(), "invm_eejj"),
+                WeightVar(*eejjRowWeight_ttbar));
+
+  RooDataSet ds_bg_eejj("ds_bg_eejj", "ds_bg_eejj",
+                RooArgSet(*eejjMass_bg, *eejjRowWeight_bg),
+                WeightVar(*eejjRowWeight_bg));
+
+  ds_bg_eejj.append(ds_DY_eejj);
+  ds_bg_eejj.append(ds_ttbar_eejj);
 
   // declare model
   RooRealVar *c1 = new RooRealVar("c1", "c1", -5e-2, -1e-1, -1e-7);
