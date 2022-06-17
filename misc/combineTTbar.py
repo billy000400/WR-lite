@@ -1,11 +1,3 @@
-# @Author: Billy Li <billyli>
-# @Date:   04-23-2022
-# @Email:  li000400@umn.edu
-# @Last modified by:   billyli
-# @Last modified time: 05-12-2022
-
-
-
 """
 Combines all ttbar ttrees into a single root file
 """
