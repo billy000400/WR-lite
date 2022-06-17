@@ -52,6 +52,7 @@ void genWR1600N800()
   double n_ee_val = 1.6276e+00;
   double n_ee_err = 8.19e-02;
   double sigma_ee_val = 6.7117e+01;
+  double sigma_ee_err = 2.85e+00;
 
   RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 800, 2000);
   RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_val, mu_ee_val-mu_ee_err, mu_ee_val+mu_ee_err);
