@@ -101,8 +101,8 @@ void testFit_bg_Expm()
   RooRealVar *b_mm = new RooRealVar("b_mm", "b_mm", 5.16e-01, 4.8e-1, 5.5e-1);
   RooExpm *model_mm = new RooExpm("mumujj bg from DY+ttbar ", "exponential bg", *mumujjMass_bg, *a_mm, *b_mm);
   // eejj
-  RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -2.2641e-01, -3.0e-1, -1.7e-1);
-  RooRealVar *b_ee = new RooRealVar("b_ee", "b_ee", 5.16e-01, 4.8e-1, 7e-1);
+  RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -2.4621e-01, -3.0e-1, -1.7e-1);
+  RooRealVar *b_ee = new RooRealVar("b_ee", "b_ee", 5.16e-01, 2.8e-1, 7e-1);
   RooExpm *model_ee = new RooExpm("eejj bg from DY+ttbar ", "exponential bg", *eejjMass_bg, *a_ee, *b_ee);
 
   //// fit model
@@ -120,8 +120,8 @@ void testFit_bg_Expm()
 
   //// Plot on frames
   // plot data on frames
-  ds_bg_mumujj.plotOn(frame_mm, Binning(20), DataError(RooAbsData::SumW2));
-  ds_bg_eejj.plotOn(frame_ee, Binning(20), DataError(RooAbsData::SumW2));
+  ds_bg_mumujj.plotOn(frame_mm, Binning(100), DataError(RooAbsData::SumW2));
+  ds_bg_eejj.plotOn(frame_ee, Binning(100), DataError(RooAbsData::SumW2));
 
   // plot fitted pdfs on frames
   model_mm->plotOn(frame_mm);
