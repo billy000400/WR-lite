@@ -98,7 +98,7 @@ void testFit_bg_Expm()
   //// declare model
   // mumujj
   RooRealVar *a_mm = new RooRealVar("a_mm", "a_mm", -1.9952e-01, -2.0e-1, -1.7e-1);
-  RooRealVar *b_mm = new RooRealVar("b_mm", "b_mm", 5.1987e-01, 4.8e-1, 5.5e-1);
+  RooRealVar *b_mm = new RooRealVar("b_mm", "b_mm", 5.16e-01, 4.8e-1, 5.5e-1);
   RooExpm *model_mm = new RooExpm("mumujj bg from DY+ttbar ", "exponential bg", *mumujjMass_bg, *a_mm, *b_mm);
   // eejj
   RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -1.9952e-01, -2.0e-1, -1.7e-1);
@@ -127,7 +127,7 @@ void testFit_bg_Expm()
   model_mm->plotOn(frame_mm);
   model_ee->plotOn(frame_ee);
 
-  double chi2_mumu = frame_mm->chiSquare(1);
+  double chi2_mumu = frame_mm->chiSquare(2);
   double chi2_ee = frame_ee->chiSquare(2);
   std::cout << "chi2_mumu_bg: " << chi2_mumu <<std::endl;
   std::cout << "chi2_ee_bg: " << chi2_ee <<std::endl;
