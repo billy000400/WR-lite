@@ -98,7 +98,7 @@ void testFit_bg_Expm()
   //// declare model
   // mumujj
   RooRealVar *c_mm = new RooRealVar("c_mm", "c_mm", -2.6655e-01, -3e-1, -1e-1);
-  RooExpm *model_mm = new RooExponential("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *c_mm);
+  RooExponential *model_mm = new RooExponential("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *c_mm);
   // eejj
   RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -1.9952e-01, -2.0e-1, -1.7e-1);
   RooRealVar *b_ee = new RooRealVar("b_ee", "b_ee", 5.1987e-01, 4.8e-1, 5.5e-1);
