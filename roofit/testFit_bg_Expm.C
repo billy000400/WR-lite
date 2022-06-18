@@ -3,7 +3,7 @@
  * @Date:   05-03-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 05-16-2022
+ * @Last modified time: 06-17-2022
  */
 
 
@@ -97,8 +97,9 @@ void testFit_bg_Expm()
 
   //// declare model
   // mumujj
-  RooRealVar *c_mm = new RooRealVar("c_mm", "c_mm", -2.6655e-01, -3e-1, -1e-1);
-  RooExponential *model_mm = new RooExponential("exponential bg DY+ttbar", "exponential bg", *mumujjMass_bg, *c_mm);
+  RooRealVar *a_mm = new RooRealVar("a_mm", "a_mm", -1.9952e-01, -2.0e-1, -1.7e-1);
+  RooRealVar *b_mm = new RooRealVar("b_mm", "b_mm", 5.1987e-01, 4.8e-1, 5.5e-1);
+  RooExpm *model_mm = new RooExpm("mumujj bg from DY+ttbar ", "exponential bg", *mumujjMass_bg, *a_mm, *b_mm);
   // eejj
   RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -1.9952e-01, -2.0e-1, -1.7e-1);
   RooRealVar *b_ee = new RooRealVar("b_ee", "b_ee", 5.1987e-01, 4.8e-1, 5.5e-1);
