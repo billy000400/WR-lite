@@ -107,7 +107,7 @@ void testFit_bg_Expm()
 
   //// fit model
   RooFitResult *r_mm = model_mm->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(500, 3000), Strategy(2));
-  RooFitResult *r_ee = model_ee->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(500, 3000), Strategy(2));
+  RooFitResult *r_ee = model_ee->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(500, 3000), Strategy(1));
 
   //// prepare frames for plotting
   RooPlot *frame_mm = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
