@@ -39,7 +39,7 @@ void genWR1600N800()
   double sigma_mm_err = 2.71e+00;
 
 
-  RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 800, 2000);
+  RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 400, 3000);
   RooRealVar* mu_mm= new RooRealVar("mu", "mu mumujj", mu_mm_val, mu_mm_val-mu_mm_err, mu_mm_val+mu_mm_err);
   RooRealVar* sigma_mm = new RooRealVar("sigma", "sigma mumujj", sigma_mm_val, sigma_mm_val-sigma_mm_err, sigma_mm_val+sigma_mm_err);
   RooRealVar* alpha_mm = new RooRealVar("alpha", "alpha mumujj", alpha_mm_val, alpha_mm_val-alpha_mm_err, alpha_mm_val+alpha_mm_err);
@@ -64,7 +64,7 @@ void genWR1600N800()
   double sigma_ee_val = 6.7117e+01;
   double sigma_ee_err = 2.85e+00;
 
-  RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 800, 2000);
+  RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 400, 3000);
   RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_val, mu_ee_val-mu_ee_err, mu_ee_val+mu_ee_err);
   RooRealVar* sigma_ee = new RooRealVar("sigma", "sigma eejj", sigma_ee_val, sigma_ee_val-sigma_ee_err, sigma_ee_val+sigma_ee_err);
   RooRealVar* alpha_ee = new RooRealVar("alpha", "alpha eejj", alpha_ee_val, alpha_ee_val-alpha_ee_err, alpha_ee_val+alpha_ee_err);
@@ -77,21 +77,21 @@ void genWR1600N800()
 
   //// init bg distribution
   // mumu
-  double a_mm_val = -1.4000e-01;
-  double a_mm_err = 1.76e-02;
-  double b_mm_val =  5.5761e-01;
-  double b_mm_err = 3.22e-01;
+  double a_mm_val = -1.7249e-01;
+  double a_mm_err = 5.88e-01;
+  double b_mm_val =  5.3266e-01;
+  double b_mm_err = 3.96e-01;
 
   RooRealVar* a_mm = new RooRealVar("a_mm", "a_mm", a_mm_val, a_mm_val-a_mm_err, a_mm_val+a_mm_err);
   RooRealVar* b_mm = new RooRealVar("b_mm", "b_mm", b_mm_val, b_mm_val-b_mm_err, b_mm_val+b_mm_err);
 
   RooExpm* bg_mumujj = new RooExpm("bg mumujj", "Expm Bg", *mumujjMass, *a_mm, *b_mm);
   // ee
-  double a_ee_val = -1.3995e-01;
-  double a_ee_err = 6.32e-02;
-  double b_ee_val =  5.6057e-01;
-  double b_ee_err = 3.65e-01;
-
+  double a_ee_val = -1.7834e-01;
+  double a_ee_err = 5.30e-01;
+  double b_ee_val =  5.3223e-01;
+  double b_ee_err = 3.46e-01;
+  
   RooRealVar* a_ee = new RooRealVar("a_ee", "a_ee", a_ee_val, a_ee_val-a_ee_err, a_ee_val+a_ee_err);
   RooRealVar* b_ee = new RooRealVar("b_ee", "b_ee", b_ee_val, b_ee_val-b_ee_err, b_ee_val+b_ee_err);
 
@@ -102,8 +102,8 @@ void genWR1600N800()
   RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 5e-1);
   RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 5e-1);
 
-  RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
-  RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
+  RooAddPdf *model_ee = new RooAddPdf("composite_ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
+  RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
 
   for (int i=0; i<sampleNum; i++){
     std::cout << "Generating sample: " << i+1 << "/" << sampleNum << std::endl;
