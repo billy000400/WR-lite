@@ -13,7 +13,7 @@ using namespace RooFit;
 void genWR1600N800()
 {
   //// set data dir
-  std::string prefix = "../../../data/WR1600N800/";
+  std::string data_dir = "../../../data/WR1600N800/";
 
   //// init WR distribution
   // mumujj WR
@@ -91,8 +91,8 @@ void genWR1600N800()
 
 
   // add distribution
-  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 1e-3);
-  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 1e-3);
+  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 5e-1);
+  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 5e-1);
 
   RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
   RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
@@ -107,6 +107,11 @@ void genWR1600N800()
     RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(100));
     ds_new_ee->merge(ds_new_mumu);
     ds_new.append(*ds_new_ee);
+
+    char sample_file_path[32] = data_dir.c_str();
+    strcat(sample_file_path, sample_file_name)
+    TFile outputFile(sample_file_path, "RECREATE");
+    ds_new.convertToTreeStore();
   }
 
   // generate sample
