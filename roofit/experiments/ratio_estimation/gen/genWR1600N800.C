@@ -12,6 +12,9 @@ using namespace RooFit;
 
 void genWR1600N800()
 {
+  //// set sample number
+  int sampleNum = 10;
+  
   //// set data dir
   char prefix[32] = "../../../data/WR1600N800/"; // will concatenate with sample name
 
@@ -97,7 +100,9 @@ void genWR1600N800()
   RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
   RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
 
-  for (int i=0; i<3; i++){
+  for (int i=0; i<sampleNum; i++){
+    std::cout << "Generating sample: " << i << "/" << sampleNum << std::endl;
+
     char sample_file_name[32] = "RooFitMC_WR1600N800_";
     char sample_index_str[32];
     sprintf(sample_index_str, "%d", i+1);
@@ -112,10 +117,9 @@ void genWR1600N800()
     strcpy(sample_file_path, prefix);
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
-    std::cout << sample_file_path << std::endl;
     TFile sampleFile(sample_file_path, "RECREATE");
     ds_new.convertToTreeStore();
-    sampleFile.close();
+    sampleFile.Close();
   }
 
   // generate sample
