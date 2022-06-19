@@ -120,8 +120,8 @@ void genWR1600N800()
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
     TFile sampleFile(sample_file_path, "RECREATE");
-    ds_new_ee->convertToTreeStore();
-    ds_new_mumu->convertToTreeStore();
+    ds_new_ee->tree();
+    ds_new_mumu->tree();
     sampleFile.Close();
   }
 
