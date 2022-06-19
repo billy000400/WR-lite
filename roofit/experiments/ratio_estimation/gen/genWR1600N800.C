@@ -109,7 +109,7 @@ void genWR1600N800()
     ds_new.append(*ds_new_ee);
 
     char sample_file_path[32];
-    strscp(sample_file_path, prefix);
+    strcpy(sample_file_path, prefix);
     strcat(sample_file_path, sample_file_name);
     std::cout << sample_file_path << std::endl;
     TFile outputFile(sample_file_path, "RECREATE");
