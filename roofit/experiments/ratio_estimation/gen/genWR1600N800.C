@@ -13,8 +13,8 @@ using namespace RooFit;
 void genWR1600N800()
 {
   //// message service
-  RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
-  
+  // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
+
   //// set sample number
   int sampleNum = 10;
   int mumujjEventNum = 515750;
