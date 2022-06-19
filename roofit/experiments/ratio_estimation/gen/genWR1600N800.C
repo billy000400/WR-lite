@@ -21,7 +21,7 @@ void genWR1600N800()
   int eejjEventNum = 727838;
 
   //// set data dir
-  char prefix[32] = "../../../data/ratio_1e-3/WR1600N800/"; // will concatenate with sample name
+  char prefix[64] = "../../../data/ratio_1e-3/WR1600N800/"; // will concatenate with sample name
 
   //// init WR distribution
   // mumujj WR
