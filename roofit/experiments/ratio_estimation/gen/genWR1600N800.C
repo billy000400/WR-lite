@@ -119,12 +119,11 @@ void genWR1600N800()
     strcat(sample_file_path, ".root");
     TFile sampleFile(sample_file_path, "RECREATE");
     RooAbsData::setDefaultStorageType(RooAbsData::Tree);
-
     RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
     RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
 
-    ds_new_ee->tree();
-    ds_new_mumu->tree();
+    TTree* tree_ee = ds_new_ee->tree();
+    TTree* tree_mumu = ds_new_mumu->tree();
     sampleFile.Close();
   }
 
