@@ -91,6 +91,23 @@ void genWR1600N800()
 
 
   // add distribution
+  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 1e-3);
+  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 1e-3);
+
+  RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
+  RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
+
+  for (int i=0, i<3, i++){
+    char sample_file_name[32] = "RooFitMC_WR1600N800_";
+    char sample_index_str[32];
+    sprintf(sample_index_str, "%d", i);
+    strcat(sample_file_name, sample_index_str);
+    RooDataSet ds_new("RooFitMC", "RooFit MC WR1600 N800");
+    RooDataSet ds_new_ee = model_ee.generate(RooArgSet(*eejjMass,), Name("ee_tmp"), NumEvent(100))
+    RooDataSet ds_new_mumu = model_mumu.generate(RooArgSet(*mumujjMass,), Name("mumu_tmp"), NumEvent(100))
+    ds_new.merge(ds_new_ee);
+    ds_new.merge(ds_new_mumu);
+  }
 
   // generate sample
 
