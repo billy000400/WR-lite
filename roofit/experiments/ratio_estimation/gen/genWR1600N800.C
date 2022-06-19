@@ -112,18 +112,16 @@ void genWR1600N800()
     char sample_index_str[32];
     sprintf(sample_index_str, "%d", i+1);
     strcat(sample_file_name, sample_index_str);
-    RooDataSet ds_new("RooFitMC", "RooFit MC WR1600 N800", RooArgSet(*eejjMass, *mumujjMass));
     RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
     RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
-    ds_new_ee->merge(ds_new_mumu);
-    ds_new.append(*ds_new_ee);
 
     char sample_file_path[32];
     strcpy(sample_file_path, prefix);
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
     TFile sampleFile(sample_file_path, "RECREATE");
-    ds_new.convertToTreeStore();
+    ds_new_ee.convertToTreeStore();
+    ds_new_mumu.convertToTreeStore();
     sampleFile.Close();
   }
 
