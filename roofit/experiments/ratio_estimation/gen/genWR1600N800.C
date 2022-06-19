@@ -14,7 +14,6 @@ void genWR1600N800()
 {
   //// message service
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
-  RooAbsData::setDefaultStorageType(RooAbsData::Tree);
 
   //// set sample number
   int sampleNum = 10;
@@ -109,18 +108,21 @@ void genWR1600N800()
   for (int i=0; i<sampleNum; i++){
     std::cout << "Generating sample: " << i+1 << "/" << sampleNum << std::endl;
 
+    // prepare TFile
     char sample_file_name[32] = "RooFitMC_WR1600N800_";
     char sample_index_str[32];
     sprintf(sample_index_str, "%d", i+1);
     strcat(sample_file_name, sample_index_str);
-    RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
-    RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
-
     char sample_file_path[32];
     strcpy(sample_file_path, prefix);
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
     TFile sampleFile(sample_file_path, "RECREATE");
+    RooAbsData::setDefaultStorageType(RooAbsData::Tree);
+
+    RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
+    RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
+
     ds_new_ee->tree();
     ds_new_mumu->tree();
     sampleFile.Close();
