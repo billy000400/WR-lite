@@ -102,11 +102,11 @@ void genWR1600N800()
     char sample_index_str[32];
     sprintf(sample_index_str, "%d", i);
     strcat(sample_file_name, sample_index_str);
-    RooDataSet ds_new("RooFitMC", "RooFit MC WR1600 N800");
+    RooDataSet ds_new("RooFitMC", "RooFit MC WR1600 N800", RooArgSet(*eejjMass, *mumujjMass));
     RooDataSet ds_new_ee = model_ee.generate(RooArgSet(*eejjMass,), Name("ee_tmp"), NumEvent(100))
     RooDataSet ds_new_mumu = model_mumu.generate(RooArgSet(*mumujjMass,), Name("mumu_tmp"), NumEvent(100))
-    ds_new.merge(ds_new_ee);
-    ds_new.merge(ds_new_mumu);
+    ds_new_ee.merge(ds_new_mumu);
+    ds_new.append(ds_new_ee);
   }
 
   // generate sample
