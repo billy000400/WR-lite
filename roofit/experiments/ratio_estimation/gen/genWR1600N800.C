@@ -122,8 +122,8 @@ void genWR1600N800()
     RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
     RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
 
-    TTree* tree_ee = ds_new_ee->tree();
-    TTree* tree_mumu = ds_new_mumu->tree();
+    const TTree* tree_ee = ds_new_ee->tree();
+    const TTree* tree_mumu = ds_new_mumu->tree();
     sampleFile.Close();
   }
 
