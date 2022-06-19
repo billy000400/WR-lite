@@ -13,7 +13,7 @@ using namespace RooFit;
 void genWR1600N800()
 {
   //// set data dir
-  char sample_file_path[32] = "../../../data/WR1600N800/"; // will concatenate with sample name
+  char prefix[32] = "../../../data/WR1600N800/"; // will concatenate with sample name
 
   //// init WR distribution
   // mumujj WR
@@ -108,6 +108,7 @@ void genWR1600N800()
     ds_new_ee->merge(ds_new_mumu);
     ds_new.append(*ds_new_ee);
 
+    char sample_file_path[32] = prefix;
     strcat(sample_file_path, sample_file_name);
     std::cout << sample_file_path << std::endl;
     TFile outputFile(sample_file_path, "RECREATE");
