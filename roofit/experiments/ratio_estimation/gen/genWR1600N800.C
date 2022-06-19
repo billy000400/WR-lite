@@ -118,7 +118,7 @@ void genWR1600N800()
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
     TFile sampleFile(sample_file_path, "RECREATE");
-    RooAbsData::setDefaultStorageType(RooAbsData::Tree);
+    RooDataSet::setDefaultStorageType(RooDataSet::Tree);
     RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
     RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
 
