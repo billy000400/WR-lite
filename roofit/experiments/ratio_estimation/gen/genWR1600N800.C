@@ -14,6 +14,7 @@ void genWR1600N800()
 {
   //// message service
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
+  RooAbsData::setDefaultStorageType(RooAbsData::Tree);
 
   //// set sample number
   int sampleNum = 10;
