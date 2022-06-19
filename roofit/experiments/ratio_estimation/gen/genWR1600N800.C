@@ -14,7 +14,9 @@ void genWR1600N800()
 {
   //// set sample number
   int sampleNum = 10;
-  
+  int mumujjEventNum = 515750;
+  int eejjEventNum = 727838;
+
   //// set data dir
   char prefix[32] = "../../../data/WR1600N800/"; // will concatenate with sample name
 
@@ -101,15 +103,15 @@ void genWR1600N800()
   RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
 
   for (int i=0; i<sampleNum; i++){
-    std::cout << "Generating sample: " << i << "/" << sampleNum << std::endl;
+    std::cout << "Generating sample: " << i+1 << "/" << sampleNum << std::endl;
 
     char sample_file_name[32] = "RooFitMC_WR1600N800_";
     char sample_index_str[32];
     sprintf(sample_index_str, "%d", i+1);
     strcat(sample_file_name, sample_index_str);
     RooDataSet ds_new("RooFitMC", "RooFit MC WR1600 N800", RooArgSet(*eejjMass, *mumujjMass));
-    RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(100));
-    RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(100));
+    RooDataSet* ds_new_ee = model_ee->generate(RooArgSet(*eejjMass), Name("ee_tmp"), NumEvents(eejjEventNum));
+    RooDataSet* ds_new_mumu = model_mumu->generate(RooArgSet(*mumujjMass), Name("mumu_tmp"), NumEvents(mumujjEventNum));
     ds_new_ee->merge(ds_new_mumu);
     ds_new.append(*ds_new_ee);
 
