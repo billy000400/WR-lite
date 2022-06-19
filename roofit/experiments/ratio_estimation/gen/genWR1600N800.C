@@ -108,7 +108,7 @@ void genWR1600N800()
     ds_new_ee->merge(ds_new_mumu);
     ds_new.append(*ds_new_ee);
 
-    strcat(sample_file_path, sample_file_name)
+    strcat(sample_file_path, sample_file_name);
     TFile outputFile(sample_file_path, "RECREATE");
     ds_new.convertToTreeStore();
   }
