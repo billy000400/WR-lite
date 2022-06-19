@@ -111,9 +111,11 @@ void genWR1600N800()
     char sample_file_path[32];
     strcpy(sample_file_path, prefix);
     strcat(sample_file_path, sample_file_name);
+    strcat(sample_file_path, ".root");
     std::cout << sample_file_path << std::endl;
-    TFile outputFile(sample_file_path, "RECREATE");
+    TFile sampleFile(sample_file_path, "RECREATE");
     ds_new.convertToTreeStore();
+    sampleFile.close();
   }
 
   // generate sample
