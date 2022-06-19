@@ -109,6 +109,7 @@ void genWR1600N800()
     ds_new.append(*ds_new_ee);
 
     strcat(sample_file_path, sample_file_name);
+    std::cout << sample_file_path << std::endl;
     TFile outputFile(sample_file_path, "RECREATE");
     ds_new.convertToTreeStore();
   }
