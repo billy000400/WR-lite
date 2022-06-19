@@ -97,7 +97,7 @@ void genWR1600N800()
   RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
   RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
 
-  for (int i=0, i<3, i++){
+  for (int i=0; i<3; i++){
     char sample_file_name[32] = "RooFitMC_WR1600N800_";
     char sample_index_str[32];
     sprintf(sample_index_str, "%d", i);
