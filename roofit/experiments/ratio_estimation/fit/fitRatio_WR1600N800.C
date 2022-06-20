@@ -145,7 +145,7 @@ void fitRatio_WR1600N800()
     RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
     RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
 
-    f->cd();
+    f.cd();
     r_mumu->Write("mumu");
     r_ee->Write("ee");
   }
