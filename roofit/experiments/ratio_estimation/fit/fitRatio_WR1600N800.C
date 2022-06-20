@@ -134,13 +134,13 @@ void fitRatio_WR1600N800()
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
 
-    RooDataSet ds_mumujj("ds_mumujj", "ds_mumujj",
-                  RooArgSet(*mumujjMass),
-                  ImportFromFile((sample_file_path, "composite_mumuData"));
+    RooDataSet ds_mumujj("ds_mumujj", "ds_mumujj",\
+                  RooArgSet(*mumujjMass),\
+                  ImportFromFile(sample_file_path, "composite_mumuData"));
 
-    RooDataSet ds_eejj("ds_eejj", "ds_eejj",
-                  RooArgSet(*eejjMass),
-                  ImportFromFile((sample_file_path, "composite_eeData"));
+    RooDataSet ds_eejj("ds_eejj", "ds_eejj",\
+                  RooArgSet(*eejjMass),\
+                  ImportFromFile(sample_file_path, "composite_eeData"));
 
     RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
     RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
