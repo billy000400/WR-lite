@@ -146,8 +146,8 @@ void fitRatio_WR1600N800()
     RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
 
     f.cd();
-    r_mumu->Write("mumu");
-    r_ee->Write("ee");
+    r_mumu->Write("mumu", kSingleKey);
+    r_ee->Write("ee", kSingleKey);
   }
   f.Close();
 
