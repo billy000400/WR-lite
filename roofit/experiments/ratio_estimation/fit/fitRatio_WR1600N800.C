@@ -40,17 +40,17 @@ void fitRatio_WR1600N800()
   //// init WR distribution
   // mumujj WR
   double alpha_mm_val = 1.4021e+00;
-  double alpha_mm_err = 5.36e-02;
+  double alpha_mm_err = 0;
   double beta_mm_val = 4.0786e-01;
-  double beta_mm_err = 4.31e-02;
+  double beta_mm_err = 0;
   double m_mm_val = 1.1626e+00;
-  double m_mm_err = 3.15e-02;
+  double m_mm_err = 0;
   double mu_mm_val = 1.5965e+03;
-  double mu_mm_err = 2.42e+00;
+  double mu_mm_err = 0;
   double n_mm_val = 1.6055e+00;
-  double n_mm_err = 1.14e-01;
+  double n_mm_err = 0;
   double sigma_mm_val = 8.0404e+01;
-  double sigma_mm_err = 2.71e+00;
+  double sigma_mm_err = 0;
 
 
   RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 400, 3000);
@@ -66,17 +66,17 @@ void fitRatio_WR1600N800()
 
   // eejj WR
   double alpha_ee_val = 1.3094;
-  double alpha_ee_err =3.56e-02;
+  double alpha_ee_err = 0;
   double beta_ee_val = 2.6121e-01;
-  double beta_ee_err = 3.08e-02;
+  double beta_ee_err = 0;
   double m_ee_val = 1.2494;
-  double m_ee_err = 2.88e-02;
+  double m_ee_err = 0;
   double mu_ee_val = 1.6053e+03;
-  double mu_ee_err = 2.49e+00;
+  double mu_ee_err = 0;
   double n_ee_val = 1.6276e+00;
-  double n_ee_err = 8.19e-02;
+  double n_ee_err = 0;
   double sigma_ee_val = 6.7117e+01;
-  double sigma_ee_err = 2.85e+00;
+  double sigma_ee_err = 0;
 
   RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 400, 3000);
   RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_val, mu_ee_val-mu_ee_err, mu_ee_val+mu_ee_err);
@@ -92,9 +92,9 @@ void fitRatio_WR1600N800()
   //// init bg distribution
   // mumu
   double a_mm_val = -1.7249e-01;
-  double a_mm_err = 5.88e-01;
+  double a_mm_err = 0;
   double b_mm_val =  5.3266e-01;
-  double b_mm_err = 3.96e-01;
+  double b_mm_err = 0;
 
   RooRealVar* a_mm = new RooRealVar("a_mm", "a_mm", a_mm_val, a_mm_val-a_mm_err, a_mm_val+a_mm_err);
   RooRealVar* b_mm = new RooRealVar("b_mm", "b_mm", b_mm_val, b_mm_val-b_mm_err, b_mm_val+b_mm_err);
@@ -102,9 +102,9 @@ void fitRatio_WR1600N800()
   RooExpm* bg_mumujj = new RooExpm("bg mumujj", "Expm Bg", *mumujjMass, *a_mm, *b_mm);
   // ee
   double a_ee_val = -1.7834e-01;
-  double a_ee_err = 5.30e-01;
+  double a_ee_err = 0;
   double b_ee_val =  5.3223e-01;
-  double b_ee_err = 3.46e-01;
+  double b_ee_err = 0;
 
   RooRealVar* a_ee = new RooRealVar("a_ee", "a_ee", a_ee_val, a_ee_val-a_ee_err, a_ee_val+a_ee_err);
   RooRealVar* b_ee = new RooRealVar("b_ee", "b_ee", b_ee_val, b_ee_val-b_ee_err, b_ee_val+b_ee_err);
@@ -146,8 +146,8 @@ void fitRatio_WR1600N800()
     RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
 
 
-    r_ee->Write();
-    r_mumu->Write();
+    r_ee->Write("ee");
+    r_mumu->Write("mumu");
   }
   f.Close();
 
