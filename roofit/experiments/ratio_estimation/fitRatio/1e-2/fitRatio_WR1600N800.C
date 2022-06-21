@@ -30,21 +30,21 @@ void fitRatio_WR1600N800()
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
   //// set sample number
-  int sampleNum = 2;
+  int sampleNum = 400;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
   //// set data dir
-  char prefix[64] = "../../../data/ratio_1e-3/WR1600N800/"; // will concatenate with sample name
+  char prefix[64] = "../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
-  TFile fResult_file("test_1e-3.root","RECREATE");
+  TFile fResult_file("test_1e-2.root","UPDATE");
   TTree tree("fit_result","WR1600 N800 ratio");
 
   double fsig_mumu_val = -1;
   double fsig_ee_val = -1;
   tree.Branch("fsig_mumu", &fsig_mumu_val);
   tree.Branch("fsig_ee", &fsig_ee_val);
-  for (int i=0; i<sampleNum; i++){
+  for (int i=100; i<sampleNum; i++){
     std::cout << "Fitting sample: " << i+1 << "/" << sampleNum << std::endl;
 
     //// init WR distribution
@@ -123,8 +123,8 @@ void fitRatio_WR1600N800()
 
 
     // add distribution
-    RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 7e-4, 5e-4, 15e-4);
-    RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 7e-4, 5e-4, 15e-4);
+    RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 7e-3, 5e-3, 15e-3);
+    RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 7e-3, 5e-3, 15e-3);
 
     RooAddPdf *model_ee = new RooAddPdf("composite_ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
     RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
