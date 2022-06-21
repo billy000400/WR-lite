@@ -35,7 +35,7 @@ void fitRatio_WR1600N800()
   // int eejjEventNum = 727838;
 
   //// set data dir
-  char prefix[64] = "../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
+  char prefix[64] = "../../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
   TFile fResult_file("test_1e-2.root","RECREATE");
   TTree tree("fit_result","WR1600 N800 ratio");
