@@ -37,7 +37,7 @@ void fitRatio_WR1600N800()
   //// set data dir
   char prefix[64] = "../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
-  TFile* f("test.root","RECREATE");
+  TFile* fResult_file("test.root","RECREATE");
   TTree* tree("fit_result","WR1600 N800 ratio");
 
   double fsig_mumu_val = -1;
@@ -157,8 +157,8 @@ void fitRatio_WR1600N800()
     // r_ee->Write("ee", TObject::kSingleKey);
     tree->Fill();
   }
-  f.Write();
-  f.Close();
+  fResult_file.Write();
+  fResult_file.Close();
 
   // Prepare frames for plotting
   // RooPlot *eeFrame = eejjMass_all->frame(Title("eejj"));
