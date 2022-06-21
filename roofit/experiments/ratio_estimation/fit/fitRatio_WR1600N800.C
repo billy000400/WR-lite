@@ -123,8 +123,8 @@ void fitRatio_WR1600N800()
 
 
     // add distribution
-    RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 7e-3, 5e-3, 15e-3);
-    RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 7e-3, 5e-3, 15e-3);
+    RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 7e-4, 5e-4, 15e-4);
+    RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 7e-4, 5e-4, 15e-4);
 
     RooAddPdf *model_ee = new RooAddPdf("composite_ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
     RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
