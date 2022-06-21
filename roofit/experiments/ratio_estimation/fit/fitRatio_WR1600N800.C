@@ -42,8 +42,8 @@ void fitRatio_WR1600N800()
 
   double fsig_mumu_val = -1;
   double fsig_ee_val = -1;
-  tree.Branch("fsig_mumu", &fsig_mumu_val)
-  tree.Branch("fsig_ee", &fsig_ee_val)
+  tree.Branch("fsig_mumu", &fsig_mumu_val);
+  tree.Branch("fsig_ee", &fsig_ee_val);
   for (int i=0; i<sampleNum; i++){
     std::cout << "Fitting sample: " << i+1 << "/" << sampleNum << std::endl;
 
