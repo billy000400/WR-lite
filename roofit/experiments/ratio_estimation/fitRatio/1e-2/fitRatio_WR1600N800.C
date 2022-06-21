@@ -132,8 +132,8 @@ void fitRatio_WR1600N800()
     Double_t fsig_high = 15e-3;
     Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
     Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
-    RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_low, fsig_mumu_init, fsig_high);
-    RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", fsig_low, fsig_ee_init, fsig_high);
+    RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
+    RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", fsig_ee_init, fsig_low , fsig_high);
 
     RooAddPdf *model_ee = new RooAddPdf("composite_ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
     RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
