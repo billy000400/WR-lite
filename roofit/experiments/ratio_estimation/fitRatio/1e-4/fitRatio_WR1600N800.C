@@ -30,14 +30,14 @@ void fitRatio_WR1600N800()
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
   //// set sample number
-  int sampleNum = 2;
+  int sampleNum = 100;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
   //// set data dir
   char prefix[64] = "../../../../data/ratio_1e-4/WR1600N800/"; // will concatenate with sample name
 
-  TFile fResult_file("test_1e-3.root","RECREATE");
+  TFile fResult_file("test_1e-4.root","RECREATE");
   TTree tree("fit_result","WR1600 N800 ratio");
 
   double fsig_mumu_val = -1;
