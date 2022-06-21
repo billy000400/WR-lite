@@ -128,8 +128,8 @@ void fitRatio_WR1600N800()
 
 
     // add distribution
-    Double_t fsig_low = 5e-5;
-    Double_t fsig_high = 15e-5;
+    Double_t fsig_low = 1e-5;
+    Double_t fsig_high = 20e-5;
     Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
     Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
     RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
