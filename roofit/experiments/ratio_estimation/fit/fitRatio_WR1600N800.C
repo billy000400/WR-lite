@@ -38,7 +38,8 @@ void fitRatio_WR1600N800()
   char prefix[64] = "../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
   TFile* f("test.root","RECREATE");
-  TTree* tree("fit_result", "WR1600 N800 ratio=1e-2");
+  TTree* tree("fit_result","WR1600 N800 ratio");
+
   double fsig_mumu_val = -1;
   double fsig_ee_val = -1;
   tree->Branch("fsig_mumu", &fsig_mumu_val)
