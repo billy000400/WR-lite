@@ -37,13 +37,13 @@ void fitRatio_WR1600N800()
   //// set data dir
   char prefix[64] = "../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
-  TFile* fResult_file("test.root","RECREATE");
-  TTree* tree("fit_result","WR1600 N800 ratio");
+  TFile fResult_file("test.root","RECREATE");
+  TTree tree("fit_result","WR1600 N800 ratio");
 
   double fsig_mumu_val = -1;
   double fsig_ee_val = -1;
-  tree->Branch("fsig_mumu", &fsig_mumu_val)
-  tree->Branch("fsig_ee", &fsig_ee_val)
+  tree.Branch("fsig_mumu", &fsig_mumu_val)
+  tree.Branch("fsig_ee", &fsig_ee_val)
   for (int i=0; i<sampleNum; i++){
     std::cout << "Fitting sample: " << i+1 << "/" << sampleNum << std::endl;
 
@@ -155,7 +155,7 @@ void fitRatio_WR1600N800()
     // f.cd();
     // r_mumu->Write("mumu", TObject::kSingleKey);
     // r_ee->Write("ee", TObject::kSingleKey);
-    tree->Fill();
+    tree.Fill();
   }
   fResult_file.Write();
   fResult_file.Close();
