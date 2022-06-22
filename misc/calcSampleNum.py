@@ -12,6 +12,7 @@ ROOT.ROOT.EnableImplicitMT
 
 def main():
     # Names within ttree
+    treeFolder = "analysis/allEvents/"
     analysisFolder = "analysis/"
 
     mumujjNtupleName = "bg_mumujjRecoMass"
