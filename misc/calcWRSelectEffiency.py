@@ -21,6 +21,7 @@ def main():
 
     # reco mass ntuples
     analysisFolder = "analysis/"
+    treeFolder = "analysis/allEvents/"
 
     mumujjNtupleName = "WR_RecoMass_mumu"
     mumujjMassBranch = "WR_RecoMass_mumu"
