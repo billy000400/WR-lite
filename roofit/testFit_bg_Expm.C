@@ -106,8 +106,8 @@ void testFit_bg_Expm()
   RooExpm *model_ee = new RooExpm("eejj bg from DY+ttbar ", "exponential bg", *eejjMass_bg, *a_ee, *b_ee);
 
   //// fit model
-  RooFitResult *r_mm = model_mm->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
-  RooFitResult *r_ee = model_ee->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_mm = model_mm->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(1));
+  RooFitResult *r_ee = model_ee->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(1));
 
   //// prepare frames for plotting
   RooPlot *frame_mm = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
