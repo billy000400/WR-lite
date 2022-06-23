@@ -17,8 +17,8 @@ void genWR1600N800()
 
   //// set sample number
   int sampleNum = 1000;
-  int mumujjEventNum = 515750;
-  int eejjEventNum = 727838;
+  int mumujjEventNum = 21416;
+  int eejjEventNum = 30098;
 
   //// set data dir
   char prefix[64] = "../../../data/ratio_5e-4/WR1600N800/"; // will concatenate with sample name
