@@ -45,10 +45,10 @@ def main():
         eejjNtuple = rootfile.Get(analysisFolder+eejjNtupleName)
 
         mumujjEventWeightArray = tree2array(mumujjNtuple, branches=mumujjEventWeightBranch)
-
         eejjEventWeightArray = tree2array(eejjNtuple, branches=eejjEventWeightBranch)
 
         allInteractionNum = xSec*lumi
+        
         mumujjRecoRatio = mumujjEventWeightArray.sum()/count2
         eejjRecoRatio = eejjEventWeightArray.sum()/count2
 
@@ -58,8 +58,8 @@ def main():
     sampleNum_mumujj = int(sampleNum_mumujj)
     sampleNum_eejj = int(sampleNum_eejj)
 
-    print "You should generate",sampleNum_mumujj,"samples for eejj"
-    print "You should generate",sampleNum_eejj,"samples for mumujj"
+    print "You should generate",sampleNum_mumujj,"samples for mumujj"
+    print "You should generate",sampleNum_eejj,"samples for eejj"
 
 if(__name__=="__main__"):
     main()
