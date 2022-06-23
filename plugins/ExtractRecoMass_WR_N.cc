@@ -3,7 +3,7 @@
  * @Date:   07-19-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 06-14-2022
+ * @Last modified time: 06-23-2022
  */
 
 
@@ -165,8 +165,8 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		bool m_genTrainData;
 		std::string m_ofName;
 
-    edm::Service<TFileService> fs;
-    // TFileDirectory subDir;
+    	edm::Service<TFileService> fs;
+    	// TFileDirectory subDir;
 
 		// Billy's global variable
 		bool resolved;
@@ -200,7 +200,7 @@ class ExtractRecoMass_WR_N : public edm::one::EDAnalyzer<edm::one::SharedResourc
 		TNtuple* WR_GenMass_sim;
 		TNtuple* N_GenMass_sim;
 
-    TNtuple* WR_GenMass;
+    	TNtuple* WR_GenMass;
 		TNtuple* N_GenMass;
 
 		TNtuple* WR_RecoMass_ee;
@@ -458,7 +458,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 		edm::Handle<std::vector<reco::GenParticle>> genParticles;
 		iEvent.getByToken(m_genParticleToken, genParticles);
 
-    int lepton1 = 0;
+    	int lepton1 = 0;
 		int lepton2 = 0;
 		int lepton1Cuts = 0;
 		int lepton2Cuts = 0;
@@ -637,7 +637,7 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 				elCount++;
 			}
 
-	  	//If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
+	  		//If background, check that there are two jets and two electrons, otherwise check that particles match gen particles
 			if((leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0 && el1Match != 0 && el2Match != 0 && q1Match != 0 && q2Match != 0) ||
 				(background && leadJet != 0 && subleadJet != 0 && leadElectron != 0 && subleadElectron != 0)){
 				std::cout << "Hello? I'm before electron." << std::endl;
@@ -1162,45 +1162,55 @@ void ExtractRecoMass_WR_N::analyze(const edm::Event& iEvent, const edm::EventSet
 			myRECOevent.extraLeptons = true;
 		}
 	}
-  //Fill the histograms
-  m_allEvents.fill(myRECOevent);
+  	//Fill the histograms
+  	m_allEvents.fill(myRECOevent);
 
 	// Check if good reco
 	bool goodReco = (myRECOevent.passedElectronReco ^ myRECOevent.passedMuonReco);
 
 	// if good reco, fill the ntuple and the 2d mass histogram
- 	if (!background && allLargeDR2 && goodReco){
+ 	if (!background && goodReco){
 		auto eventWeight_i = eventInfo->weight()/fabs(eventInfo->weight());
-		if (myRECOevent.passedElectronReco){
-			WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i, (float)eventWeight_i);
-			N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
-			N_RecoMass_NN_e->Fill((float)N_RecoMass_NN_e_i);
-		}else{
-			WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i, (float)eventWeight_i);
-			N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
-			N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
+		if (myRECOevent.passedElectronReco){ // pass electron reco
+			if (myRECOevent.nMinusOneFailElectron.size()==0){ // pass cuts
+				WR_RecoMass_ee->Fill((float)WR_RecoMass_ee_i, (float)eventWeight_i);
+				N_RecoMass_Match_e->Fill((float)N_RecoMass_Match_e_i);
+				N_RecoMass_NN_e->Fill((float)N_RecoMass_NN_e_i);
+			}
+		}
+		if (myRECOevent.passedMuonReco){ // pass muon reco
+			if (myRECOevent.nMinusOneFailMuon.size()==0){ // pass cuts
+				WR_RecoMass_mumu->Fill((float)WR_RecoMass_mumu_i, (float)eventWeight_i);
+				N_RecoMass_Match_mu->Fill((float)N_RecoMass_Match_mu_i);
+				N_RecoMass_NN_mu->Fill((float)N_RecoMass_NN_mu_i);
 
-			double diff_pt_percent, diff_pt, diff_eta_percent, diff_phi_percent;
-			diff_pt_percent = (match1_pt-lepton1_pt)/lepton1_pt*100.0;
-			diff_pt = (match1_pt-lepton1_pt);
-			diff_eta_percent = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
-			diff_phi_percent = (match1_phi-lepton1_phi)/lepton1_phi*100.0;
+				double diff_pt_percent, diff_pt, diff_eta_percent, diff_phi_percent;
+				diff_pt_percent = (match1_pt-lepton1_pt)/lepton1_pt*100.0;
+				diff_pt = (match1_pt-lepton1_pt);
+				diff_eta_percent = (match1_eta-lepton1_eta)/lepton1_eta*100.0;
+				diff_phi_percent = (match1_phi-lepton1_phi)/lepton1_phi*100.0;
 
-			delta_pt_percents.push_back(diff_pt_percent);
-			lepton1_pts.push_back(lepton1_pt);
+				delta_pt_percents.push_back(diff_pt_percent);
+				lepton1_pts.push_back(lepton1_pt);
 
-			debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
+				debug_muon1GENvsMatch->Fill((float)diff_pt_percent, (float)diff_pt, (float)diff_eta_percent, (float)diff_phi_percent);
+			}
 		}
  	} else if (background && goodReco){
 		auto eventWeight_i = eventInfo->weight()/fabs(eventInfo->weight());
-		if (myRECOevent.passedElectronReco){
-			bg_eejjRecoMass->Fill((float)lljjRecoMass_i, (float)eventWeight_i);
-			bg_ejjRecoMass_Res->Fill((float)ljjRecoMass_Res_i, (float)eventWeight_i);
-			bg_ejjRecoMass_SpRes->Fill((float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
-		}else{
-			bg_mumujjRecoMass->Fill((float)lljjRecoMass_i, (float)eventWeight_i);
-			bg_mujjRecoMass_Res->Fill((float)ljjRecoMass_Res_i, (float)eventWeight_i);
-			bg_mujjRecoMass_SpRes->Fill((float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
+		if (myRECOevent.passedElectronReco){ // pass electron reco
+			if (myRECOevent.nMinusOneFailElectron.size()==0){ // pass cuts
+				bg_eejjRecoMass->Fill((float)lljjRecoMass_i, (float)eventWeight_i);
+				bg_ejjRecoMass_Res->Fill((float)ljjRecoMass_Res_i, (float)eventWeight_i);
+				bg_ejjRecoMass_SpRes->Fill((float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
+			}
+		}
+		if (myRECOevent.passedMuonReco){ // pass muon reco
+			if (myRECOevent.nMinusOneFailMuon.size()==0){ // pass cuts
+				bg_mumujjRecoMass->Fill((float)lljjRecoMass_i, (float)eventWeight_i);
+				bg_mujjRecoMass_Res->Fill((float)ljjRecoMass_Res_i, (float)eventWeight_i);
+				bg_mujjRecoMass_SpRes->Fill((float)ljjRecoMass_SpRes_i, (float)eventWeight_i);
+			}
 		}
 	}
 
