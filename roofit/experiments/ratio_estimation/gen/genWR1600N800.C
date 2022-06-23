@@ -17,11 +17,11 @@ void genWR1600N800()
 
   //// set sample number
   int sampleNum = 1000;
-  int mumujjEventNum = 21416;
-  int eejjEventNum = 30098;
+  int mumujjEventNum = 30098;
+  int eejjEventNum = 21416;
 
   //// set data dir
-  char prefix[64] = "../../../data/ratio_5e-4/WR1600N800/"; // will concatenate with sample name
+  char prefix[64] = "../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
   //// init WR distribution
   // mumujj WR
@@ -99,8 +99,8 @@ void genWR1600N800()
 
 
   // add distribution
-  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 5e-4);
-  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 5e-4);
+  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 1e-2);
+  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 1e-2);
 
   RooAddPdf *model_ee = new RooAddPdf("composite_ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
   RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
