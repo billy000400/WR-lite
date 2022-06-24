@@ -123,13 +123,13 @@ void testFit_bg_Expm()
   RooExpm *model_ee_tot = new RooExpm("mumujj bg from DY+TTbar", "exponential bg", *eejjMass_bg, *a_ee_tot, *b_ee_tot);
 
   //// fit model
-  RooFitResult *r_mm_dy = model_mm_dy->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
-  RooFitResult *r_mm_tt = model_mm_tt->fitTo(ds_ttbar_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
-  RooFitResult *r_mm_tot = model_mm_tot->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_mm_dy = model_mm_dy->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(700, 2500), Strategy(2));
+  RooFitResult *r_mm_tt = model_mm_tt->fitTo(ds_ttbar_mumujj, Save(), SumW2Error(kTRUE), Range(700, 2500), Strategy(2));
+  RooFitResult *r_mm_tot = model_mm_tot->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(700, 2500), Strategy(2));
 
-  RooFitResult *r_ee_dy = model_ee_dy->fitTo(ds_DY_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
-  RooFitResult *r_ee_tt = model_ee_tt->fitTo(ds_ttbar_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
-  RooFitResult *r_ee_tot = model_ee_tot->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_ee_dy = model_ee_dy->fitTo(ds_DY_eejj, Save(), SumW2Error(kTRUE), Range(700, 2500), Strategy(2));
+  RooFitResult *r_ee_tt = model_ee_tt->fitTo(ds_ttbar_eejj, Save(), SumW2Error(kTRUE), Range(700, 2500), Strategy(2));
+  RooFitResult *r_ee_tot = model_ee_tot->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(700, 2500), Strategy(2));
 
   //// prepare frames for plotting
   RooPlot *frame_mm_dy = mumujjMass_bg->frame(Title("DY mumujj Reco Mass"));
