@@ -7,7 +7,7 @@
 
 # this script is for calcualting the effective fsig at (1600, 800)
 # from the 95 CL Xsec in the old paper
-xSec = 2 #/fb
+xSec = 0.8 #/fb
 lumi = 137 #/fb
 selEff_mumu = 0.5127393291316945 # select effiency
 selEff_ee = 0.40538845246273786
