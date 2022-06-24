@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 06-20-2022
+ * @Last modified time: 06-23-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -106,9 +106,9 @@ void fitRatio_WR1600N800()
 
     //// init bg distribution
     // mumu
-    double a_mm_val = -1.7249e-01;
-    double a_mm_err = 0;
-    double b_mm_val =  5.3266e-01;
+    double a_mm_val =  -3.5652e-03;
+    double a_mm_err = 3.84e-05;
+    double b_mm_val =  1;
     double b_mm_err = 0;
 
     RooRealVar* a_mm = new RooRealVar("a_mm", "a_mm", a_mm_val, a_mm_val-a_mm_err, a_mm_val+a_mm_err);
@@ -116,9 +116,9 @@ void fitRatio_WR1600N800()
 
     RooExpm* bg_mumujj = new RooExpm("bg mumujj", "Expm Bg", *mumujjMass, *a_mm, *b_mm);
     // ee
-    double a_ee_val = -1.7834e-01;
-    double a_ee_err = 0;
-    double b_ee_val =  5.3223e-01;
+    double a_ee_val = -3.5191e-03;
+    double a_ee_err = 4.58e-05;
+    double b_ee_val =  1;
     double b_ee_err = 0;
 
     RooRealVar* a_ee = new RooRealVar("a_ee", "a_ee", a_ee_val, a_ee_val-a_ee_err, a_ee_val+a_ee_err);
