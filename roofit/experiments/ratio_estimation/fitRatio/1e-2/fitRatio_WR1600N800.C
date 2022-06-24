@@ -31,7 +31,7 @@ void fitRatio_WR1600N800()
 
   //// set sample number
   int init = 0;
-  int sampleNum = 100;
+  int sampleNum = 50;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
