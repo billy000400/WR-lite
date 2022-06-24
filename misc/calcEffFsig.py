@@ -10,8 +10,8 @@
 xSec_mumu = 0.8 #/fb
 xSec_ee = 1.2 #/fb
 lumi = 137 #/fb
-selEff_mumu = 0.5127393291316945 # select effiency
-selEff_ee = 0.40538845246273786
+selEff_mumu = 0.5527393291316945 # select effiency
+selEff_ee = 0.45538845246273786
 
 N_sig_mumu = xSec_mumu*lumi*selEff_mumu
 N_sig_ee = xSec_ee*lumi*selEff_ee
