@@ -112,15 +112,15 @@ void testFit_bg_Expm()
   // eejj
   RooRealVar *a_ee_dy = new RooRealVar("a_ee_dy", "a_ee_dy", -2e-3, -20e-1, -5e-4);
   RooRealVar *b_ee_dy = new RooRealVar("b_ee_dy", "b_ee_dy", 5e-01, 2e-1, 8e-1);
-  RooExpm *model_ee_dy = new RooExpm("mumujj bg from DY", "exponential bg", *mumujjMass_bg, *a_ee_dy, *b_ee_dy);
+  RooExpm *model_ee_dy = new RooExpm("mumujj bg from DY", "exponential bg", *eejjMass_bg, *a_ee_dy, *b_ee_dy);
 
   RooRealVar *a_ee_tt = new RooRealVar("a_ee_tt", "a_ee_tt", -2e-3, -20e-1, -5e-4);
   RooRealVar *b_ee_tt = new RooRealVar("b_ee_tt", "b_ee_tt", 5e-01, 2e-1, 8e-1);
-  RooExpm *model_ee_tt = new RooExpm("mumujj bg from TTbar", "exponential bg", *mumujjMass_bg, *a_ee_tt, *b_ee_tt);
+  RooExpm *model_ee_tt = new RooExpm("mumujj bg from TTbar", "exponential bg", *eejjMass_bg, *a_ee_tt, *b_ee_tt);
 
   RooRealVar *a_ee_tot = new RooRealVar("a_ee_tot", "a_ee_tot", -2e-3, -20e-1, -5e-4);
   RooRealVar *b_ee_tot = new RooRealVar("b_ee_tot", "b_ee_tot", 5e-01, 2e-1, 8e-1);
-  RooExpm *model_ee_tot = new RooExpm("mumujj bg from DY+TTbar", "exponential bg", *mumujjMass_bg, *a_ee_tot, *b_ee_tot);
+  RooExpm *model_ee_tot = new RooExpm("mumujj bg from DY+TTbar", "exponential bg", *eejjMass_bg, *a_ee_tot, *b_ee_tot);
 
   //// fit model
   RooFitResult *r_mm_dy = model_mm_dy->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
