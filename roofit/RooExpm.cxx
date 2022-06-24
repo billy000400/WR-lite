@@ -1,3 +1,13 @@
+/**
+ * @Author: Billy Li <billyli>
+ * @Date:   05-13-2022
+ * @Email:  li000400@umn.edu
+ * @Last modified by:   billyli
+ * @Last modified time: 06-23-2022
+ */
+
+
+
 /*****************************************************************************
  * Project: RooFit                                                           *
  *                                                                           *
@@ -41,5 +51,5 @@ ClassImp(RooExpm);
  Double_t RooExpm::evaluate() const
  {
    // ENTER EXPRESSION IN TERMS OF VARIABLE ARGUMENTS HERE
-   return exp(a*TMath::Power(x,b)) ; 
+   return exp(a*TMath::Power(x,b))+1e-28 ; 
  }
