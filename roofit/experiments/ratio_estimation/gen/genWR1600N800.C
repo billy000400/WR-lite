@@ -1,3 +1,13 @@
+/**
+ * @Author: Billy Li <billyli>
+ * @Date:   06-23-2022
+ * @Email:  li000400@umn.edu
+ * @Last modified by:   billyli
+ * @Last modified time: 06-23-2022
+ */
+
+
+
 #include "RooRealVar.h"
 #include "RooDataSet.h"
 #include "RooDataHist.h"
@@ -39,7 +49,7 @@ void genWR1600N800()
   double sigma_mm_err = 2.71e+00;
 
 
-  RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 400, 3000);
+  RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 700, 2500);
   RooRealVar* mu_mm= new RooRealVar("mu", "mu mumujj", mu_mm_val, mu_mm_val-mu_mm_err, mu_mm_val+mu_mm_err);
   RooRealVar* sigma_mm = new RooRealVar("sigma", "sigma mumujj", sigma_mm_val, sigma_mm_val-sigma_mm_err, sigma_mm_val+sigma_mm_err);
   RooRealVar* alpha_mm = new RooRealVar("alpha", "alpha mumujj", alpha_mm_val, alpha_mm_val-alpha_mm_err, alpha_mm_val+alpha_mm_err);
@@ -64,7 +74,7 @@ void genWR1600N800()
   double sigma_ee_val = 6.7117e+01;
   double sigma_ee_err = 2.85e+00;
 
-  RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 400, 3000);
+  RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 700, 2500);
   RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_val, mu_ee_val-mu_ee_err, mu_ee_val+mu_ee_err);
   RooRealVar* sigma_ee = new RooRealVar("sigma", "sigma eejj", sigma_ee_val, sigma_ee_val-sigma_ee_err, sigma_ee_val+sigma_ee_err);
   RooRealVar* alpha_ee = new RooRealVar("alpha", "alpha eejj", alpha_ee_val, alpha_ee_val-alpha_ee_err, alpha_ee_val+alpha_ee_err);
@@ -77,20 +87,20 @@ void genWR1600N800()
 
   //// init bg distribution
   // mumu
-  double a_mm_val = -1.7249e-01;
-  double a_mm_err = 5.88e-01;
-  double b_mm_val =  5.3266e-01;
-  double b_mm_err = 3.96e-01;
+  double a_mm_val =  -3.5652e-03;
+  double a_mm_err = 3.84e-05;
+  double b_mm_val =  1;
+  double b_mm_err = 0;
 
   RooRealVar* a_mm = new RooRealVar("a_mm", "a_mm", a_mm_val, a_mm_val-a_mm_err, a_mm_val+a_mm_err);
   RooRealVar* b_mm = new RooRealVar("b_mm", "b_mm", b_mm_val, b_mm_val-b_mm_err, b_mm_val+b_mm_err);
 
   RooExpm* bg_mumujj = new RooExpm("bg mumujj", "Expm Bg", *mumujjMass, *a_mm, *b_mm);
   // ee
-  double a_ee_val = -1.7834e-01;
-  double a_ee_err = 5.30e-01;
-  double b_ee_val =  5.3223e-01;
-  double b_ee_err = 3.46e-01;
+  double a_ee_val = -3.5191e-03;
+  double a_ee_err = 4.58e-05;
+  double b_ee_val =  1;
+  double b_ee_err = 0;
 
   RooRealVar* a_ee = new RooRealVar("a_ee", "a_ee", a_ee_val, a_ee_val-a_ee_err, a_ee_val+a_ee_err);
   RooRealVar* b_ee = new RooRealVar("b_ee", "b_ee", b_ee_val, b_ee_val-b_ee_err, b_ee_val+b_ee_err);
