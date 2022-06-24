@@ -30,7 +30,8 @@ void fitRatio_WR1600N800()
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
   //// set sample number
-  int sampleNum = 10;
+  int init = 10;
+  int sampleNum = 100;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
@@ -49,7 +50,7 @@ void fitRatio_WR1600N800()
   TRandom2 *fsig_mumu_gen = new TRandom2(1);
   TRandom2 *fsig_ee_gen = new TRandom2(3);
 
-  for (int i=0; i<sampleNum; i++){
+  for (int i=init; i<init+sampleNum; i++){
     std::cout << "Fitting sample: " << i+1 << "/" << sampleNum << std::endl;
 
     //// init WR distribution
