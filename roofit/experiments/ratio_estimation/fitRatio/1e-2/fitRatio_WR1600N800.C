@@ -31,7 +31,7 @@ void fitRatio_WR1600N800()
 
   //// set sample number
   int init = 0;
-  int sampleNum = 10;
+  int sampleNum = 3;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
@@ -150,6 +150,10 @@ void fitRatio_WR1600N800()
     strcat(sample_file_path, ".root");
 
     // file = TFile::Open(fname.Data()); if(!file||file->IsZombie()){delete file; continue;}
+    TFile sample_file = TFile::Open(sample_file_path, "READ");
+    if (!sample_file || sample_file.IsZombie()){
+        continue;
+    }
 
     RooDataSet ds_mumujj("ds_mumujj", "ds_mumujj",\
                   RooArgSet(*mumujjMass),\
@@ -159,8 +163,8 @@ void fitRatio_WR1600N800()
                   RooArgSet(*eejjMass),\
                   ImportFromFile(sample_file_path, "composite_eeData"));
 
-    RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
-    RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
+    RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(700,2500));
+    RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(700,2500));
 
     fsig_mumu_val = fsig_mumu->getVal();
     fsig_ee_val = fsig_ee->getVal();
