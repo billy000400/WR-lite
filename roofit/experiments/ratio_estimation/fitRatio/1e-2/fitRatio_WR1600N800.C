@@ -151,7 +151,7 @@ void fitRatio_WR1600N800()
 
     // file = TFile::Open(fname.Data()); if(!file||file->IsZombie()){delete file; continue;}
     TFile sample_file = TFile(sample_file_path, "READ");
-    if (!sample_file || sample_file.IsZombie()){
+    if (!sample_file.IsOpen() || sample_file.IsZombie()){
         continue;
     }
 
