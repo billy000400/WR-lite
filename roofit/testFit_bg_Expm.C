@@ -3,7 +3,7 @@
  * @Date:   05-03-2022
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 06-17-2022
+ * @Last modified time: 06-23-2022
  */
 
 
@@ -97,46 +97,121 @@ void testFit_bg_Expm()
 
   //// declare model
   // mumujj
-  RooRealVar *a_mm = new RooRealVar("a_mm", "a_mm", -2e-3, -20e-1, -5e-4);
-  RooRealVar *b_mm = new RooRealVar("b_mm", "b_mm", 5e-01, 2e-1, 8e-1);
-  RooExpm *model_mm = new RooExpm("mumujj bg from DY+ttbar ", "exponential bg", *mumujjMass_bg, *a_mm, *b_mm);
+  RooRealVar *a_mm_dy = new RooRealVar("a_mm_dy", "a_mm_dy", -2e-3, -20e-1, -5e-4);
+  RooRealVar *b_mm_dy = new RooRealVar("b_mm_dy", "b_mm_dy", 5e-01, 2e-1, 8e-1);
+  RooExpm *model_mm_dy = new RooExpm("mumujj bg from DY", "exponential bg", *mumujjMass_bg, *a_mm_dy, *b_mm_dy);
+
+  RooRealVar *a_mm_tt = new RooRealVar("a_mm_tt", "a_mm_tt", -2e-3, -20e-1, -5e-4);
+  RooRealVar *b_mm_tt = new RooRealVar("b_mm_tt", "b_mm_tt", 5e-01, 2e-1, 8e-1);
+  RooExpm *model_mm_tt = new RooExpm("mumujj bg from TTbar", "exponential bg", *mumujjMass_bg, *a_mm_tt, *b_mm_tt);
+
+  RooRealVar *a_mm_tot = new RooRealVar("a_mm_tot", "a_mm_tot", -2e-3, -20e-1, -5e-4);
+  RooRealVar *b_mm_tot = new RooRealVar("b_mm_tot", "b_mm_tot", 5e-01, 2e-1, 8e-1);
+  RooExpm *model_mm_tot = new RooExpm("mumujj bg from DY+TTbar", "exponential bg", *mumujjMass_bg, *a_mm_tot, *b_mm_tot);
+
   // eejj
-  RooRealVar *a_ee = new RooRealVar("a_ee", "a_ee", -2e-4, -20e-1, -5e-4);
-  RooRealVar *b_ee = new RooRealVar("b_ee", "b_ee", 5e-01, 2e-2, 8e-1);
-  RooExpm *model_ee = new RooExpm("eejj bg from DY+ttbar ", "exponential bg", *eejjMass_bg, *a_ee, *b_ee);
+  RooRealVar *a_ee_dy = new RooRealVar("a_ee_dy", "a_ee_dy", -2e-3, -20e-1, -5e-4);
+  RooRealVar *b_ee_dy = new RooRealVar("b_ee_dy", "b_ee_dy", 5e-01, 2e-1, 8e-1);
+  RooExpm *model_ee_dy = new RooExpm("mumujj bg from DY", "exponential bg", *mumujjMass_bg, *a_ee_dy, *b_ee_dy);
+
+  RooRealVar *a_ee_tt = new RooRealVar("a_ee_tt", "a_ee_tt", -2e-3, -20e-1, -5e-4);
+  RooRealVar *b_ee_tt = new RooRealVar("b_ee_tt", "b_ee_tt", 5e-01, 2e-1, 8e-1);
+  RooExpm *model_ee_tt = new RooExpm("mumujj bg from TTbar", "exponential bg", *mumujjMass_bg, *a_ee_tt, *b_ee_tt);
+
+  RooRealVar *a_ee_tot = new RooRealVar("a_ee_tot", "a_ee_tot", -2e-3, -20e-1, -5e-4);
+  RooRealVar *b_ee_tot = new RooRealVar("b_ee_tot", "b_ee_tot", 5e-01, 2e-1, 8e-1);
+  RooExpm *model_ee_tot = new RooExpm("mumujj bg from DY+TTbar", "exponential bg", *mumujjMass_bg, *a_ee_tot, *b_ee_tot);
 
   //// fit model
-  RooFitResult *r_mm = model_mm->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(650, 2500), Strategy(2));
-  RooFitResult *r_ee = model_ee->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(650, 2500), Strategy(2));
+  RooFitResult *r_mm_dy = model_mm_dy->fitTo(ds_DY_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_mm_tt = model_mm_tt->fitTo(ds_ttbar_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_mm_tot = model_mm_tot->fitTo(ds_bg_mumujj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+
+  RooFitResult *r_ee_dy = model_ee_dy->fitTo(ds_DY_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_ee_tt = model_ee_tt->fitTo(ds_ttbar_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
+  RooFitResult *r_ee_tot = model_ee_tot->fitTo(ds_bg_eejj, Save(), SumW2Error(kTRUE), Range(650, 3000), Strategy(2));
 
   //// prepare frames for plotting
-  RooPlot *frame_mm = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
-  RooPlot *frame_ee = eejjMass_bg->frame(Title("DY+TTbar eejj Reco Mass"));
+  RooPlot *frame_mm_dy = mumujjMass_bg->frame(Title("DY mumujj Reco Mass"));
+  RooPlot *frame_mm_tt = mumujjMass_bg->frame(Title("TTbar mumujj Reco Mass"));
+  RooPlot *frame_mm_tot = mumujjMass_bg->frame(Title("DY+TTbar mumujj Reco Mass"));
 
-  std::cout << "BELOW IS THE RESULT" << std::endl;
-  r_mm->Print();
-  r_ee->Print();
-  std::cout << "ABOVE IS THE RESULTS" << std::endl;
+  RooPlot *frame_ee_dy = eejjMass_bg->frame(Title("DY eejj Reco Mass"));
+  RooPlot *frame_ee_tt = eejjMass_bg->frame(Title("TTbar eejj Reco Mass"));
+  RooPlot *frame_ee_tot = eejjMass_bg->frame(Title("DY+TTbar eejj Reco Mass"));
+
+  std::cout << "BELOW IS THE RESULT of DY" << std::endl;
+  r_mm_dy->Print();
+  r_ee_dy->Print();
+  std::cout << "ABOVE IS THE RESULTS of DY" << std::endl;
+
+  std::cout << "BELOW IS THE RESULT of TTbar" << std::endl;
+  r_mm_tt->Print();
+  r_ee_tt->Print();
+  std::cout << "ABOVE IS THE RESULTS of TTbar" << std::endl;
+
+  std::cout << "BELOW IS THE RESULT of DY+TTbar" << std::endl;
+  r_mm_tot->Print();
+  r_ee_tot->Print();
+  std::cout << "ABOVE IS THE RESULTS of DY+TTbar" << std::endl;
 
   //// Plot on frames
   // plot data on frames
-  ds_bg_mumujj.plotOn(frame_mm, Binning(100), DataError(RooAbsData::SumW2));
-  ds_bg_eejj.plotOn(frame_ee, Binning(100), DataError(RooAbsData::SumW2));
+  ds_DY_mumujj.plotOn(frame_mm_dy, Binning(100), DataError(RooAbsData::SumW2));
+  ds_ttbar_mumujj.plotOn(frame_mm_tt, Binning(100), DataError(RooAbsData::SumW2));
+  ds_bg_mumujj.plotOn(frame_mm_tot, Binning(100), DataError(RooAbsData::SumW2));
+
+  ds_DY_eejj.plotOn(frame_ee_dy, Binning(100), DataError(RooAbsData::SumW2));
+  ds_ttbar_eejj.plotOn(frame_ee_tt, Binning(100), DataError(RooAbsData::SumW2));
+  ds_bg_eejj.plotOn(frame_ee_tot, Binning(100), DataError(RooAbsData::SumW2));
 
   // plot fitted pdfs on frames
-  model_mm->plotOn(frame_mm, VisualizeError(*r_mm, 1, kFALSE));
-  model_ee->plotOn(frame_ee, VisualizeError(*r_ee, 1, kFALSE));
+  model_mm_dy->plotOn(frame_mm_dy);
+  model_mm_tt->plotOn(frame_mm_tt);
+  model_mm_tot->plotOn(frame_mm_tot);
 
-  double chi2_mumu = frame_mm->chiSquare(2);
-  double chi2_ee = frame_ee->chiSquare(2);
-  std::cout << "chi2_mumu_bg: " << chi2_mumu <<std::endl;
-  std::cout << "chi2_ee_bg: " << chi2_ee <<std::endl;
+  model_ee_dy->plotOn(frame_ee_dy);
+  model_ee_tt->plotOn(frame_ee_tt);
+  model_ee_tot->plotOn(frame_ee_tot);
+
+  double chi2_mm_dy = frame_mm_dy->chiSquare(2);
+  double chi2_mm_tt = frame_mm_tt->chiSquare(2);
+  double chi2_mm_tot = frame_mm_tot->chiSquare(2);
+
+  double chi2_ee_dy = frame_ee_dy->chiSquare(2);
+  double chi2_ee_tt = frame_ee_tt->chiSquare(2);
+  double chi2_ee_tot = frame_ee_tot->chiSquare(2);
+
+  std::cout << "chi2_mm_dy: " << chi2_mm_dy <<std::endl;
+  std::cout << "chi2_mm_tt: " << chi2_mm_tt <<std::endl;
+  std::cout << "chi2_mm_tot: " << chi2_mm_tot <<std::endl;
+
+  std::cout << "chi2_ee_dy: " << chi2_ee_dy <<std::endl;
+  std::cout << "chi2_ee_tt: " << chi2_ee_tt <<std::endl;
+  std::cout << "chi2_ee_tot: " << chi2_ee_tot <<std::endl;
+
+  model_mm_dy->plotOn(frame_mm_dy, VisualizeError(*r_mm_dy, 1, kFALSE));
+  model_mm_tt->plotOn(frame_mm_tt, VisualizeError(*r_mm_tt, 1, kFALSE));
+  model_mm_tot->plotOn(frame_mm_tot, VisualizeError(*r_mm_tot, 1, kFALSE));
+
+  model_ee_dy->plotOn(frame_ee_dy, VisualizeError(*r_ee_dy, 1, kFALSE));
+  model_ee_tt->plotOn(frame_ee_tt, VisualizeError(*r_ee_tt, 1, kFALSE));
+  model_ee_tot->plotOn(frame_ee_tot, VisualizeError(*r_ee_tot, 1, kFALSE));
 
 
-  TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1000, 500);
-  canvas->Divide(2,1);
+  TCanvas *canvas = new TCanvas("Test Fit", "Test Fit", 1200, 800);
+  canvas->Divide(3,2);
   canvas->cd(1);
-  frame_mm->Draw();
+  frame_mm_dy->Draw();
   canvas->cd(2);
-  frame_ee->Draw();
+  frame_mm_tt->Draw();
+  canvas->cd(3);
+  frame_mm_tot->Draw();
+
+  canvas->cd(4);
+  frame_ee_dy->Draw();
+  canvas->cd(5);
+  frame_ee_tt->Draw();
+  canvas->cd(6);
+  frame_ee_tot->Draw();
 }
