@@ -51,7 +51,7 @@ void fitRatio_WR1600N800()
   TRandom2 *fsig_ee_gen = new TRandom2(3);
 
   for (int i=init; i<init+sampleNum; i++){
-    std::cout << "Fitting sample: " << i+1 << "/" << sampleNum << std::endl;
+    std::cout << "Fitting sample: " << i+1 << "/" << init+sampleNum << std::endl;
 
     //// init WR distribution
     // mumujj WR
