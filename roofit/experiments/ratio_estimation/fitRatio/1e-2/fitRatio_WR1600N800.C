@@ -3,7 +3,7 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 06-23-2022
+ * @Last modified time: 06-24-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
@@ -30,7 +30,7 @@ void fitRatio_WR1600N800()
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
   //// set sample number
-  int sampleNum = 100;
+  int sampleNum = 10;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
