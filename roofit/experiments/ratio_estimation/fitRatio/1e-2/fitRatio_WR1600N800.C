@@ -166,6 +166,7 @@ void fitRatio_WR1600N800()
     // r_mumu->Write("mumu", TObject::kSingleKey);
     // r_ee->Write("ee", TObject::kSingleKey);
     tree.Fill();
+    fResult_file.Write();
   }
   fResult_file.Write();
   fResult_file.Close();
