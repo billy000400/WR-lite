@@ -31,7 +31,7 @@ void fitRatio_WR1600N800()
 
   //// set sample number
   int init = 0;
-  int sampleNum = 50;
+  int sampleNum = 10;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
@@ -149,6 +149,8 @@ void fitRatio_WR1600N800()
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
 
+    // file = TFile::Open(fname.Data()); if(!file||file->IsZombie()){delete file; continue;}
+
     RooDataSet ds_mumujj("ds_mumujj", "ds_mumujj",\
                   RooArgSet(*mumujjMass),\
                   ImportFromFile(sample_file_path, "composite_mumuData"));
@@ -166,7 +168,6 @@ void fitRatio_WR1600N800()
     // r_mumu->Write("mumu", TObject::kSingleKey);
     // r_ee->Write("ee", TObject::kSingleKey);
     tree.Fill();
-    fResult_file.Write();
   }
   fResult_file.Write();
   fResult_file.Close();
