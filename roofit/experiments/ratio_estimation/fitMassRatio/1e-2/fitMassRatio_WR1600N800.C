@@ -31,7 +31,7 @@ void fitMassRatio_WR1600N800()
 
   //// set sample number
   int init = 0;
-  int sampleNum = 2;
+  int sampleNum = 1000;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
