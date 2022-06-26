@@ -104,7 +104,7 @@ void fitMassRatio_WR1600N800()
     Double_t mu_ee_init = mu_ee_gen->Rndm()*(mu_high-mu_low)+mu_low;
 
     RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 700, 2500);
-    RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", , mu_ee_init, mu_low, mu_high);
+    RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_init, mu_low, mu_high);
     RooRealVar* sigma_ee = new RooRealVar("sigma", "sigma eejj", sigma_ee_val, sigma_ee_val-sigma_ee_err, sigma_ee_val+sigma_ee_err);
     RooRealVar* alpha_ee = new RooRealVar("alpha", "alpha eejj", alpha_ee_val, alpha_ee_val-alpha_ee_err, alpha_ee_val+alpha_ee_err);
     RooRealVar* n_ee = new RooRealVar("n", "n eejj", n_ee_val, n_ee_val-n_ee_err, n_ee_val+n_ee_err);
