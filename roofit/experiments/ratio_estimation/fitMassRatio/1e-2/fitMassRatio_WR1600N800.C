@@ -178,8 +178,8 @@ void fitMassRatio_WR1600N800()
     fsig_mumu_val = fsig_mumu->getVal();
     fsig_ee_val = fsig_ee->getVal();
 
-    mu_mumu_val = mu_mumu->getVal();
-    mu_ee_val = mu_mumu->getVal();
+    mu_mumu_val = mu_mm->getVal();
+    mu_ee_val = mu_ee->getVal();
     // f.cd();
     // r_mumu->Write("mumu", TObject::kSingleKey);
     // r_ee->Write("ee", TObject::kSingleKey);
