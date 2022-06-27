@@ -1,0 +1,206 @@
+/**
+ * @Author: Billy Li <billyli>
+ * @Date:   08-10-2021
+ * @Email:  li000400@umn.edu
+ * @Last modified by:   billyli
+ * @Last modified time: 06-24-2022
+ */
+
+// This script is to figure out the best strategy to fit data into a
+// Exponential (Exp) CB distribution. It will be put in testFit.C to compare the result
+// of ExpmCB and single CB
+
+#include "RooRealVar.h"
+#include "RooDataSet.h"
+#include "RooDataHist.h"
+#include "RooGaussian.h"
+#include "TCanvas.h"
+#include "RooPlot.h"
+#include "TTree.h"
+#include "TH1D.h"
+#include "TRandom.h"
+using namespace RooFit;
+
+RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
+
+// void testFit_ExpmCB(std::string filePath)
+void fitMassRatio_WR1600N800(int sampleIdx)
+{
+  //// message service
+  // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
+
+  //// set data dir
+  char prefix[64] = "../../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
+
+  //// prepare random generator for fit parameter initializtaion
+  TRandom2 *fsig_mumu_gen = new TRandom2(1);
+  TRandom2 *fsig_ee_gen = new TRandom2(3);
+  TRandom2 *mu_mumu_gen = new TRandom2(2);
+  TRandom2 *mu_ee_gen = new TRandom2(4);
+
+  Double_t mu_low = 700;
+  Double_t mu_high = 2500;
+
+
+  //// init WR distributio
+  // mumujj WR
+  double alpha_mm_val = 1.4021e+00;
+  double alpha_mm_err = 0;
+  double beta_mm_val = 4.0786e-01;
+  double beta_mm_err = 0;
+  double m_mm_val = 1.1626e+00;
+  double m_mm_err = 0;
+  double n_mm_val = 1.6055e+00;
+  double n_mm_err = 0;
+  double sigma_mm_val = 8.0404e+01;
+  double sigma_mm_err = 0;
+
+  Double_t mu_mumu_init = mu_mumu_gen->Rndm()*(mu_high-mu_low)+mu_low;
+
+  RooRealVar* mumujjMass = new RooRealVar("invm_mumujj", "invm reco from mumujj", 700, 2500);
+  RooRealVar* mu_mm= new RooRealVar("mu", "mu mumujj", mu_mumu_init, mu_low, mu_high);
+  RooRealVar* sigma_mm = new RooRealVar("sigma", "sigma mumujj", sigma_mm_val, sigma_mm_val-sigma_mm_err, sigma_mm_val+sigma_mm_err);
+  RooRealVar* alpha_mm = new RooRealVar("alpha", "alpha mumujj", alpha_mm_val, alpha_mm_val-alpha_mm_err, alpha_mm_val+alpha_mm_err);
+  RooRealVar* n_mm = new RooRealVar("n", "n mumujj", n_mm_val, n_mm_val-n_mm_err, n_mm_val+n_mm_err);
+  RooRealVar* beta_mm = new RooRealVar("beta", "beta", beta_mm_val, beta_mm_val-beta_mm_err, beta_mm_val+beta_mm_err);
+  RooRealVar* m_mm = new RooRealVar("m", "m mumujj", m_mm_val, m_mm_val-m_mm_err, m_mm_val+m_mm_err);
+
+  RooExpmCB* WR_mumujj = new RooExpmCB("WR mumujj", "WR mumujj",\
+          *mumujjMass, *mu_mm,*sigma_mm,*beta_mm,*m_mm,*alpha_mm,*n_mm);
+
+  // eejj WR
+  double alpha_ee_val = 1.3094;
+  double alpha_ee_err = 0;
+  double beta_ee_val = 2.6121e-01;
+  double beta_ee_err = 0;
+  double m_ee_val = 1.2494;
+  double m_ee_err = 0;
+  double n_ee_val = 1.6276e+00;
+  double n_ee_err = 0;
+  double sigma_ee_val = 6.7117e+01;
+  double sigma_ee_err = 0;
+
+  Double_t mu_ee_init = mu_ee_gen->Rndm()*(mu_high-mu_low)+mu_low;
+
+  RooRealVar* eejjMass = new RooRealVar("invm_eejj", "invm reco from eejj", 700, 2500);
+  RooRealVar* mu_ee= new RooRealVar("mu", "mu eejj", mu_ee_init, mu_low, mu_high);
+  RooRealVar* sigma_ee = new RooRealVar("sigma", "sigma eejj", sigma_ee_val, sigma_ee_val-sigma_ee_err, sigma_ee_val+sigma_ee_err);
+  RooRealVar* alpha_ee = new RooRealVar("alpha", "alpha eejj", alpha_ee_val, alpha_ee_val-alpha_ee_err, alpha_ee_val+alpha_ee_err);
+  RooRealVar* n_ee = new RooRealVar("n", "n eejj", n_ee_val, n_ee_val-n_ee_err, n_ee_val+n_ee_err);
+  RooRealVar* beta_ee = new RooRealVar("beta", "beta", beta_ee_val, beta_ee_val-beta_ee_err, beta_ee_val+beta_ee_err);
+  RooRealVar* m_ee = new RooRealVar("m", "m eejj", m_ee_val, m_ee_val-m_ee_err, m_ee_val+m_ee_err);
+
+  RooExpmCB* WR_eejj = new RooExpmCB("WR eejj", "WR eejj",\
+          *eejjMass, *mu_ee,*sigma_ee,*beta_ee,*m_ee,*alpha_ee,*n_ee);
+
+  //// init bg distribution
+  // mumu
+  double a_mm_val =  -3.5652e-03;
+  double a_mm_err = 0;
+  double b_mm_val =  1;
+  double b_mm_err = 0;
+
+  RooRealVar* a_mm = new RooRealVar("a_mm", "a_mm", a_mm_val, a_mm_val-a_mm_err, a_mm_val+a_mm_err);
+  RooRealVar* b_mm = new RooRealVar("b_mm", "b_mm", b_mm_val, b_mm_val-b_mm_err, b_mm_val+b_mm_err);
+
+  RooExpm* bg_mumujj = new RooExpm("bg mumujj", "Expm Bg", *mumujjMass, *a_mm, *b_mm);
+  // ee
+  double a_ee_val = -3.5191e-03;
+  double a_ee_err = 0;
+  double b_ee_val =  1;
+  double b_ee_err = 0;
+
+  RooRealVar* a_ee = new RooRealVar("a_ee", "a_ee", a_ee_val, a_ee_val-a_ee_err, a_ee_val+a_ee_err);
+  RooRealVar* b_ee = new RooRealVar("b_ee", "b_ee", b_ee_val, b_ee_val-b_ee_err, b_ee_val+b_ee_err);
+
+  RooExpm* bg_eejj = new RooExpm("bg eejj", "Expm Bg", *eejjMass, *a_ee, *b_ee);
+
+
+  // add distribution
+  Double_t fsig_low = 5e-3;
+  Double_t fsig_high = 15e-3;
+  Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
+  Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
+  RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
+  RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", fsig_ee_init, fsig_low , fsig_high);
+
+  RooAddPdf *model_ee = new RooAddPdf("composite_ee", "model ee", RooArgList(*WR_eejj, *bg_eejj), *fsig_ee);
+  RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
+
+  // prepare TFile
+  char sample_file_name[32] = "RooFitMC_WR1600N800_";
+  char sample_index_str[32];
+  sprintf(sample_index_str, "%d", sampleIdx);
+  strcat(sample_file_name, sample_index_str);
+  char sample_file_path[32];
+  strcpy(sample_file_path, prefix);
+  strcat(sample_file_path, sample_file_name);
+  strcat(sample_file_path, ".root");
+
+  // file = TFile::Open(fname.Data()); if(!file||file->IsZombie()){delete file; continue;}
+  TFile sample_file = TFile(sample_file_path, "READ");
+  if (!sample_file.IsOpen() || sample_file.IsZombie()){
+      continue;
+  }
+
+  RooDataSet ds_mumujj("ds_mumujj", "ds_mumujj",\
+                RooArgSet(*mumujjMass),\
+                ImportFromFile(sample_file_path, "composite_mumuData"));
+
+  RooDataSet ds_eejj("ds_eejj", "ds_eejj",\
+                RooArgSet(*eejjMass),\
+                ImportFromFile(sample_file_path, "composite_eeData"));
+
+  TFile fResult_file("test_1e-2.root","RECREATE");
+  TTree tree("fit_result","WR1600 N800 ratio");
+
+  double fsig_mumu_val = -1;
+  double fsig_ee_val = -1;
+  double mu_mumu_val = -1;
+  double mu_ee_val = -1;
+
+  tree.Branch("fsig_mumu", &fsig_mumu_val);
+  tree.Branch("fsig_ee", &fsig_ee_val);
+  tree.Branch("mu_mumu", &mu_mumu_val);
+  tree.Branch("mu_ee", &mu_ee_val);
+
+  RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(700,2500));
+  RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(700,2500));
+
+  fsig_mumu_val = fsig_mumu->getVal();
+  fsig_ee_val = fsig_ee->getVal();
+
+  mu_mumu_val = mu_mm->getVal();
+  mu_ee_val = mu_ee->getVal();
+
+  tree.Fill();
+
+  fResult_file.Write();
+  fResult_file.Close();
+}
+
+RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
+{
+  RooRealVar* pullVar = new RooRealVar("pullVar", label.c_str(), -100.0, 100.0);
+  RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
+  TH1* hist;
+
+  for (Int_t i=0; i<100; i++){
+    Double_t binX;
+    Double_t pull;
+    pullPlot->GetPoint(i, binX, pull);
+
+    if (print==true)
+    {
+      std::ofstream csv;
+      csv.open("pulls.csv", std::ios_base::app);
+      csv << pull << "\n";
+    }
+
+
+    RooRealVar pull_i = RooRealVar("pullVar", label.c_str(), pull);
+    pulls.add(RooArgSet(pull_i));
+  }
+
+  return pulls;
+}
