@@ -159,8 +159,8 @@ void profile2(std::string filePath)
   r_mumu->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
-  std::ofstream result1("results_ExpmCB_ee/"+filePath+".txt");
-  std::ofstream result2("results_ExpmCB_mumu/"+filePath+".txt");
+  std::ofstream result1("results_simple_ee/"+filePath+".txt");
+  std::ofstream result2("results_simple_mumu/"+filePath+".txt");
   result1 << "WR:" << WRGenMean << std::endl;
   result1 << "N:" << NGenMean << std::endl;
   result2 << "WR:" << WRGenMean << std::endl;
@@ -212,7 +212,7 @@ void profile2(std::string filePath)
   ee_ExpmCBPullFrame->Draw();
   c->cd(4);
   mumu_ExpmCBPullFrame->Draw();
-  std::string plot_file_prefix = "plots_ExpmCB/";
+  std::string plot_file_prefix = "plots_profile2/";
   std::string plotPath = plot_file_prefix+filePath;
   plotPath.erase(plotPath.length()-5); // remove .root
   plotPath = plotPath+ ".png";
