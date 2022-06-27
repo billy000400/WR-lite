@@ -30,8 +30,8 @@ void fitMassRatio_WR1600N800()
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
   //// set sample number
-  int init = 0;
-  int sampleNum = 1000;
+  int init = 66;
+  int sampleNum = 2;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
