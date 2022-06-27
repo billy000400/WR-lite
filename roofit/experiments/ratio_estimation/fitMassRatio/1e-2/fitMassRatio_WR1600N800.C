@@ -30,8 +30,8 @@ void fitMassRatio_WR1600N800()
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
   //// set sample number
-  int init = 65;
-  int sampleNum = 2;
+  int init = 0;
+  int sampleNum = 1000;
   // int mumujjEventNum = 515750;
   // int eejjEventNum = 727838;
 
@@ -149,11 +149,11 @@ void fitMassRatio_WR1600N800()
     RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
 
     // prepare TFile
-    char sample_file_name[32] = "RooFitMC_WR1600N800_";
-    char sample_index_str[32];
+    char sample_file_name[64] = "RooFitMC_WR1600N800_";
+    char sample_index_str[64];
     sprintf(sample_index_str, "%d", i+1);
     strcat(sample_file_name, sample_index_str);
-    char sample_file_path[32];
+    char sample_file_path[128];
     strcpy(sample_file_path, prefix);
     strcat(sample_file_path, sample_file_name);
     strcat(sample_file_path, ".root");
