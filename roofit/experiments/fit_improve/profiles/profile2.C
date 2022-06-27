@@ -159,8 +159,8 @@ void profile2(std::string filePath)
   r_mumu->Print();
   std::cout << "ABOVE IS THE RESULTS" << std::endl;
 
-  std::ofstream result1("results_simple_ee/"+filePath+".txt");
-  std::ofstream result2("results_simple_mumu/"+filePath+".txt");
+  std::ofstream result1("results_profile2_ee/"+filePath+".txt");
+  std::ofstream result2("results_profile2_mumu/"+filePath+".txt");
   result1 << "WR:" << WRGenMean << std::endl;
   result1 << "N:" << NGenMean << std::endl;
   result2 << "WR:" << WRGenMean << std::endl;
