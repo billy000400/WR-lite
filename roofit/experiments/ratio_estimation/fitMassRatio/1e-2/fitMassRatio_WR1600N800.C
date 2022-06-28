@@ -38,7 +38,7 @@ void fitMassRatio_WR1600N800()
   //// set data dir
   char prefix[64] = "../../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
 
-  TFile fResult_file("test_1e-2.root","RECREATE");
+  TFile fResult_file("test_1e-2_1e-4_2e-2.root","RECREATE");
   TTree tree("fit_result","WR1600 N800 ratio");
 
   double fsig_mumu_val = -1;
@@ -138,8 +138,8 @@ void fitMassRatio_WR1600N800()
 
 
     // add distribution
-    Double_t fsig_low = 5e-3;
-    Double_t fsig_high = 15e-3;
+    Double_t fsig_low = 1e-4;
+    Double_t fsig_high = 2e-2;
     Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
     Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
     RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
