@@ -136,7 +136,7 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
 
   // add distribution
   Double_t fsig_low = 0;
-  Double_t fsig_high = 2e-2;
+  Double_t fsig_high = 2*std::stod(fsig_tr);
   Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
   Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
   RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
