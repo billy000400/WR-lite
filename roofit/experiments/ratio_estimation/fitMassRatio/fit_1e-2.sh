@@ -12,5 +12,5 @@ for f in $sampleFileDir/*.root; do
   if (( $i%7==0 )); then
       wait
   fi
-  i = $i+1
+  i=$(($i + 1))
 done
