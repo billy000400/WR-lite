@@ -67,6 +67,7 @@ def main():
 
 
     for (files, xSec) in zip(fileNames, crossSections):
+        print(files)
 
     	# make new root file with new tree
     	file = ROOT.TFile("full"+files+".root", 'recreate')
