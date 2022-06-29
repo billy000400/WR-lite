@@ -16,6 +16,6 @@ for f in $sampleFileDir/*.root; do
   i=$(($i + 1))
 done
 
-cd ../../../data/MCFitResult/fitMassRatio/ratio_1e-2/WR1600N800
+cd ../../../data/MCFitResult/fitMassRatio/WR1600N800/ratio_1e-2/
 rm MCFitResult_WR1600N800.root
 hadd MCFitResult_WR1600N800.root *.root
