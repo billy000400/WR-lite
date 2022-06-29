@@ -32,6 +32,8 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
   //// parse file name
   std::string MassPairIdxRoot = sample_file_name.substr(sample_file_name.find("_")+1);
   std::string MassPair = MassPairIdxRoot.substr(0,MassPairIdxRoot.find("_"));
+  std::string Idx = MassPairIdxRoot.substr(MassPairIdxRoot.find("_")+1, MassPairIdxRoot.find(".")-MassPairIdxRoot.find("_")-1)
+  int Idx_val = std::stoi(Idx);
 
   //// set sample dir
   char data_dir[64] = "../../../data/RooFitMC/ratio_";
@@ -43,27 +45,28 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
   //// set result dir
   char MCFitResult_dir[128] = "../../../data/MCFitResult/";
   char fitMassRatio_dir[128] = "../../../data/MCFitResult/fitMassRatio/";
-  char result_dir[128] = "../../../data/MCFitResult/fitMassRatio/ratio_";
-
-  strcat(result_dir, fsig_tr.c_str());
-  strcat(result_dir, "/");
-  char ratio_dir[128];
-  strcpy(ratio_dir, result_dir);
+  char result_dir[128] = "../../../data/MCFitResult/fitMassRatio/";
 
   strcat(result_dir, MassPair.c_str());
+  strcat(result_dir, "/");
+  char mass_dir[128];
+  strcpy(mass_dir, result_dir);
+
+  strcat(result_dir, "ratio_");
+  strcat(result_dir, fsig_tr.c_str());
   strcat(result_dir, "/");
 
   //// mkdir if not exist
   mkdir(MCFitResult_dir, 0700);
   mkdir(fitMassRatio_dir, 0700);
-  mkdir(ratio_dir, 0700);
+  mkdir(mass_dir, 0700);
   mkdir(result_dir, 0700);
 
   //// prepare random generator for fit parameter initializtaion
-  TRandom2 *fsig_mumu_gen = new TRandom2(1);
-  TRandom2 *fsig_ee_gen = new TRandom2(3);
-  TRandom2 *mu_mumu_gen = new TRandom2(2);
-  TRandom2 *mu_ee_gen = new TRandom2(4);
+  TRandom2 *fsig_mumu_gen = new TRandom2(Idx_val);
+  TRandom2 *fsig_ee_gen = new TRandom2(Idx_val+1);
+  TRandom2 *mu_mumu_gen = new TRandom2(Idx_val+2);
+  TRandom2 *mu_ee_gen = new TRandom2(Idx_val+3);
 
   Double_t mu_low = 700;
   Double_t mu_high = 2500;
@@ -145,7 +148,7 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
 
   // add distribution
   Double_t fsig_low = 0;
-  Double_t fsig_high = 2*std::stod(fsig_tr);
+  Double_t fsig_high = 1e-1;
   Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
   Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
   RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
