@@ -10,8 +10,6 @@
 // Exponential (Exp) CB distribution. It will be put in testFit.C to compare the result
 // of ExpmCB and single CB
 
-#include <boost/filesystem.hpp>
-
 #include "RooRealVar.h"
 #include "RooDataSet.h"
 #include "RooDataHist.h"
@@ -48,7 +46,7 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
   strcat(result_dir, "/");
 
   //// mkdir if not exist
-  boost::filesystem::create_directories(result_dir);
+  std::filesystem::create_directories(result_dir);
 
   //// prepare random generator for fit parameter initializtaion
   TRandom2 *fsig_mumu_gen = new TRandom2(1);
