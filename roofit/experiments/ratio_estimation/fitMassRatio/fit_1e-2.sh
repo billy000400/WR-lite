@@ -9,7 +9,8 @@ declare -i i=1
 for f in $sampleFileDir/*.root; do
   filename=$(basename $f)
   root -l -b -q RooExpm.cxx RooExpmCB.cxx "fitMassRatio.C(\"$filename\",\"1e-2\")" > /dev/null &
-  if (( $i%7==0 )); then
+  echo "processing $filename"
+  if (( $i%8==0 )); then
       wait
   fi
   i=$(($i + 1))
