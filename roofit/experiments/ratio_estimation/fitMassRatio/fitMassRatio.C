@@ -10,7 +10,7 @@
 // Exponential (Exp) CB distribution. It will be put in testFit.C to compare the result
 // of ExpmCB and single CB
 
-#include <boost/filesystem.hpp>
+#include <sys/stat.h>
 
 #include "RooRealVar.h"
 #include "RooDataSet.h"
