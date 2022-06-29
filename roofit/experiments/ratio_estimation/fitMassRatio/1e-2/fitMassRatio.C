@@ -3,12 +3,14 @@
  * @Date:   08-10-2021
  * @Email:  li000400@umn.edu
  * @Last modified by:   billyli
- * @Last modified time: 06-24-2022
+ * @Last modified time: 06-29-2022
  */
 
 // This script is to figure out the best strategy to fit data into a
 // Exponential (Exp) CB distribution. It will be put in testFit.C to compare the result
 // of ExpmCB and single CB
+
+#include <sys/stat.h>
 
 #include "RooRealVar.h"
 #include "RooDataSet.h"
@@ -21,16 +23,32 @@
 #include "TRandom.h"
 using namespace RooFit;
 
-RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false);
-
 // void testFit_ExpmCB(std::string filePath)
-void fitMassRatio_WR1600N800(int sampleIdx)
+void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
 {
   //// message service
   // RooFit::RooMsgService::instance().getStream(1).removeTopic(NumericIntegration) ;
 
-  //// set data dir
-  char prefix[64] = "../../../../data/ratio_1e-2/WR1600N800/"; // will concatenate with sample name
+  //// parse file name
+  std::string MassPairIdxRoot = sample_file_name.substr(sample_file_name.find("_")+1);
+  std::string MassPair = MassPairIdxRoot.substr(0,MassPairIdxRoot.find("_"));
+
+  //// set sample dir
+  char data_dir[64] = "../../../../data/RooFitMC/ratio_";
+  strcat(data_dir, fsig_tr.c_str());
+  strcat(data_dir, "/");
+  strcat(data_dir, MassPair.c_str());
+  strcat(data_dir, "/");
+
+  //// set result dir
+  char result_dir[128] = "../../../../data/MCFitResult/fitMassRatio/ratio_";
+  strcat(result_dir, fsig_tr.c_str());
+  strcat(result_dir, "/");
+  strcat(result_dir, MassPair.c_str());
+  strcat(result_dir, "/");
+
+  //// mkdir if not exist
+  mkdir(result_dir, 0700);
 
   //// prepare random generator for fit parameter initializtaion
   TRandom2 *fsig_mumu_gen = new TRandom2(1);
@@ -117,8 +135,8 @@ void fitMassRatio_WR1600N800(int sampleIdx)
 
 
   // add distribution
-  Double_t fsig_low = 5e-3;
-  Double_t fsig_high = 15e-3;
+  Double_t fsig_low = 0;
+  Double_t fsig_high = 2e-2;
   Double_t fsig_mumu_init = fsig_mumu_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
   Double_t fsig_ee_init = fsig_ee_gen->Rndm()*(fsig_high-fsig_low)+fsig_low;
   RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", fsig_mumu_init, fsig_low, fsig_high);
@@ -128,14 +146,9 @@ void fitMassRatio_WR1600N800(int sampleIdx)
   RooAddPdf *model_mumu = new RooAddPdf("composite_mumu", "model mumu", RooArgList(*WR_mumujj, *bg_mumujj), *fsig_mumu);
 
   // prepare TFile
-  char sample_file_name[32] = "RooFitMC_WR1600N800_";
-  char sample_index_str[32];
-  sprintf(sample_index_str, "%d", sampleIdx);
-  strcat(sample_file_name, sample_index_str);
-  char sample_file_path[32];
-  strcpy(sample_file_path, prefix);
-  strcat(sample_file_path, sample_file_name);
-  strcat(sample_file_path, ".root");
+  char sample_file_path[128];
+  strcpy(sample_file_path, data_dir);
+  strcat(sample_file_path, sample_file_name.c_str());
 
   // file = TFile::Open(fname.Data()); if(!file||file->IsZombie()){delete file; continue;}
   TFile sample_file = TFile(sample_file_path, "READ");
@@ -151,56 +164,51 @@ void fitMassRatio_WR1600N800(int sampleIdx)
                 RooArgSet(*eejjMass),\
                 ImportFromFile(sample_file_path, "composite_eeData"));
 
-  TFile fResult_file("test_1e-2.root","RECREATE");
-  TTree tree("fit_result","WR1600 N800 ratio");
-
-  double fsig_mumu_val = -1;
-  double fsig_ee_val = -1;
-  double mu_mumu_val = -1;
-  double mu_ee_val = -1;
-
-  tree.Branch("fsig_mumu", &fsig_mumu_val);
-  tree.Branch("fsig_ee", &fsig_ee_val);
-  tree.Branch("mu_mumu", &mu_mumu_val);
-  tree.Branch("mu_ee", &mu_ee_val);
+  char result_file_path[128];
+  strcpy(result_file_path, result_dir);
+  char result_file_name[64] = "MCFitResult_";
+  strcat(result_file_name, MassPairIdxRoot.c_str());
+  strcat(result_file_path, result_file_name);
+  TFile fResult_file(result_file_path,"RECREATE");
+  TTree tree("fit_result","mass ratio and their uncertainties");
 
   RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(700,2500));
   RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(700,2500));
 
-  fsig_mumu_val = fsig_mumu->getVal();
-  fsig_ee_val = fsig_ee->getVal();
+  double fsig_mumu_val = fsig_mumu->getVal();
+  double fsig_mumu_hi = fsig_mumu->getAsymErrorHi();
+  double fsig_mumu_lo = fsig_mumu->getAsymErrorLo();
 
-  mu_mumu_val = mu_mm->getVal();
-  mu_ee_val = mu_ee->getVal();
+  double fsig_ee_val = fsig_ee->getVal();
+  double fsig_ee_hi = fsig_ee->getAsymErrorHi();
+  double fsig_ee_lo = fsig_ee->getAsymErrorLo();
+
+  double mu_mumu_val = mu_mm->getVal();
+  double mu_mumu_hi = mu_mm->getAsymErrorHi();
+  double mu_mumu_lo = mu_mm->getAsymErrorLo();
+
+  double mu_ee_val = mu_ee->getVal();
+  double mu_ee_hi = mu_ee->getAsymErrorHi();
+  double mu_ee_lo = mu_ee->getAsymErrorLo();
+
+  tree.Branch("fsig_mumu_val", &fsig_mumu_val);
+  tree.Branch("fsig_mumu_hi", &fsig_mumu_hi);
+  tree.Branch("fsig_mumu_lo", &fsig_mumu_lo);
+
+  tree.Branch("fsig_ee_val", &fsig_ee_val);
+  tree.Branch("fsig_ee_hi", &fsig_ee_hi);
+  tree.Branch("fsig_ee_lo", &fsig_ee_lo);
+
+  tree.Branch("mu_mumu_val", &mu_mumu_val);
+  tree.Branch("mu_mumu_hi", &mu_mumu_hi);
+  tree.Branch("mu_mumu_lo", &mu_mumu_lo);
+
+  tree.Branch("mu_ee_val", &mu_ee_val);
+  tree.Branch("mu_ee_hi", &mu_ee_hi);
+  tree.Branch("mu_ee_lo", &mu_ee_lo);
 
   tree.Fill();
 
   fResult_file.Write();
   fResult_file.Close();
-}
-
-RooDataSet Hist2Pulls(RooHist* pullPlot, std::string label, bool print=false)
-{
-  RooRealVar* pullVar = new RooRealVar("pullVar", label.c_str(), -100.0, 100.0);
-  RooDataSet pulls("pulls", "pulls", RooArgSet(*pullVar));
-  TH1* hist;
-
-  for (Int_t i=0; i<100; i++){
-    Double_t binX;
-    Double_t pull;
-    pullPlot->GetPoint(i, binX, pull);
-
-    if (print==true)
-    {
-      std::ofstream csv;
-      csv.open("pulls.csv", std::ios_base::app);
-      csv << pull << "\n";
-    }
-
-
-    RooRealVar pull_i = RooRealVar("pullVar", label.c_str(), pull);
-    pulls.add(RooArgSet(pull_i));
-  }
-
-  return pulls;
 }
