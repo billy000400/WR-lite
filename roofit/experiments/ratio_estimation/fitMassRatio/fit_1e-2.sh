@@ -8,9 +8,9 @@ sampleFileDir="../../../data/RooFitMC/ratio_1e-2/WR1600N800/"
 declare -i i=1
 for f in $sampleFileDir/*.root; do
   filename=$(basename $f)
-  root -l -b -q RooExpm.cxx RooExpmCB.cxx "fitMassRatio.C(\"$filename\",\"1e-2\")"
+  root -l -b -q RooExpm.cxx RooExpmCB.cxx "fitMassRatio.C(\"$filename\",\"1e-2\")" > /dev/null &
   if (( $i%7==0 )); then
       wait
   fi
-  i = i+1
+  i = $i+1
 done
