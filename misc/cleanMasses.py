@@ -2,7 +2,7 @@
 # @Date:   05-14-2022
 # @Email:  li000400@umn.edu
 # @Last modified by:   billyli
-# @Last modified time: 06-09-2022
+# @Last modified time: 06-28-2022
 
 
 
@@ -34,12 +34,15 @@ def main():
     analysisFolder = "analysis/"
 
     mumujjNtupleName = "WR_RecoMass_mumu"
-    mumujjMassBranch = "WR_RecoMass_mumu"
+    mumujjRecoMassBranch = "WR_RecoMass_mumu"
     mumujjEventWeightBranch = "eventWeight"
 
     eejjNtupleName = "WR_RecoMass_ee"
-    eejjMassBranch = "WR_RecoMass_ee"
+    eejjRecoMassBranch = "WR_RecoMass_ee"
     eejjEventWeightBranch = "eventWeight"
+
+    wrGenMassNtupleName = "WR_GenMass"
+    wrGenMassBranch = "WR_GenMass"
 
     #TTree file names
     fileNames = ["WR800N200", "WR800N400", "WR800N600", "WR800N700",
@@ -70,8 +73,7 @@ def main():
     	tree = ROOT.TTree("full"+files, "full"+files)
         mumujjNtuple_new = ROOT.TNtuple("invm_mumujj", "invm reco from WR mumujj", "invm_mumujj:rowWeight")
         eejjNtuple_new = ROOT.TNtuple("invm_eejj", "invm reco from WR eejj", "invm_eejj:rowWeight")
-        mumujjLogMassNtuple_new = ROOT.TNtuple("log(invm)_mumujj", "log invm reco from DY mumujj", "log_invm_mumujj:rowWeight")
-        eejjLogMassNtuple_new = ROOT.TNtuple("log(invm)_eejj", "log invm reco from DY eejj", "log_invm_eejj:rowWeight")
+        wrGenMassNtuple_new = ROOT.TNtuple("WR_GenMass", "gen mass from simulation", "WR_GenMass")
 
     	# create 1 dimensional float arrays as fill variables, in this way the float
     	# array serves as a pointer which can be passed to the branch
@@ -131,31 +133,38 @@ def main():
         # fill lljjRecoMass Ntuple
         mumujjNtuple = rootfile.Get(analysisFolder+mumujjNtupleName)
         eejjNtuple = rootfile.Get(analysisFolder+eejjNtupleName)
+        wrGenMassNtuple = rootfile.Get(analysisFolder+wrGenMassNtupleName)
 
-        mumujjMassArray = tree2array(mumujjNtuple, branches=mumujjMassBranch)
+        mumujjMassArray = tree2array(mumujjNtuple, branches=mumujjRecoMassBranch)
         mumujjEventWeightArray = tree2array(mumujjNtuple, branches=mumujjEventWeightBranch)
         mumujjRowWeightArray = mumujjEventWeightArray*xSec/counts
 
-        eejjMassArray = tree2array(eejjNtuple, branches=eejjMassBranch)
+        eejjMassArray = tree2array(eejjNtuple, branches=eejjRecoMassBranch)
         eejjEventWeightArray = tree2array(eejjNtuple, branches=eejjEventWeightBranch)
         eejjRowWeightArray = eejjEventWeightArray*xSec/counts
 
+        wrGenMassArray = tree2array(wrGenMassNtuple, branches=wrGenMassBranch)
+
         for i in range(mumujjMassArray.shape[0]):
             mumujjNtuple_new.Fill(mumujjMassArray[i], mumujjRowWeightArray[i])
-            mumujjLogMassNtuple_new.Fill(np.log(mumujjMassArray[i]), mumujjRowWeightArray[i])
+
         for i in range(eejjMassArray.shape[0]):
             eejjNtuple_new.Fill(eejjMassArray[i], eejjRowWeightArray[i])
-            eejjLogMassNtuple_new.Fill(np.log(eejjMassArray[i]), eejjRowWeightArray[i])
 
-        eejjMassArray_new = tree2array(eejjNtuple_new, branches="invm_eejj")
-        eejjRowWeightArray_new = tree2array(eejjNtuple_new, branches="rowWeight")
-        np.save("../../python_analysis/data/"+files+"_eejjMassArray.npy", eejjMassArray_new)
-        np.save("../../python_analysis/data/"+files+"_eejjRowWeightArray.npy", eejjRowWeightArray_new)
+        for i in range(wrGenMassArray.shape[0]):
+            wrGenMassNtuple_new.Fill(wrGenMassArray[i])
 
-        mumujjMassArray_new = tree2array(mumujjNtuple_new, branches="invm_mumujj")
-        mumujjRowWeightArray_new = tree2array(mumujjNtuple_new, branches="rowWeight")
-        np.save("../../python_analysis/data/"+files+"_mumujjMassArray.npy", mumujjMassArray_new)
-        np.save("../../python_analysis/data/"+files+"_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
+
+        #### uncomment those lines if you want to save numpy arrays
+        # eejjMassArray_new = tree2array(eejjNtuple_new, branches="invm_eejj")
+        # eejjRowWeightArray_new = tree2array(eejjNtuple_new, branches="rowWeight")
+        # np.save("../../python_analysis/data/"+files+"_eejjMassArray.npy", eejjMassArray_new)
+        # np.save("../../python_analysis/data/"+files+"_eejjRowWeightArray.npy", eejjRowWeightArray_new)
+        #
+        # mumujjMassArray_new = tree2array(mumujjNtuple_new, branches="invm_mumujj")
+        # mumujjRowWeightArray_new = tree2array(mumujjNtuple_new, branches="rowWeight")
+        # np.save("../../python_analysis/data/"+files+"_mumujjMassArray.npy", mumujjMassArray_new)
+        # np.save("../../python_analysis/data/"+files+"_mumujjRowWeightArray.npy", mumujjRowWeightArray_new)
 
 
     	# write the tree into the output file and close the file
