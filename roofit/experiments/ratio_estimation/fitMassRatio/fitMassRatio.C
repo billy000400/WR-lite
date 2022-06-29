@@ -185,24 +185,24 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
   TFile fResult_file(result_file_path,"RECREATE");
   TTree tree("fit_result","mass ratio and their uncertainties");
 
-  RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(700,2500));
-  RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(700,2500));
+  RooFitResult *r_mumu = model_mumu->fitTo(ds_mumujj, Save(), SumW2Error(kTRUE), Range(700,2500), Strategy(2), Minos(kTRUE));
+  RooFitResult *r_ee= model_ee->fitTo(ds_eejj, Save(), SumW2Error(kTRUE), Range(700,2500), Strategy(2), Minos(kTRUE));
 
   double fsig_mumu_val = fsig_mumu->getVal();
-  double fsig_mumu_hi = fsig_mumu->getErrorHi();
-  double fsig_mumu_lo = fsig_mumu->getErrorLo();
+  double fsig_mumu_hi = fsig_mumu->getAsymErrorHi();
+  double fsig_mumu_lo = fsig_mumu->getAsymErrorLo();
 
   double fsig_ee_val = fsig_ee->getVal();
-  double fsig_ee_hi = fsig_ee->getErrorHi();
-  double fsig_ee_lo = fsig_ee->getErrorLo();
+  double fsig_ee_hi = fsig_ee->getAsymErrorHi();
+  double fsig_ee_lo = fsig_ee->getAsymErrorLo();
 
   double mu_mumu_val = mu_mm->getVal();
-  double mu_mumu_hi = mu_mm->getErrorHi();
-  double mu_mumu_lo = mu_mm->getErrorLo();
+  double mu_mumu_hi = mu_mm->getAsymErrorHi();
+  double mu_mumu_lo = mu_mm->getAsymErrorLo();
 
   double mu_ee_val = mu_ee->getVal();
-  double mu_ee_hi = mu_ee->getErrorHi();
-  double mu_ee_lo = mu_ee->getErrorLo();
+  double mu_ee_hi = mu_ee->getAsymErrorHi();
+  double mu_ee_lo = mu_ee->getAsymErrorLo();
 
   tree.Branch("fsig_mumu_val", &fsig_mumu_val);
   tree.Branch("fsig_mumu_hi", &fsig_mumu_hi);
