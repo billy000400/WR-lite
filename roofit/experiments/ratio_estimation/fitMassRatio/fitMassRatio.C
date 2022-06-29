@@ -32,7 +32,7 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
   //// parse file name
   std::string MassPairIdxRoot = sample_file_name.substr(sample_file_name.find("_")+1);
   std::string MassPair = MassPairIdxRoot.substr(0,MassPairIdxRoot.find("_"));
-  std::string Idx = MassPairIdxRoot.substr(MassPairIdxRoot.find("_")+1, MassPairIdxRoot.find(".")-MassPairIdxRoot.find("_")-1)
+  std::string Idx = MassPairIdxRoot.substr(MassPairIdxRoot.find("_")+1, MassPairIdxRoot.find(".")-MassPairIdxRoot.find("_")-1);
   int Idx_val = std::stoi(Idx);
 
   //// set sample dir
