@@ -153,7 +153,8 @@ void fitMassRatio(std::string sample_file_name, std::string fsig_tr)
   // file = TFile::Open(fname.Data()); if(!file||file->IsZombie()){delete file; continue;}
   TFile sample_file = TFile(sample_file_path, "READ");
   if (!sample_file.IsOpen() || sample_file.IsZombie()){
-      continue;
+      std::cout << "Zombie file " << sample_file_path << std::endl;
+      return;
   }
 
   RooDataSet ds_mumujj("ds_mumujj", "ds_mumujj",\
