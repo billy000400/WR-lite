@@ -6,7 +6,7 @@
 
 
 # this script is for calcualting the effective fsig at (1600, 800)
-# from the 95 CL Xsec in the old paper
+# from the published Xsec expectation (see arxiv 2112.03949)
 xSec_mumu = 0.8 #/fb
 xSec_ee = 1.2 #/fb
 lumi = 137 #/fb
