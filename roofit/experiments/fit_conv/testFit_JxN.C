@@ -88,8 +88,22 @@ void testFit_JxN()
   eejjMass_WR->setBins(10000,"fft");
   RooFFTConvPdf conv_ee("conv_ee", "conv ee", *eejjMass_WR, *gen_ee, *res_ee);
   //// fit distribution to data
-  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(1000,3000));
-  // RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
+  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Strategy(2), Range(1000,3000));
+  RooFitResult *r_ee = conv_ee.fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Strategy(2), Range(1000,3000));
+  //// test plot
+  RooPlot *frame_mm = mumujjMass_WR->frame("Johnson x Gaussian mumu");
+  RooPlot *frame_ee = eejjMass_WR->frame("Johnson x Gaussian ee");
+  ds_WR_mumujj.plotOn(frame_mm, Binning(100));
+  ds_WR_eejj.plotOn(frame_ee, Binning(100));
+  conv_mm.plotOn(frame_mm, Binning(100));
+  conv_ee.plotOn(frame_ee, Binning(100));
+
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 2000, 1000);
+  c->Divide(1,2);
+  c->cd(1);
+  frame_mm->Draw();
+  c->cd(2);
+  frame_ee->Draw();
   //
   // std::cout << "BELOW IS THE RESULT" << std::endl;
   // r1->Print();
