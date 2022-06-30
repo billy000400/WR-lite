@@ -73,7 +73,7 @@ RooJohnson::RooJohnson(const char *name, const char *title,
   _delta("delta", "Scale of transformation", this, delta),
   _massThreshold(massThreshold)
 {
-  RooHelpers::checkRangeOfParameters(this, {&lambda, &delta}, 0.);
+  //RooHelpers::checkRangeOfParameters(this, {&lambda, &delta}, 0.);
 }
 
 
