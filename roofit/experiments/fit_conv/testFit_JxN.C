@@ -78,8 +78,8 @@ void testFit_JxN()
                 *mu, *lm, *gm, *dt, massThreshold);
   // preparing the resolution model
   RooRealVar *mu_g = new RooRealVar("mu_g", "mu for gaussian res", 0.0);
-  RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 200.0, 5.0, 2000.0);
-  RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 200.0, 5.0, 2000.0);
+  RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 200.0);
+  RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 100.0, 5.0, 200.0);
   RooGaussian* res_mm = new RooGaussian("res_mm", "Gaussian mm", *mumujjMass_WR, *mu_g, *sigma_mm);
   RooGaussian* res_ee = new RooGaussian("res_ee", "Gaussian ee", *eejjMass_WR, *mu_g, *sigma_ee);
   // conv model
