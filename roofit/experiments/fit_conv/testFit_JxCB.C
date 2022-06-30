@@ -103,8 +103,8 @@ void testFit_JxCB()
   ds_WR_mumujj.plotOn(frame_mm, Binning(100));
   ds_WR_eejj.plotOn(frame_ee, Binning(100));
 
-  res_mm->plotOn(frame_mm, LineStyle(kDashed));
-  res_ee->plotOn(frame_ee, LineStyle(kDashed));
+  // res_mm->plotOn(frame_mm, LineStyle(kDashed));
+  // res_ee->plotOn(frame_ee, LineStyle(kDashed));
 
   conv_mm.plotOn(frame_mm);
   conv_ee.plotOn(frame_ee);
