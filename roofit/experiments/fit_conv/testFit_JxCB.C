@@ -77,14 +77,14 @@ void testFit_JxCB()
   RooJohnson* gen_ee = new RooJohnson("gen_ee", "RooJohnson ee", *eejjMass_WR,\
                 *mu, *lm, *gm, *dt, massThreshold);
   // preparing the resolution model
-  RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 2000.0);
+  RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 0.0);
 
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 200.0);
-  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1.5, 0.01, 20);
+  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1.5, 0.2, 20);
   RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 100);
 
   RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 100.0, 5.0, 200.0);
-  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 1.5, 0.01, 20);
+  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 1.5, 0.2, 20);
   RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 100);
 
   RooCBShape* res_mm = new RooCBShape("res_mm", "Gaussian mm", *mumujjMass_WR, *m0, *sigma_mm, *alpha_mm, *n_mm);
@@ -103,11 +103,14 @@ void testFit_JxCB()
   ds_WR_mumujj.plotOn(frame_mm, Binning(100));
   ds_WR_eejj.plotOn(frame_ee, Binning(100));
 
-  res_mm->plotOn(frame_mm, LineStyle(kDashed));
-  res_ee->plotOn(frame_ee, LineStyle(kDashed));
+
 
   conv_mm.plotOn(frame_mm);
   conv_ee.plotOn(frame_ee);
+
+  m0->setVal(2000.0);
+  res_mm->plotOn(frame_mm, LineStyle(kDashed));
+  res_ee->plotOn(frame_ee, LineStyle(kDashed));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 500);
   c->Divide(2,1);
