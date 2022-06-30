@@ -55,7 +55,7 @@ void testFit_Johnson(std::string filePath)
 
   // Plot on frames
   // plot data on frames
-  ds_WR_GenMass.plotOn(frame, Binning(50));
+  ds_WR_GenMass.plotOn(frame, Binning(100));
 
   //// Preparing probability distirbution functions for fitting
   // preparing the Johnson distributions
