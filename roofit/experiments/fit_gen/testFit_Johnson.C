@@ -44,7 +44,7 @@ void testFit_Johnson(std::string filePath)
 
   std::string prefix = "../../../analysis/allEvents/";
   RooRealVar* WR_GenMass = new RooRealVar("WR_GenMass",\
-                    "gen mass extracted from simulation",WRGenMean*0.45, WRGenMean*1.55);
+                    "gen mass extracted from simulation",NGenMean, 3000);
 
   RooDataSet ds_WR_GenMass("ds_WR_GenMass", "ds_WR_GenMass",
                 RooArgSet(*WR_GenMass),
