@@ -22,6 +22,7 @@
 #include "RooDataHist.h"
 #include "RooGaussian.h"
 #include "RooFitResult.h"
+#include "RooJohnson.h"
 
 using namespace RooFit;
 
