@@ -95,8 +95,8 @@ void testFit_JxCB()
   eejjMass_WR->setBins(10000,"fft");
   RooFFTConvPdf conv_ee("conv_ee", "conv ee", *eejjMass_WR, *gen_ee, *res_ee);
   //// fit distribution to data
-  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Strategy(2), Range(1000,3000));
-  RooFitResult *r_ee = conv_ee.fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Strategy(2), Range(1000,3000));
+  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Strategy(2), Range(500,3500));
+  RooFitResult *r_ee = conv_ee.fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Strategy(2), Range(500,3500));
   //// test plot
   RooPlot *frame_mm = mumujjMass_WR->frame("Johnson x Gaussian mumu");
   RooPlot *frame_ee = eejjMass_WR->frame("Johnson x Gaussian ee");
