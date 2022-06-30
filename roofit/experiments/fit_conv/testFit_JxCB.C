@@ -80,12 +80,12 @@ void testFit_JxCB()
   RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 0.0);
 
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 200.0);
-  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1.5, 0.01, 50);
-  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 10);
+  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1.5, 0.01, 20);
+  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 100);
 
   RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 100.0, 5.0, 200.0);
-  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 1.5, 0.01, 50);
-  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 10);
+  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 1.5, 0.01, 20);
+  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 100);
 
   RooCBShape* res_mm = new RooCBShape("res_mm", "Gaussian mm", *mumujjMass_WR, *m0, *sigma_mm, *alpha_mm, *n_mm);
   RooCBShape* res_ee = new RooCBShape("res_ee", "Gaussian ee", *eejjMass_WR, *m0, *sigma_ee, *alpha_ee, *n_ee);
@@ -95,8 +95,8 @@ void testFit_JxCB()
   eejjMass_WR->setBins(10000,"fft");
   RooFFTConvPdf conv_ee("conv_ee", "conv ee", *eejjMass_WR, *gen_ee, *res_ee);
   //// fit distribution to data
-  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Strategy(2), Range(500,3500));
-  RooFitResult *r_ee = conv_ee.fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Strategy(2), Range(500,3500));
+  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Offset(kTRUE), Strategy(2), Range(700,3200));
+  RooFitResult *r_ee = conv_ee.fitTo(ds_WR_eejj, Save(), SumW2Error(kTRUE), Offset(kTRUE), Strategy(2), Range(700,3200));
   //// test plot
   RooPlot *frame_mm = mumujjMass_WR->frame("Johnson x Gaussian mumu");
   RooPlot *frame_ee = eejjMass_WR->frame("Johnson x Gaussian ee");
