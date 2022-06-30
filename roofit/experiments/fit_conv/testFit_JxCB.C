@@ -80,12 +80,12 @@ void testFit_JxCB()
   RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 0.0);
 
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 200.0);
-  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 4, 0.5, 10);
-  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 50);
+  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 4, 0.5, 20);
+  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 10, 0.5, 50);
 
   RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 100.0, 5.0, 200.0);
-  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 4, 0.5, 10);
-  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 50);
+  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 4, 0.5, 20);
+  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 10, 0.5, 50);
 
   RooCBShape* res_mm = new RooCBShape("res_mm", "Gaussian mm", *mumujjMass_WR, *m0, *sigma_mm, *alpha_mm, *n_mm);
   RooCBShape* res_ee = new RooCBShape("res_ee", "Gaussian ee", *eejjMass_WR, *m0, *sigma_ee, *alpha_ee, *n_ee);
