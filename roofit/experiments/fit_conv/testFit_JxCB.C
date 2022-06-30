@@ -81,11 +81,11 @@ void testFit_JxCB()
 
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 200.0);
   RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1.5, 0.2, 20);
-  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 100);
+  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 3);
 
   RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 100.0, 5.0, 200.0);
   RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 1.5, 0.2, 20);
-  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 100);
+  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 3);
 
   RooCBShape* res_mm = new RooCBShape("res_mm", "Gaussian mm", *mumujjMass_WR, *m0, *sigma_mm, *alpha_mm, *n_mm);
   RooCBShape* res_ee = new RooCBShape("res_ee", "Gaussian ee", *eejjMass_WR, *m0, *sigma_ee, *alpha_ee, *n_ee);
@@ -103,8 +103,8 @@ void testFit_JxCB()
   ds_WR_mumujj.plotOn(frame_mm, Binning(100));
   ds_WR_eejj.plotOn(frame_ee, Binning(100));
 
-  gen_mm->plotOn(frame_mm, LineColor(kRed));
-  gen_ee->plotOn(frame_ee, LineColor(kRed));
+  // gen_mm->plotOn(frame_mm, LineColor(kRed));
+  // gen_ee->plotOn(frame_ee, LineColor(kRed));
 
   conv_mm.plotOn(frame_mm);
   conv_ee.plotOn(frame_ee);
