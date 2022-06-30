@@ -66,12 +66,22 @@ void testFit_JxN()
 
 
   //// Preparing probability distirbution functions for fitting
-  // preparing the signal distributions
-  // RooExpmCB* WR_ee_ExpmCB = ExpmCB_init(eejjMass_all, "eejj");
-  // RooExpmCB* WR_mumu_ExpmCB = ExpmCB_init(mumujjMass_all, "mumujj");
-  // // preparing the background model
-  // RooExpm* bg_ee = Expm_init(eejjMass_all, "eejj");
-  // RooExpm* bg_mumu = Expm_init(mumujjMass_all, "mumujj");
+  // preparing the gen distributions
+  RooRealVar *mu = new RooRealVar("mu", "mu", 1.99438e+03);
+  RooRealVar *lm = new RooRealVar("lambda", "lambda", 1.79013e+01);
+  RooRealVar *gm = new RooRealVar("gamma", "gamma",  -5.54826e-01);
+  RooRealVar *dt = new RooRealVar("delta", "delta", 6.43057e-01);
+  double massThreshold = 1900;
+  RooJohnson* gen_mm = new RooJohnson("gen_mm", "RooJohnson mm", *mumujjMass_WR,\
+                *mu, *lm, *gm, *dt, massThreshold);
+  RooJohnson* gen_ee = new RooJohnson("gen_ee", "RooJohnson ee", *eejjMass_WR,\
+                *mu, *lm, *gm, *dt, massThreshold);
+  // // preparing the resolution model
+  RooRealVar *mu_g = new RooRealVar("mu_g", "mu for gaussian res", 0.0);
+  RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 50.0, 5.0, 200.0);
+  RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 50.0, 5.0, 200.0);
+  RooGaussian* res_mm = new RooGaussian("res_mm", "Gaussian mm", *mumujjMass_WR, *mu_g, *sigma_mm);
+  RooGaussian* res_ee = new RooGaussian("res_ee", "Gaussian ee", *eejjMass_WR, *mu_g, *sigma_ee);
   // // add model
   // RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 0.5, 0., 1.);
   // RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 0.5, 0., 1.);
