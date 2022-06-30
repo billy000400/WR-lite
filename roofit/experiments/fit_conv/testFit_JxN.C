@@ -78,8 +78,8 @@ void testFit_JxN()
                 *mu, *lm, *gm, *dt, massThreshold);
   // preparing the resolution model
   RooRealVar *mu_g = new RooRealVar("mu_g", "mu for gaussian res", 0.0);
-  RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 50.0, 5.0, 200.0);
-  RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 50.0, 5.0, 200.0);
+  RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 500.0, 5.0, 2000.0);
+  RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 500.0, 5.0, 2000.0);
   RooGaussian* res_mm = new RooGaussian("res_mm", "Gaussian mm", *mumujjMass_WR, *mu_g, *sigma_mm);
   RooGaussian* res_ee = new RooGaussian("res_ee", "Gaussian ee", *eejjMass_WR, *mu_g, *sigma_ee);
   // conv model
@@ -99,7 +99,7 @@ void testFit_JxN()
   conv_ee.plotOn(frame_ee, Binning(100));
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 2000, 1000);
-  c->Divide(1,2);
+  c->Divide(2,1);
   c->cd(1);
   frame_mm->Draw();
   c->cd(2);
