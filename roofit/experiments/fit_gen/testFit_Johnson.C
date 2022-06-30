@@ -51,7 +51,7 @@ void testFit_Johnson(std::string filePath)
                 ImportFromFile((prefix+filePath).c_str(), "WR_GenMass"));
 
   //// Prepare frames for plotting
-  RooPlot *frame= eejjMass_WR->frame(Title(("RooJohnson "+filePath).c_str()));
+  RooPlot *frame= WR_GenMass->frame(Title(("RooJohnson "+filePath).c_str()));
 
   // Plot on frames
   // plot data on frames
