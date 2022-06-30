@@ -77,7 +77,7 @@ void testFit_JxCB()
   RooJohnson* gen_ee = new RooJohnson("gen_ee", "RooJohnson ee", *eejjMass_WR,\
                 *mu, *lm, *gm, *dt, massThreshold);
   // preparing the resolution model
-  RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 0.0);
+  RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 2000.0);
 
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 200.0);
   RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1.5, 0.01, 20);
@@ -103,8 +103,8 @@ void testFit_JxCB()
   ds_WR_mumujj.plotOn(frame_mm, Binning(100));
   ds_WR_eejj.plotOn(frame_ee, Binning(100));
 
-  // res_mm->plotOn(frame_mm, LineStyle(kDashed));
-  // res_ee->plotOn(frame_ee, LineStyle(kDashed));
+  res_mm->plotOn(frame_mm, LineStyle(kDashed));
+  res_ee->plotOn(frame_ee, LineStyle(kDashed));
 
   conv_mm.plotOn(frame_mm);
   conv_ee.plotOn(frame_ee);
