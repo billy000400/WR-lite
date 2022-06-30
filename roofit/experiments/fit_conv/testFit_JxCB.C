@@ -103,8 +103,8 @@ void testFit_JxCB()
   ds_WR_mumujj.plotOn(frame_mm, Binning(100));
   ds_WR_eejj.plotOn(frame_ee, Binning(100));
 
-  gen_mm.plotOn(frame_mm, LineColor(kRed));
-  gen_ee.plotOn(frame_ee, LineColor(kRed));
+  gen_mm->plotOn(frame_mm, LineColor(kRed));
+  gen_ee->plotOn(frame_ee, LineColor(kRed));
 
   conv_mm.plotOn(frame_mm);
   conv_ee.plotOn(frame_ee);
