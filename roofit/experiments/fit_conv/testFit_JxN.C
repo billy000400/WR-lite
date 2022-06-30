@@ -88,7 +88,7 @@ void testFit_JxN()
   eejjMass_WR->setBins(10000,"fft");
   RooFFTConvPdf conv_ee("conv_ee", "conv ee", *eejjMass_WR, *gen_ee, *res_ee);
   //// fit distribution to data
-  RooFitResult r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(1000,3000));
+  RooFitResult *r_mm = conv_mm.fitTo(ds_WR_mumujj, Save(), SumW2Error(kTRUE), Range(1000,3000));
   // RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
   //
   // std::cout << "BELOW IS THE RESULT" << std::endl;
