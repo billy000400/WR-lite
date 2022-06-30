@@ -84,7 +84,7 @@ void testFit_JxN()
   RooGaussian* res_ee = new RooGaussian("res_ee", "Gaussian ee", *eejjMass_WR, *mu_g, *sigma_ee);
   // conv model
   mumujjMass_WR->setBins(10000,"fft");
-  RooFFTConvPdf conv_mm("conv_mm", "conv mm", mumujjMass_WR, gen_mm, res_mm);
+  RooFFTConvPdf conv_mm("conv_mm", "conv mm", *mumujjMass_WR, *gen_mm, *res_mm);
   // //// fit distribution to data
   // RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
   // RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
