@@ -43,7 +43,7 @@
 
 #include "RooRandom.h"
 //#include "RooHelpers.h"
-#include "RooBatchCompute.h"
+//#include "RooBatchCompute.h"
 
 #include <cmath>
 #include "TMath.h"
