@@ -76,19 +76,15 @@ void testFit_JxN()
                 *mu, *lm, *gm, *dt, massThreshold);
   RooJohnson* gen_ee = new RooJohnson("gen_ee", "RooJohnson ee", *eejjMass_WR,\
                 *mu, *lm, *gm, *dt, massThreshold);
-  // // preparing the resolution model
+  // preparing the resolution model
   RooRealVar *mu_g = new RooRealVar("mu_g", "mu for gaussian res", 0.0);
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 50.0, 5.0, 200.0);
   RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 50.0, 5.0, 200.0);
   RooGaussian* res_mm = new RooGaussian("res_mm", "Gaussian mm", *mumujjMass_WR, *mu_g, *sigma_mm);
   RooGaussian* res_ee = new RooGaussian("res_ee", "Gaussian ee", *eejjMass_WR, *mu_g, *sigma_ee);
-  // // add model
-  // RooRealVar *fsig_ee = new RooRealVar("fsig_ee", "signal fraction eejj", 0.5, 0., 1.);
-  // RooRealVar *fsig_mumu = new RooRealVar("fsig_mumu", "signal fraction mumujj", 0.5, 0., 1.);
-  // RooAddPdf *model_ee = new RooAddPdf("model ee", "model ee", RooArgList(*WR_ee_ExpmCB, *bg_ee), *fsig_ee);
-  // RooAddPdf *model_mumu = new RooAddPdf("model mumu", "model mumu", RooArgList(*WR_mumu_ExpmCB, *bg_mumu), *fsig_mumu);
-  //
-  //
+  // conv model
+  mumujjMass_WR->setBins("fft", 10000);
+  RooFFTConvPdf conv_mm("conv_mm", "conv mm", mumujjMass_WR, gen_mm, res_mm);
   // //// fit distribution to data
   // RooFitResult *r1 = model_ee->fitTo(ds_all_eejj, Save(), SumW2Error(kTRUE), Range(800,2000));
   // RooFitResult *r2 = model_mumu->fitTo(ds_all_mumujj, Save(), SumW2Error(kTRUE), Range(800,2000));
