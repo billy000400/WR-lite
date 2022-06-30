@@ -22,7 +22,6 @@
 #include "RooDataHist.h"
 #include "RooGaussian.h"
 #include "RooFitResult.h"
-#include "RooJohnson.h"
 
 using namespace RooFit;
 
@@ -60,13 +59,13 @@ void testFit_Johnson(std::string filePath)
 
   //// Preparing probability distirbution functions for fitting
   // preparing the Johnson distributions
-  RooRealVar *mu("mu", "mu", WRGenMean, 0.8*WRGenMean, 1.2*WRGenMean);
-  RooRealVar *lambda("lambda", "lambda", 50, 10, 500);
-  RooRealVar *gamma("gamma", "gamma", 5, 1, 20);
-  RooRealVar *delta("delta", "delta", 2, 1, 20);
+  RooRealVar *mu = new RooRealVar("mu", "mu", WRGenMean, 0.8*WRGenMean, 1.2*WRGenMean);
+  RooRealVar *lm = new RooRealVar("lambda", "lambda", 50, 10, 500);
+  RooRealVar *gm = new RooRealVar("gamma", "gamma", 5, 1, 20);
+  RooRealVar *dt = new RooRealVar("delta", "delta", 2, 1, 20);
   double massThreshold = NGenMean;
-  RooJohnson* model("RooJohnson", "RooJohnson", *WR_GenMass,\
-                *mu, *lambda, *gamma, *delta, massThreshold);
+  RooJohnson* model = new RooJohnson("RooJohnson", "RooJohnson", *WR_GenMass,\
+                *mu, *lm, *gm, *dt, massThreshold);
 
 
   //// fit distribution to data
