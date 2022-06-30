@@ -70,8 +70,8 @@ void testFit_Johnson(std::string filePath)
 
   //// fit distribution to data
   RooFitResult *r = model->fitTo(ds_WR_GenMass, Save(kTRUE),\
-                                  Range(NGenMean,WRGenMean*1.55), Offset(kTRUE),\
-                                  Strategy(2), Strategy(2));
+                                  Range(NGenMean,WRGenMean*1.3), Offset(kTRUE),\
+                                  Strategy(2));
 
   model->plotOn(frame);
 
