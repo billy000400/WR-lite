@@ -44,7 +44,7 @@ void testFit_Johnson(std::string filePath)
 
   std::string prefix = "../../../analysis/allEvents/";
   RooRealVar* WR_GenMass = new RooRealVar("WR_GenMass",\
-                    "gen mass extracted from simulation",NGenMean, 3000);
+                    "gen mass extracted from simulation",NGenMean, 1.55*WRGenMean);
 
   RooDataSet ds_WR_GenMass("ds_WR_GenMass", "ds_WR_GenMass",
                 RooArgSet(*WR_GenMass),
@@ -70,7 +70,7 @@ void testFit_Johnson(std::string filePath)
 
   //// fit distribution to data
   RooFitResult *r = model->fitTo(ds_WR_GenMass, Save(kTRUE),\
-                                  Range(NGenMean,3000), Offset(kTRUE),\
+                                  Range(NGenMean,1.55*WRGenMean), Offset(kTRUE),\
                                   Strategy(2));
 
   model->plotOn(frame);
