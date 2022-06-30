@@ -61,8 +61,8 @@ void testFit_Johnson(std::string filePath)
   // preparing the Johnson distributions
   RooRealVar *mu = new RooRealVar("mu", "mu", WRGenMean, 0.8*WRGenMean, 1.2*WRGenMean);
   RooRealVar *lm = new RooRealVar("lambda", "lambda", 50, 10, 500);
-  RooRealVar *gm = new RooRealVar("gamma", "gamma", 20, 5, 100);
-  RooRealVar *dt = new RooRealVar("delta", "delta", 20, 5, 100);
+  RooRealVar *gm = new RooRealVar("gamma", "gamma", 2, 0, 5);
+  RooRealVar *dt = new RooRealVar("delta", "delta", 2, 0, 5);
   double massThreshold = NGenMean;
   RooJohnson* model = new RooJohnson("RooJohnson", "RooJohnson", *WR_GenMass,\
                 *mu, *lm, *gm, *dt, massThreshold);
