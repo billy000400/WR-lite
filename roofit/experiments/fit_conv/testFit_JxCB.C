@@ -78,12 +78,17 @@ void testFit_JxCB()
                 *mu, *lm, *gm, *dt, massThreshold);
   // preparing the resolution model
   RooRealVar *m0 = new RooRealVar("m0", "m0 for CB res", 0.0);
+
   RooRealVar *sigma_mm = new RooRealVar("sigma_mm", "sigma mumu", 100.0, 5.0, 400.0);
+  RooRealVar *alpha_mm = new RooRealVar("alpha_mm", "alpha mumu", 1, 0.5, 3);
+  RooRealVar *n_mm = new RooRealVar("n_mm", "n mumu", 1, 0.5, 10);
+
   RooRealVar *sigma_ee = new RooRealVar("sigma_ee", "sigma ee", 100.0, 5.0, 400.0);
-  RooRealVar *alpha_mm = new RooRealVar();
-  RooRealVar *n_mm = new RooRealVar();
-  RooGaussian* res_mm = new RooGaussian("res_mm", "Gaussian mm", *mumujjMass_WR, *mu_g, *sigma_mm);
-  RooGaussian* res_ee = new RooGaussian("res_ee", "Gaussian ee", *eejjMass_WR, *mu_g, *sigma_ee);
+  RooRealVar *alpha_ee = new RooRealVar("alpha_ee", "alpha ee", 1, 0.5, 3);
+  RooRealVar *n_ee = new RooRealVar("n_ee", "n ee", 1, 0.5, 10);
+
+  RooCBShape* res_mm = new RooCBShape("res_mm", "Gaussian mm", *mumujjMass_WR, *m0, *sigma_mm, *alpha_mm, *n_mm);
+  RooCBShape* res_ee = new RooCBShape("res_ee", "Gaussian ee", *eejjMass_WR, *m0, *sigma_ee, *alpha_ee, *n_ee);
   // conv model
   mumujjMass_WR->setBins(10000,"fft");
   RooFFTConvPdf conv_mm("conv_mm", "conv mm", *mumujjMass_WR, *gen_mm, *res_mm);
@@ -97,8 +102,12 @@ void testFit_JxCB()
   RooPlot *frame_ee = eejjMass_WR->frame("Johnson x Gaussian ee");
   ds_WR_mumujj.plotOn(frame_mm, Binning(100));
   ds_WR_eejj.plotOn(frame_ee, Binning(100));
-  conv_mm.plotOn(frame_mm, Binning(100));
-  conv_ee.plotOn(frame_ee, Binning(100));
+
+  res_mm->plotOn(frame_mm, LineStyle(kDashed));
+  res_ee->plotOn(frame_ee, LineStyle(kDashed));
+
+  conv_mm.plotOn(frame_mm);
+  conv_ee.plotOn(frame_ee);
 
   TCanvas *c = new TCanvas("Test Fit", "Test Fit", 2000, 1000);
   c->Divide(2,1);
