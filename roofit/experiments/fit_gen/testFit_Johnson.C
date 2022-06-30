@@ -61,8 +61,8 @@ void testFit_Johnson(std::string filePath)
   // preparing the Johnson distributions
   RooRealVar *mu = new RooRealVar("mu", "mu", WRGenMean, 0.8*WRGenMean, 1.2*WRGenMean);
   RooRealVar *lm = new RooRealVar("lambda", "lambda", 50, 10, 500);
-  RooRealVar *gm = new RooRealVar("gamma", "gamma", 5, 1, 20);
-  RooRealVar *dt = new RooRealVar("delta", "delta", 2, 1, 20);
+  RooRealVar *gm = new RooRealVar("gamma", "gamma", 5, 0.1, 20);
+  RooRealVar *dt = new RooRealVar("delta", "delta", 2, 0.1, 20);
   double massThreshold = NGenMean;
   RooJohnson* model = new RooJohnson("RooJohnson", "RooJohnson", *WR_GenMass,\
                 *mu, *lm, *gm, *dt, massThreshold);
@@ -72,6 +72,13 @@ void testFit_Johnson(std::string filePath)
   RooFitResult *r = model->fitTo(ds_WR_GenMass, Save(kTRUE),\
                                   Range(WRGenMean*0.45,WRGenMean*1.55), Offset(kTRUE),\
                                   Strategy(2), Strategy(2));
+
+  model->plotOn(frame);
+
+  TCanvas *c = new TCanvas("Test Fit", "Test Fit", 1000, 1000);
+  c->Divide(1,1);
+  c->cd(1);
+  frame->Draw();
 
   //// compare which initialization gives the lowest chi2
   // calculate chi2
